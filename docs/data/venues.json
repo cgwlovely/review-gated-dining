@@ -1,15 +1,15 @@
 {
  "snapshot": {
   "snapshot_date": "2026-09-29",
-  "built_from_commit": "a123e41",
-  "commit": "a123e41",
+  "built_from_commit": "6d2e56b",
+  "commit": "6d2e56b",
   "gates_version": 1,
   "unique_venues": 25,
   "display_rows": 25,
   "branch_count": 4,
-  "display_rows_page": 340,
-  "distinct_on_page": 275,
-  "repeated_venues": 34
+  "display_rows_page": 350,
+  "distinct_on_page": 284,
+  "repeated_venues": 35
  },
  "gates": {
   "main": {

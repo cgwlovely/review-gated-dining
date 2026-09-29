@@ -1,7 +1,7 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- built from commit: `a123e41` (HEAD at build time — a commit cannot contain its own SHA)
+- built from commit: `6d2e56b` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
 - through their gate: **25**
@@ -65,5 +65,5 @@
 ## Counts (issue #1: display rows are not unique venues)
 
 - structured dataset — unique_venues: **25**, display_rows: 25, branch_count: 4
-- published page — display_rows_page: **340**, distinct_on_page: **275**, repeated_venues: **34**
+- published page — display_rows_page: **350**, distinct_on_page: **284**, repeated_venues: **35**
 

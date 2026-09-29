@@ -343,26 +343,38 @@ def quickpick_html(recs, snapshot):
                     else '<span class="small">价格不足以估算 · not estimable</span>')
         return f'<b>${lo}–{hi}</b>' if lo != hi else f'<b>${lo}</b>'
     def chips(r):
+        # exactly ONE booking chip per venue, on a three-level scale. The lead time
+        # rides inside it: a separate "books well ahead" chip next to "建议订位" read
+        # as a contradiction, and next to "必须订位" as a repetition.
+        flags = set((r.get('flags') or '').split(';'))
         out = []
         for fl in (r.get('flags') or '').split(';'):
-            if fl in FLAGS:
+            if fl in FLAGS and fl != 'booking_ahead':
                 zh, en = FLAGS[fl]
                 cls = 'chip warnchip' if fl in ('price_stale', 'weekend_surcharge') else 'chip'
                 out.append('<span class="%s" title="%s">%s</span>' % (cls, en, zh))
         bk = {'required': '必须订位', 'recommended': '建议订位', 'walk_in': '可直接去'}[r['booking']]
-        out.insert(0, '<span class="chip bk-%s">%s</span>' % (r['booking'], bk))
+        title = {'required': 'booking required', 'recommended': 'booking recommended',
+                 'walk_in': 'walk in'}[r['booking']]
+        if 'booking_ahead' in flags:
+            bk += ' · 提前订'
+            title += ', books well ahead'
+        out.insert(0, '<span class="chip bk-%s" title="%s">%s</span>' % (r['booking'], title, bk))
         return ' '.join(out)
     def card(r):
         br = ' <span class="small">%s</span>' % r['branch_name'] if r['branch_name'] else ''
         rc = '{:,}'.format(r['review_count']) if r['review_count'] is not None else '—'
+        # the suburb rides along under the name instead of taking a column of its own,
+        # and the English line is web-only: in print it doubles the height of every row
         return ('<tr><td><b><a href="%s">%s</a></b>%s'
+                ' <span class="small" style="opacity:.7">%s</span>'
                 '<br><span class="small">%s</span>'
-                '<br><span class="small" style="opacity:.75">%s</span></td>'
-                '<td class="small">%s</td><td>%s</td><td class="small">%s</td>'
+                '<span class="en-only"><br><span class="small" style="opacity:.75">%s</span></span></td>'
+                '<td>%s</td><td class="small">%s</td>'
                 '<td class="small">%s／%s<br>'
                 '<span style="opacity:.75">核验 %s</span></td></tr>'
-                % (maps(r), r['name'], br, r['one_liner_zh'], r['one_liner_en'],
-                   r['suburb'], budget(r), chips(r), r['rating'], rc, r['rating_observed_at']))
+                % (maps(r), r['name'], br, r['suburb'], r['one_liner_zh'], r['one_liner_en'],
+                   budget(r), chips(r), r['rating'], rc, r['rating_observed_at']))
 
     picks = [r for r in recs if r['gate_pass'] and r['recommendation_tier'] == 'editors_pick']
     rank = lambda rs: sorted(rs, key=lambda r: -(r['shrunk_rating'] or 0))
@@ -375,16 +387,16 @@ def quickpick_html(recs, snapshot):
 
     ft = rank([r for r in picks if 'first_timer' in r['scenarios']])[:5]
     H += ['<h4>第一次来布里斯班 ｜ First time in Brisbane</h4>',
-          '<div style="overflow-x:auto"><table><tr><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
+          '<div style="overflow-x:auto"><table><tr><th>店 ｜ 为什么选</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
     H += [card(r) for r in ft] + ['</table></div>']
 
-    BUDGET_COLS = 6   # 档位 | 店 | 区 | 预算 | 提示 | Google
+    BUDGET_COLS = 5   # 档位 | 店（含区） | 预算 | 提示 | Google
     H += ['<h4>按两人预算 ｜ By two-person budget</h4>',
           '<p class="small"><b>档位按「最低两人消费」划分，所以每个标签都带「起」。</b>'
           '右侧显示的是完整区间——套餐跨度大时，最高价可能远高于档位上限，这是刻意显示出来的。<br>'
           '<span style="opacity:.8">Bands are entry price, hence "from" on every label. The column '
           'shows the full range: a wide set-menu spread can exceed the band ceiling, and is shown rather than hidden.</span></p>',
-          '<div style="overflow-x:auto"><table><tr><th>档位（起）</th><th>店 ｜ 为什么选</th><th>区</th><th>两人预算（完整区间）</th><th>提示</th><th>Google</th></tr>']
+          '<div style="overflow-x:auto"><table><tr><th>档位（起）</th><th>店 ｜ 为什么选</th><th>两人预算（完整区间）</th><th>提示</th><th>Google</th></tr>']
     any_band = False
     for lo, hi, label in BUDGET_BANDS:
         # Banding is by ENTRY price (the two-person minimum). Labels carry 起/from, and each
@@ -404,7 +416,7 @@ def quickpick_html(recs, snapshot):
     H.append('</table></div>')
 
     H += ['<h4>按场景 ｜ By occasion</h4>',
-          '<div style="overflow-x:auto"><table><tr><th>场景</th><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
+          '<div style="overflow-x:auto"><table><tr><th>场景</th><th>店 ｜ 为什么选</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
     for key, (zh, en) in SCENARIOS.items():
         if key == 'first_timer':
             continue

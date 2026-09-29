@@ -185,7 +185,7 @@ def main():
     empties = _re.findall(r'本档暂无编辑精选[^<]*</td>', frag)
     spans = _re.findall(r'<td colspan="(\d+)" class="small">本档暂无编辑精选', frag)
     check('empty budget rows span the full table width',
-          all(s == '5' for s in spans), f'found colspans {spans or "none"} ({len(empties)} empty bands)')
+          all(s == '4' for s in spans), f'found colspans {spans or "none"} ({len(empties)} empty bands)')
 
     gyz = (ROOT/'data'/'gates.yml').read_text()
     check('gates.yml describes freshness as one scalar from the oldest observation',
@@ -240,6 +240,19 @@ def main():
     glued = _re2.findall(r'<span class="pin">\d+</span>(?=\S)', html)
     check('rank badges are separated from the name they precede',
           not glued, '%d badge(s) glued to the following text' % len(glued))
+
+    # --- exactly one booking chip per venue; lead time rides inside it ---
+    frag2 = (ROOT/'build'/'quickpick.html').read_text()
+    rows2 = _re2.findall(r'<tr>(.*?)</tr>', frag2, _re2.S)
+    bad = []
+    for tr in rows2:
+        bks = _re2.findall(r'<span class="chip bk-[a-z_]+"[^>]*>([^<]*)</span>', tr)
+        if len(bks) > 1:
+            bad.append('%d booking chips in one row: %s' % (len(bks), bks))
+    check('each quick-pick row carries exactly one booking chip', not bad, '; '.join(bad))
+    check('the standalone "books ahead" chip is gone from the quick-pick',
+          '需提前订位' not in frag2,
+          'lead time must ride inside the booking chip, not sit beside it')
 
     print()
     if FAILED:
