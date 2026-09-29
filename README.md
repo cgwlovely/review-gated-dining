@@ -23,7 +23,7 @@ So the method became: **one stated gate per category, with the reason it was loo
 written into the output.**
 
 **→ Full method: [`METHOD.md`](METHOD.md)** — the gate table, nine lessons learned the hard way,
-six reusable techniques.
+seven reusable techniques.
 
 ---
 
@@ -39,6 +39,9 @@ six reusable techniques.
 
 - 🌐 **[Web ｜ 网页版](https://cgwlovely.github.io/review-gated-dining/)**
 - 📄 **[PDF](docs/pdf/Brisbane_2026_餐厅指南.pdf)** — page and link counts: `make pdf-stats`
+- ⌗ **[Query the dataset in SQL](https://lite.datasette.io/?csv=https://cgwlovely.github.io/review-gated-dining/data/venues.csv)**
+  — [Datasette Lite](https://github.com/simonw/datasette-lite) runs Datasette in your browser over the
+  published CSV. No server, no install; the data never leaves your machine.
 - 🔬 **[Full research record ｜ 完整调查记录](research/brisbane-dining.md)** — 19 sections, including
   rejected candidates and unfinished work
 
@@ -170,7 +173,7 @@ it was made against.
 ## Layout
 
 ```text
-METHOD.md       the method — gate table, nine lessons, six techniques
+METHOD.md       the method — gate table, nine lessons, seven techniques
 METHOD.zh.md    中文版
 README.md       this file
 README.zh.md    中文版

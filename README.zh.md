@@ -26,7 +26,7 @@ One gate is not enough: coffee shops sit at 4.8 everywhere, licensed clubs at 4.
 community-facing restaurants have structurally fewer English reviews. So the method became:
 **one stated gate per category, with the reason it was loosened or tightened written down.**
 
-**→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、九条实际踩出来的教训、六个可复用做法。
+**→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、九条实际踩出来的教训、七个可复用做法。
 
 ---
 
@@ -43,6 +43,9 @@ community-facing restaurants have structurally fewer English reviews. So the met
 
 - 🌐 **[网页版 ｜ Web](https://cgwlovely.github.io/review-gated-dining/)**
 - 📄 **[PDF](docs/pdf/Brisbane_2026_餐厅指南.pdf)** —— 页数与链接数用 `make pdf-stats` 现算
+- ⌗ **[用 SQL 查这份数据](https://lite.datasette.io/?csv=https://cgwlovely.github.io/review-gated-dining/data/venues.csv)**
+  —— [Datasette Lite](https://github.com/simonw/datasette-lite) 把已发布的 CSV 在**你自己的浏览器里**
+  跑成一个 Datasette 实例（WebAssembly）。不用装、不用服务器，数据不出本机。
 - 🔬 **[完整调查记录 ｜ Full research record](research/brisbane-dining.md)**（19 节，含被否决的候选与未完成项）
 
 页面上共 **350 条门店链接**、**284 家独立门店**，其中 **27 家**出现在一个以上的章节——都是刻意的交叉列（例如同时出现在价位档与主表），每一处都在行内写明原因。这三个数由 `make build` 解析已发布页面得出，写进 [`build/summary.md`](build/summary.md) 并注入封面；**没有一个是手写的**，封面也不再另存一份会漂移的副本。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。
@@ -155,7 +158,7 @@ it was made against.
 
 ```text
 METHOD.md       方法本体（英文）
-METHOD.zh.md    方法本体（中文）：闸门表、九条教训、六个可复用做法
+METHOD.zh.md    方法本体（中文）：闸门表、九条教训、七个可复用做法
 README.md       英文说明
 README.zh.md    本文件
 docs/        发布站点（GitHub Pages）：index.html + PDF + 地图

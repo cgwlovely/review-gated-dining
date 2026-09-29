@@ -170,7 +170,7 @@ club ratings in their own column.
 > recommended* — and an admission that evaluating this category needs a method that does not depend
 > on review accumulation at all. This project does not have one.
 
-## 3. Six reusable techniques
+## 3. Seven reusable techniques
 
 ### 1. Use the official licence register as the denominator, and ratings as the quality signal
 
@@ -289,6 +289,26 @@ Two things this forces you to decide, and both are improvements:
 > blocks, reassemble in the original order, and require the result to match the source byte for
 > byte. Only then reorder. Doing this caught a card emitted twice and a correction that would have
 > been deleted along with the section that happened to hold it.
+
+### 7. Publish the dataset so someone can query it without installing anything
+
+A downloadable CSV is not the same as a queryable dataset. Two standard pieces close
+that gap and neither needs a server:
+
+- **A Frictionless [Data Package](https://specs.frictionlessdata.io/data-package/) descriptor**
+  (`datapackage.json`) declaring each CSV's fields, types, row count, primary key and
+  upstream sources. **Generate it from the CSVs**; a hand-written schema is wrong the first
+  time a column is added, so a test here fails the build when the two disagree.
+- **[Datasette Lite](https://github.com/simonw/datasette-lite)**, which runs Datasette in the
+  reader's browser over a CSV URL (`?csv=https://…`). A static host that sends
+  `access-control-allow-origin: *` — GitHub Pages does — is the only requirement, so full SQL
+  over the published data costs one link.
+
+> **Check the licence claim before you write one.** The first draft of this descriptor
+> declared CC-BY over the whole package. The repository is MIT, and one upstream source is
+> explicitly *not redistributable*. The descriptor now states MIT **for the compilation only**
+> and points at the per-source terms, and a test compares it against `LICENSE`.
+
 
 ## 4. What the output should look like
 

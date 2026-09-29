@@ -1,0 +1,292 @@
+{
+  "profile": "tabular-data-package",
+  "name": "review-gated-dining-brisbane",
+  "title": "Review-gated dining — Brisbane",
+  "description": "Venues that clear a stated review gate, with every rating and price carrying the platform and date it was observed on. Gates and their rationale live in data/gates.yml. The MIT licence covers this compilation only: upstream terms differ per source and are recorded in the `sources` resource - one of them explicitly forbids redistribution, so ratings are stored as dated observations with attribution, not republished in bulk.",
+  "homepage": "https://cgwlovely.github.io/review-gated-dining/",
+  "licenses": [
+    {
+      "name": "MIT",
+      "path": "https://opensource.org/licenses/MIT",
+      "title": "MIT License (this compilation; see `sources` for upstream terms)"
+    }
+  ],
+  "contributors": [
+    {
+      "title": "review-gated-dining maintainers",
+      "path": "https://github.com/cgwlovely/review-gated-dining",
+      "role": "author"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Brisbane City Council · Food Safety Permits (Eat Safe)",
+      "path": "https://data.brisbane.qld.gov.au/explore/dataset/food-safety-permits/",
+      "licence": "CC-BY"
+    },
+    {
+      "title": "Google Maps venue entries",
+      "path": "https://www.google.com/maps",
+      "licence": "Terms of Service - not redistributed"
+    },
+    {
+      "title": "Wanderlog mirrors of Google ratings",
+      "path": "https://wanderlog.com",
+      "licence": "third-party"
+    },
+    {
+      "title": "Australian Good Food Guide Chef Hat Awards",
+      "path": "https://www.agfg.com.au/awards/brisbane",
+      "licence": "third-party"
+    },
+    {
+      "title": "Gourmet Traveller Restaurant Guide 2026",
+      "path": "https://www.gourmettraveller.com.au/dining-out/restaurant-guide/best-restaurants-queensland-20148/",
+      "licence": "third-party"
+    },
+    {
+      "title": "OpenStreetMap tiles and Nominatim geocoding",
+      "path": "https://www.openstreetmap.org",
+      "licence": "ODbL"
+    },
+    {
+      "title": "Individual venue websites and ordering pages",
+      "licence": "各自版权"
+    }
+  ],
+  "resources": [
+    {
+      "name": "venues",
+      "path": "data/venues.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per venue: identity, rating, price and its source.",
+      "schema": {
+        "fields": [
+          {
+            "name": "venue_id",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "branch_name",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "name": "suburb",
+            "type": "string"
+          },
+          {
+            "name": "lat",
+            "type": "number"
+          },
+          {
+            "name": "lon",
+            "type": "number"
+          },
+          {
+            "name": "category_primary",
+            "type": "string"
+          },
+          {
+            "name": "cuisines",
+            "type": "string"
+          },
+          {
+            "name": "google_place_id",
+            "type": "string"
+          },
+          {
+            "name": "rating",
+            "type": "number"
+          },
+          {
+            "name": "review_count",
+            "type": "integer"
+          },
+          {
+            "name": "rating_source",
+            "type": "string"
+          },
+          {
+            "name": "rating_observed_at",
+            "type": "date"
+          },
+          {
+            "name": "price_min_aud",
+            "type": "number"
+          },
+          {
+            "name": "price_max_aud",
+            "type": "number"
+          },
+          {
+            "name": "price_unit",
+            "type": "string"
+          },
+          {
+            "name": "price_source_type",
+            "type": "string"
+          },
+          {
+            "name": "price_source_url",
+            "type": "string"
+          },
+          {
+            "name": "price_observed_at",
+            "type": "date"
+          },
+          {
+            "name": "gate_name",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          },
+          {
+            "name": "recommendation_tier",
+            "type": "string"
+          },
+          {
+            "name": "scenarios",
+            "type": "string"
+          },
+          {
+            "name": "booking",
+            "type": "string"
+          },
+          {
+            "name": "one_liner_zh",
+            "type": "string"
+          },
+          {
+            "name": "one_liner_en",
+            "type": "string"
+          },
+          {
+            "name": "flags",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "venue_id"
+      },
+      "rowCount": 25
+    },
+    {
+      "name": "sources",
+      "path": "data/sources.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Every external source the dataset draws on, with its licence.",
+      "schema": {
+        "fields": [
+          {
+            "name": "source_id",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "kind",
+            "type": "string"
+          },
+          {
+            "name": "licence",
+            "type": "string"
+          },
+          {
+            "name": "accessed_at",
+            "type": "date"
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          }
+        ]
+      },
+      "rowCount": 7
+    },
+    {
+      "name": "venue_aliases",
+      "path": "data/venue_aliases.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Alternate names a venue is listed under elsewhere.",
+      "schema": {
+        "fields": [
+          {
+            "name": "venue_id",
+            "type": "string"
+          },
+          {
+            "name": "alias",
+            "type": "string"
+          },
+          {
+            "name": "alias_type",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          }
+        ]
+      },
+      "rowCount": 10
+    },
+    {
+      "name": "scenario_exemptions",
+      "path": "data/scenario_exemptions.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Deliberate exceptions to the scenario/cuisine rule, each with a reason.",
+      "schema": {
+        "fields": [
+          {
+            "name": "venue_id",
+            "type": "string"
+          },
+          {
+            "name": "scenario",
+            "type": "string"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          }
+        ]
+      },
+      "rowCount": 1
+    }
+  ]
+}

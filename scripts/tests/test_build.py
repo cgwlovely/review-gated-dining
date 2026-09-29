@@ -274,6 +274,22 @@ def main():
     check('the red dot used for gate misses is explained in the legend',
           'class="dot"' in page and 'A red dot marks venues' in page)
 
+    # --- the data package descriptor must describe the CSVs as they are now ---
+    import subprocess as _sp
+    r = _sp.run([sys.executable, str(ROOT/'scripts'/'make_datapackage.py'), '--check'],
+                capture_output=True, text=True)
+    check('datapackage.json matches data/*.csv', r.returncode == 0,
+          (r.stderr or r.stdout).strip()[:120])
+    dp = json.loads((ROOT/'datapackage.json').read_text())
+    repo_licence = 'MIT' if 'MIT License' in (ROOT/'LICENSE').read_text() else None
+    check('the package licence is the one the repository actually declares',
+          dp['licenses'][0]['name'] == repo_licence,
+          f"descriptor says {dp['licenses'][0]['name']}, LICENSE says {repo_licence}")
+    ven = [r for r in dp['resources'] if r['name'] == 'venues'][0]
+    check('every venues.csv column appears in the descriptor',
+          {f['name'] for f in ven['schema']['fields']} ==
+          set(csv.DictReader((ROOT/'data'/'venues.csv').open(encoding='utf-8')).fieldnames))
+
     print()
     if FAILED:
         print(f'{len(FAILED)} test(s) failed: ' + ', '.join(FAILED)); return 1

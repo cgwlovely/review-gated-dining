@@ -30,11 +30,13 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:20px}
 <div class="hero">
 <h1>Data browser ｜ 数据浏览</h1>
 <p>Every venue in <code>data/venues.csv</code>, filtered and sorted in the browser.</p>
+<p><b>要写 SQL？</b>点上面的「用 SQL 查」——它用 <a href="https://github.com/simonw/datasette-lite" target="_blank" rel="noopener" style="color:#ffd97a">Datasette Lite</a> 把本页的 CSV 直接在<b>你自己的浏览器里</b>打开成一个可查询的数据库（WebAssembly，数据不经过任何服务器）。<br><span style="opacity:.85">Full SQL over the same CSV, running entirely in your browser via Datasette Lite.</span></p>
 <p><b>范围限定：</b>本页、指南开头的「3 分钟选好」与主闸门表来自结构化数据；<b>指南其余章节仍是手工内容，尚未迁入</b>（见 <a href="https://github.com/cgwlovely/review-gated-dining/issues/1" style="color:#ffd97a">issue #1</a>）。<br><span style="opacity:.85">Scope: this page, the guide's quick-pick section and the main-gate table come from the dataset. The rest of the guide is still hand-maintained and not yet migrated.</span></p>
 <p id="snap">loading…</p>
 <p style="margin-top:10px">
 <a class="btn" style="background:#fff;border-color:#fff" href="data/venues.csv" download>⬇ CSV</a>
 <a class="btn" style="background:#fff;border-color:#fff" href="data/venues.json" download>⬇ JSON</a>
+<a class="btn" style="background:#fff;border-color:#fff" href="https://lite.datasette.io/?csv=https://cgwlovely.github.io/review-gated-dining/data/venues.csv" target="_blank" rel="noopener">⌗ 用 SQL 查 ｜ Query in SQL</a>
 <a class="btn" style="background:#fff;border-color:#fff" href="index.html">← 指南 ｜ Guide</a>
 </p>
 </div>
