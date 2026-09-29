@@ -37,6 +37,49 @@ penalising the venue.** This project's equivalent situation is a venue with only
 rating and no AGFG or Gourmet Traveller entry; today that venue is simply not eligible for
 those categories, which is close to the same outcome, but the rule is nowhere written down.
 
+## Brisbane specifically
+
+*Checked 2026-09-29.* Nothing in Brisbane does what this project does, but the reason is worth
+stating precisely: the city's food coverage splits into **editorial writing with no data** and
+**council data with no curation**, and the one project that tried to sit between them is dead.
+
+| Source | What it is | Criteria published | Per-venue numbers | Data download |
+|---|---|---|---|---|
+| **Sunnybank Food Directory** (`sunnybankfood.com.au`) | Billed itself as 布里斯本第一中文美食指南 — the Chinese-language guide to exactly the area this project found English listicles were missing | — | — | — |
+| [Broadsheet Brisbane](https://www.broadsheet.com.au/brisbane/food-and-drink) | Editorial listicles | No | **None** — no ratings, no review counts | No |
+| [The Weekend Edition](https://theweekendedition.com.au/brisbane/) | Editorial listicles | No | No | No |
+| [Good Food](https://www.goodfood.com.au/brisbane) | Critic reviews, hatted-restaurant awards | Award bands published | Hat scores only | No |
+| [AGFG](https://www.agfg.com.au/) | Chef-hat awards, used here as a second opinion | Award bands | Hat scores only | No |
+| [Brisbane City Council open data](https://data.brisbane.qld.gov.au/) | 2,186 datasets | n/a | n/a | **Yes, CC-BY** |
+
+**The Sunnybank Food Directory is gone.** The domain registration is still `ACTIVE` but it has
+no DNS record at all — `sunnybankfood.com.au` returns NXDOMAIN, and both `http://` and
+`https://` fail to connect. Only the Facebook page survives. This matters more than a dead link
+usually would: it was a **Chinese-language** directory for the precinct this project's own
+[Lesson 1](METHOD.md) is about, and its disappearance is part of why that precinct is
+under-documented in a searchable, citable form.
+
+### What the council actually publishes
+
+Two food datasets are relevant, and only one of them is usable per venue:
+
+- **`food-safety-permits` — 8,046 records, still live.** This is the denominator this project
+  uses. Confirmed present on this date at the record count the guide cites.
+- **`food-safety-complaints` — 10,573 records — checked and *rejected*.** It looks like a strong
+  signal until you read the fields: `quarter`, `category_nature`, `category_type`,
+  `location_suburb`. **There is no venue name and no address**, so it cannot be joined to a
+  venue. It could only support suburb-level claims, which would taint every venue in a suburb
+  for something one premises did. Not used, and recorded here so the next person does not spend
+  the same hour on it.
+
+### Where that leaves this project
+
+Brisbane has a licence register with no opinion and several guides with opinions but no
+register. Joining the two — a stated gate applied to an open denominator, with the result
+downloadable — is the gap. That is a description of a gap, not a claim of quality: the guides
+listed above are written by people who eat in the city professionally, and this project is a
+shortlist of 25 structured venues out of 7,020 licensed premises.
+
 ## The gap this project sits in
 
 Guides with a published methodology do not publish their data. Projects that publish data are
