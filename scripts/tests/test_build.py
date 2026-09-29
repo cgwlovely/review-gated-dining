@@ -266,6 +266,14 @@ def main():
           '需提前订位' not in frag2,
           'lead time must ride inside the booking chip, not sit beside it')
 
+    # --- a gate miss is a quiet red dot, never a loud red label ---
+    page = (ROOT/'docs'/'index.html').read_text()
+    loud = _re2.findall(r'<span class="[^"]*\bwarn\b[^"]*">[^<]*未过[^<]*</span>', page)
+    check('gate misses are not rendered as bold red labels',
+          not loud, f'{len(loud)} loud label(s), e.g. {loud[:1]}')
+    check('the red dot used for gate misses is explained in the legend',
+          'class="dot"' in page and 'A red dot marks venues' in page)
+
     print()
     if FAILED:
         print(f'{len(FAILED)} test(s) failed: ' + ', '.join(FAILED)); return 1
