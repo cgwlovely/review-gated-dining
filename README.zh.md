@@ -26,7 +26,7 @@ One gate is not enough: coffee shops sit at 4.8 everywhere, licensed clubs at 4.
 community-facing restaurants have structurally fewer English reviews. So the method became:
 **one stated gate per category, with the reason it was loosened or tightened written down.**
 
-**→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、八条实际踩出来的教训、四个可复用做法。
+**→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、九条实际踩出来的教训、四个可复用做法。
 
 ---
 
@@ -154,7 +154,7 @@ it was made against.
 
 ```text
 METHOD.md       方法本体（英文）
-METHOD.zh.md    方法本体（中文）：闸门表、八条教训、四个可复用做法
+METHOD.zh.md    方法本体（中文）：闸门表、九条教训、四个可复用做法
 README.md       英文说明
 README.zh.md    本文件
 docs/        发布站点（GitHub Pages）：index.html + PDF + 地图

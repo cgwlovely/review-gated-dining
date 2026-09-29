@@ -22,7 +22,7 @@ is like.
 So the method became: **one stated gate per category, with the reason it was loosened or tightened
 written into the output.**
 
-**→ Full method: [`METHOD.md`](METHOD.md)** — the gate table, eight lessons learned the hard way,
+**→ Full method: [`METHOD.md`](METHOD.md)** — the gate table, nine lessons learned the hard way,
 four reusable techniques.
 
 ---
@@ -163,7 +163,7 @@ it was made against.
 ## Layout
 
 ```text
-METHOD.md       the method — gate table, eight lessons, four techniques
+METHOD.md       the method — gate table, nine lessons, four techniques
 METHOD.zh.md    中文版
 README.md       this file
 README.zh.md    中文版

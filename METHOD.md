@@ -45,7 +45,7 @@ written into the output.**
 
 ---
 
-## 2. Eight lessons, all learned the hard way
+## 2. Nine lessons, all learned the hard way
 
 ### 1. The language of your candidate pool decides your result
 
@@ -62,6 +62,11 @@ The sharpest comparison is two yum cha restaurants on the same road:
 
 > **The bias was not in the ratings. It was in the language used to build the candidate pool.
 > For any multilingual food scene, search once in each community's own language.**
+
+Repeating this for other communities — Korean, Japanese, Middle Eastern, East African, Pacific
+Islander, Filipino, Latin American — found **five more precincts of the same shape**, each clustered
+on one or two streets, none of them present in any English listicle. See lesson 9 for what happened
+when the gate was applied to them.
 
 ### 2. The *type* of your candidate pool biases it too
 
@@ -138,6 +143,24 @@ move a borderline venue: one café showed **4.6 on the mirror and 4.5 live**.
 > **The output must carry the empty cells. Never quietly pretend the question was not asked.**
 
 ---
+
+### 9. A review-count gate is a blind spot for community-supported venues
+
+Seven East African restaurants sit within 54 street numbers of each other on one road. Their Google
+ratings are **4.6 to 4.9**. **Not one of them clears any gate in this project**, because their review
+counts are 25, 39, 52, 80, 271 and 284.
+
+The same held for an entire Pacific Islander precinct: four venues, 51–146 reviews, zero passes.
+
+Nothing here says the food is worse. It says the venues are supported by a community that **eats
+there without writing English reviews**. A minimum-review-count gate silently converts
+"how much English-language review volume has accumulated" into "quality", and those two things come
+apart hardest exactly where the food is least like everything else on the list.
+
+> **State this limit rather than lowering the threshold.** Lowering it would let genuinely weak
+> venues through everywhere else. The honest output is a separate section marked *recorded, not
+> recommended* — and an admission that evaluating this category needs a method that does not depend
+> on review accumulation at all. This project does not have one.
 
 ## 3. Four reusable techniques
 
