@@ -26,7 +26,7 @@ One gate is not enough: coffee shops sit at 4.8 everywhere, licensed clubs at 4.
 community-facing restaurants have structurally fewer English reviews. So the method became:
 **one stated gate per category, with the reason it was loosened or tightened written down.**
 
-**→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、九条实际踩出来的教训、五个可复用做法。
+**→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、九条实际踩出来的教训、六个可复用做法。
 
 ---
 
@@ -45,10 +45,11 @@ community-facing restaurants have structurally fewer English reviews. So the met
 - 📄 **[PDF](docs/pdf/Brisbane_2026_餐厅指南.pdf)** —— 页数与链接数用 `make pdf-stats` 现算
 - 🔬 **[完整调查记录 ｜ Full research record](research/brisbane-dining.md)**（19 节，含被否决的候选与未完成项）
 
-页面上约 **300 条展示条目**；同一家店可能同时出现在价位档、菜系、场景等多个章节，所以**展示条目数 ≠ 独立门店数**。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。
+页面上共 **350 条门店链接**，**302 家独立门店**。其中 **39 家被链接超过一次、28 家出现在一个以上的章节**——都是刻意的交叉列（例如同时出现在价位档与主表），每一处都在行内写明原因。这些数字从已发布页面实测得出，不是估的。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。
 
-分档：过主闸门 25 家 · 五档价位阶梯 50 条 · 亚洲餐饮按商场楼层与菜系 ·
-十余个菜系 · 牛排 · 咖啡 · 奶茶饮品 · 海鲜鱼档 · 精酿啤酒 · 农夫市集 · 俱乐部会员价 · Pub 每周特价。
+十节，每节回答一个问题：按预算 · 值得专程去 · **按区域**（商场楼层、街区、社区餐饮带）· **按菜系（含覆盖全书的 35 行索引）** · 按想吃的东西 · 咖啡饮品轻食 · 市场鱼档采购 · 会员餐与 Pub 特价 · 订位与出发前检查 · 方法口径来源。
+
+**贯穿全书一条规则：每家店的完整记录只出现在一个章节里**，其余章节一律只做指向。见方法第 6 个做法。
 
 **每家店都链到 Google 地图；每个价格都标了来源**（官网 / Google 众报 / 评论照片 / 第三方 / 未查到）。
 
@@ -154,7 +155,7 @@ it was made against.
 
 ```text
 METHOD.md       方法本体（英文）
-METHOD.zh.md    方法本体（中文）：闸门表、九条教训、五个可复用做法
+METHOD.zh.md    方法本体（中文）：闸门表、九条教训、六个可复用做法
 README.md       英文说明
 README.zh.md    本文件
 docs/        发布站点（GitHub Pages）：index.html + PDF + 地图

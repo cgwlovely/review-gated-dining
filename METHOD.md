@@ -170,7 +170,7 @@ club ratings in their own column.
 > recommended* — and an admission that evaluating this category needs a method that does not depend
 > on review accumulation at all. This project does not have one.
 
-## 3. Five reusable techniques
+## 3. Six reusable techniques
 
 ### 1. Use the official licence register as the denominator, and ratings as the quality signal
 
@@ -262,6 +262,33 @@ which meant the precinct could no longer honestly be labelled "Middle Eastern" w
 > as a denominator. And confirm the **city**: the highest-rated Macedonian result in this project's
 > European sweep was 70 km away in another city entirely, and would have been published if the
 > address had not been read.
+
+### 6. Give every venue exactly one home; everything else is an index
+
+A list like this grows by adding axes. Budget, then area, then ethnicity, then cuisine, then food
+type, then gate result — each one reasonable on its own. Six axes later nothing says **which axis
+owns a venue's full record**, and the document starts answering the same question in three places
+with three different subsets.
+
+The fix is one sentence, applied everywhere: **a venue's full record — address, price, rating,
+source, notes — appears in exactly one section. Every other mention is a pointer.** Then add a
+single generated index that maps "I want X" to the section that owns it.
+
+Two things this forces you to decide, and both are improvements:
+
+- **Which axis is primary.** Here it is area, because the reader's real question is "I am here,
+  what is nearby". Cuisine became the index.
+- **What to do with the venues the primary axis does not cover.** A French restaurant belongs to no
+  community precinct. So the rule is: *area owns it if it sits in a mapped precinct, otherwise its
+  cuisine card owns it.* Stated once, it decides every case.
+
+> **Generate the index, never type it.** Derive it from the tables that already exist — cuisine,
+> top venue by rating, owning section. Typed by hand it is wrong within two edits.
+
+> **Before reordering a published document, prove the transform is lossless.** Parse it into
+> blocks, reassemble in the original order, and require the result to match the source byte for
+> byte. Only then reorder. Doing this caught a card emitted twice and a correction that would have
+> been deleted along with the section that happened to hold it.
 
 ## 4. What the output should look like
 

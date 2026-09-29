@@ -23,7 +23,7 @@ So the method became: **one stated gate per category, with the reason it was loo
 written into the output.**
 
 **→ Full method: [`METHOD.md`](METHOD.md)** — the gate table, nine lessons learned the hard way,
-five reusable techniques.
+six reusable techniques.
 
 ---
 
@@ -42,14 +42,19 @@ five reusable techniques.
 - 🔬 **[Full research record ｜ 完整调查记录](research/brisbane-dining.md)** — 19 sections, including
   rejected candidates and unfinished work
 
-The page shows roughly **300 display rows**; one venue can appear in several sections (price band,
-cuisine, occasion), so **display rows ≠ unique venues**. The structured dataset reports both —
+The page carries **350 venue links** across **302 distinct venues**. Of those, **39 are linked
+more than once and 28 appear in more than one section** — deliberate cross-listings (a venue in
+both the price ladder and the main table, say), each labelled in the row itself. Counts are
+measured from the published page, not asserted. The structured dataset reports both —
 see [`build/summary.md`](build/summary.md) and the [data browser](https://cgwlovely.github.io/review-gated-dining/data.html).
 
-Tiered as: 25 through the main gate · a five-band price ladder of 50 ·
-pan-Asian dining indexed by mall floor and by cuisine · a dozen cuisines · steak · coffee ·
-bubble tea · seafood markets · craft breweries · farmers markets · club member pricing ·
-pub weekday specials.
+Ten sections, each answering one question: by budget · worth a special trip · **by area**
+(mall floors, streets and community dining strips) · **by cuisine, with a 35-row index across the
+whole guide** · by dish · coffee, drinks and light meals · markets and fishmongers · club member
+pricing and pub specials · booking and the pre-departure check · method, sources and appendix.
+
+**One rule holds it together: a venue's full record lives in exactly one section.** Everything
+else points at it. See technique 6 in the method.
 
 **Every venue links to Google Maps. Every price carries its source label** (official site /
 crowd-reported band / review photo / third-party / not found).
@@ -163,7 +168,7 @@ it was made against.
 ## Layout
 
 ```text
-METHOD.md       the method — gate table, nine lessons, five techniques
+METHOD.md       the method — gate table, nine lessons, six techniques
 METHOD.zh.md    中文版
 README.md       this file
 README.zh.md    中文版
