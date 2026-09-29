@@ -31,10 +31,11 @@ written into the output.**
 | Bubble tea / drinks | **≥4.5** and ≥200 | Same problem — the rating bar goes *up* toward the main gate, not down |
 | Community cuisines (Chinese, Vietnamese, East African…) | ≥4.3 and **≥150** | Customers are mostly from that community; **English reviews are structurally scarcer** |
 | Other cuisines (Indian, Italian, French, Greek, Middle Eastern…) | ≥4.5 and ≥300 | Trading rating width for sample size |
-| Licensed clubs | ≥4.0 and ≥500 | The score rates the **whole venue** — gaming room, function rooms, live music — not the bistro |
+| Licensed clubs, and ethnic community clubs | ≥4.0 and ≥500 | The score rates the **whole venue** — gaming room, function rooms, live music — not the bistro. Seven European communities keep their food in a club rather than a restaurant, so this row is not a niche |
 | Steak | ≥4.2 and ≥500, **split into two tables** | Old steak pubs: 4.2–4.3, samples in the thousands, A$40–60. Fine-dining steakhouses: 4.4–4.8, A$80–200+. **The two groups cannot share a ranking** |
 | Seafood retail | ≥4.2 and ≥150 | Buying raw fish is not eating out; sold by weight, so there is no "per person" |
 | Pub weekly specials | **No rating gate at all** | This tier is about price, not score (see Lesson 6) |
+| Community precinct venues (East African, Pacific Islander) | **No gate clears them** — published as *recorded, not recommended* | Ratings are 4.6–4.9; review counts are 25–284. Lowering the bar to fit them would let weak venues through everywhere else, so the category is published with its limit stated instead (see Lesson 9) |
 
 **Two hard rules run through all of it:**
 
@@ -169,7 +170,7 @@ club ratings in their own column.
 > recommended* — and an admission that evaluating this category needs a method that does not depend
 > on review accumulation at all. This project does not have one.
 
-## 3. Four reusable techniques
+## 3. Five reusable techniques
 
 ### 1. Use the official licence register as the denominator, and ratings as the quality signal
 
@@ -237,6 +238,30 @@ review text is Enterprise + Atmosphere, and a request bills at the highest tier 
 right at the edge of the free tier. That is the highest-value one-off spend.**
 
 ---
+
+### 5. Find precincts by street, not by keyword
+
+Keyword search returns a ranked list scattered across the city, which hides the single most useful
+fact about migrant food: **it clusters**. The procedure that actually surfaced it is two-step and
+cheap.
+
+1. Search the cuisine — in the community's own language where there is one — and take **the address**
+   of any hit, not just its name.
+2. **Re-search that street.** Then read the street numbers.
+
+Step 2 is what turned one Ethiopian restaurant into **seven East African venues between 147 and 201
+Beaudesert Rd**, and one Yemeni restaurant into a Middle Eastern row on Kingston Rd. Neither is
+reachable by ranking: the neighbours are smaller, lower-sampled, and never in the first twenty
+results.
+
+It also corrects the write-up. Re-searching Kingston Rd turned up a Bosnian café at number 200,
+which meant the precinct could no longer honestly be labelled "Middle Eastern" without qualification.
+
+> **Two checks before a street becomes a precinct in the output.** Confirm each venue's **local
+> government area** — half of these sit in a neighbouring council, outside whatever register you used
+> as a denominator. And confirm the **city**: the highest-rated Macedonian result in this project's
+> European sweep was 70 km away in another city entirely, and would have been published if the
+> address had not been read.
 
 ## 4. What the output should look like
 
