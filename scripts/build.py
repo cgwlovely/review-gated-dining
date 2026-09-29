@@ -101,7 +101,7 @@ FLAGS = {
     'price_stale':        ('价格可能过期', 'price may be stale'),
 }
 SCENARIOS = {
-    'first_timer': ('第一次来布里斯班', 'First time in Brisbane'),
+    'first_timer': ('第一次来：值得记住的一顿晚餐', 'First visit: a dinner worth remembering'),
     'chinese_food':('想吃中餐', 'Chinese food'),
     'date':        ('约会', 'Date night'),
     'family':      ('家庭聚餐', 'With family'),
@@ -112,12 +112,17 @@ SCENARIOS = {
 }
 # Bands are ENTRY price ("from"): a venue joins a band on its two-person minimum.
 # Every label must therefore say 起 / from - a test enforces it.
-BUDGET_BANDS = [(0, 60, '$60 以内起'), (60, 120, '$60–120 起'),
-                (120, 250, '$120–250 起'), (250, 10**9, '$250 以上起')]
+BUDGET_BANDS = [(0, 60, '两人最低 $60 以下'), (60, 120, '两人最低 $60–119'),
+                (120, 250, '两人最低 $120–249'), (250, 10**9, '两人最低 $250 起')]
 
 # A scenario that makes a cuisine claim must be backed by the cuisine field.
 # Codes that name an occasion, never a cuisine. 'coffee' is deliberately absent: it is a
 # legitimate cuisine value as well as a scenario, so it must not be rejected.
+# 'cheap_eat' is the one scenario that makes a PRICE promise, so the price has to back it:
+# a banquet at $62.5pp was surfacing there on rating alone, i.e. $125 for two.
+CHEAP_EAT_MAX_FOR_TWO = 100      # AUD, food only
+CHEAP_EAT_MAX_PER_ITEM = 40      # AUD, for a la carte venues
+
 SCENARIO_ONLY_CODES = {'first_timer', 'chinese_food', 'date', 'family', 'cheap_eat',
                        'late_night', 'celebration'}
 
@@ -128,7 +133,7 @@ SCENARIO_REQUIRES_CUISINE = {
 # per-unit multiplier to reach "estimated total for two, food only, no alcohol"
 TWO_PERSON = {
     'per_person_set':      lambda lo, hi: (lo*2, hi*2),
-    'per_person_reported': lambda lo, hi: (lo*2, hi*2),
+    'per_person_reported': None,   # a crowd-reported band is not a meal price - see below
     'item':                None,      # a la carte: cannot be derived honestly -> left null
     'for_two':             lambda lo, hi: (lo, hi),
     'whole_dish':          None,
@@ -231,6 +236,21 @@ def validate(gates, venues, sources, aliases, exemptions=None):
                 errors.append(f"{where}: scenario '{sc}' claims a cuisine the venue does not have "
                               f"(cuisines={sorted(vcui)}); add an entry to data/scenario_exemptions.csv "
                               f"if this is deliberate")
+            if sc == 'cheap_eat':
+                lo, hi = num(v['price_min_aud']), num(v['price_max_aud'])
+                unit = v['price_unit']
+                too_dear = None
+                if unit in ('per_person_set', 'set_menu') and lo is not None and lo * 2 > CHEAP_EAT_MAX_FOR_TWO:
+                    too_dear = f"set price is ${lo}pp, i.e. ${lo*2:g} for two"
+                elif unit == 'for_two' and lo is not None and lo > CHEAP_EAT_MAX_FOR_TWO:
+                    too_dear = f"${lo:g} for two"
+                elif unit == 'item' and hi is not None and hi > CHEAP_EAT_MAX_PER_ITEM:
+                    too_dear = f"dishes run to ${hi:g}"
+                if too_dear and (v['venue_id'], sc) not in exemptions:
+                    errors.append(f"{where}: scenario 'cheap_eat' promises a cheap meal but "
+                                  f"{too_dear} (limit ${CHEAP_EAT_MAX_FOR_TWO} for two / "
+                                  f"${CHEAP_EAT_MAX_PER_ITEM} a dish) - drop the scenario or "
+                                  f"add an entry to data/scenario_exemptions.csv")
 
         # staleness + borderline warnings
         age = days_since(v['rating_observed_at'])
@@ -305,8 +325,12 @@ def derive(gates, venues, aliases):
                                        f"excludes alcohol and weekend/PH surcharges")
         else:
             rec['two_person_total_min'] = rec['two_person_total_max'] = None
-            rec['two_person_basis'] = ('a la carte - not derivable from a price range'
-                                       if v['price_unit'] == 'item' else 'no price recorded')
+            rec['two_person_basis'] = {
+                'item': 'a la carte - not derivable from a price range',
+                'per_person_reported':
+                    'crowd-reported per-person band; doubling it does not give a meal budget',
+                'whole_dish': 'priced per dish, not per person',
+            }.get(v['price_unit'], 'no price recorded')
 
         # These mirror data/gates.yml:confidence_rules exactly. If you change one, change both.
         # gates.yml says "any observation", so BOTH the rating and the price date count.
@@ -337,10 +361,20 @@ def quickpick_html(recs, snapshot):
         return ('https://www.google.com/maps/search/?api=1&query='
                 + urllib.parse.quote(f"{r['name']} {r['address']} Brisbane QLD"))
     def budget(r):
+        # only a SET price may be called a two-person budget. The other two kinds
+        # print what they actually are, so a $1-20 crowd band stops reading as "$2-40 for two".
         lo, hi = r['two_person_total_min'], r['two_person_total_max']
         if lo is None:
-            return ('<span class="small">按菜品计价 · à la carte</span>' if r['price_unit'] == 'item'
-                    else '<span class="small">价格不足以估算 · not estimable</span>')
+            if r['price_unit'] == 'item':
+                return ('<span class="small">单点 · 两人预算未计算</span>'
+                        + (('<br><span class="small" style="opacity:.75">菜品 $%s–%s</span>'
+                            % (r['price_min_aud'], r['price_max_aud']))
+                           if r.get('price_min_aud') not in (None, '') else ''))
+            if r['price_unit'] == 'per_person_reported':
+                return ('<span class="small">平台众报人均 $%s–%s</span>'
+                        '<br><span class="small" style="opacity:.75">非套餐，未换算两人总价</span>'
+                        % (r['price_min_aud'], r['price_max_aud']))
+            return '<span class="small">价格不足以估算</span>'
         return f'<b>${lo}–{hi}</b>' if lo != hi else f'<b>${lo}</b>'
     def chips(r):
         # exactly ONE booking chip per venue, on a three-level scale. The lead time
@@ -383,10 +417,15 @@ def quickpick_html(recs, snapshot):
          '<p class="small">本节由 <code>data/venues.csv</code> 自动生成，与后面的详细资料库同源，'
          '不会各说各话。<b>两人预算＝食物总价，不含酒、不含周末与公假加价</b>；无法诚实换算的写明「按菜品计价」，不硬塞进档位。<br>'
          '<span style="opacity:.8">Generated from the dataset. Two-person budget = food only, excluding alcohol and '
-         'weekend/public-holiday surcharges; venues that cannot be converted honestly say so instead of being forced into a band.</span></p>']
+         'weekend/public-holiday surcharges; venues that cannot be converted honestly say so instead of being forced into a band.</span></p>',
+         '<div class="note"><b>这一页只从已进入结构化数据的 %d 家里挑，而那 %d 家全部是过了主闸门的正餐。</b>'
+         '所以它<b>覆盖不到</b>平价小店、社区餐饮、俱乐部与 Pub 特价——那些在后面的章节里，但还没有数据化到能自动推荐。'
+         '<b>「第一次来」这一档尤其要注意：它挑出来的都是内城的正餐，不代表全城的饮食面貌</b>；'
+         '想看社区那一面，直接去 <a href="#sec3">§3 按区域吃</a>。</div>'
+         % (snapshot['unique_venues'], snapshot['unique_venues'])]
 
     ft = rank([r for r in picks if 'first_timer' in r['scenarios']])[:5]
-    H += ['<h4>第一次来布里斯班 ｜ First time in Brisbane</h4>',
+    H += ['<h4>%s ｜ %s</h4>' % SCENARIOS['first_timer'],
           '<div style="overflow-x:auto"><table><tr><th>店 ｜ 为什么选</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
     H += [card(r) for r in ft] + ['</table></div>']
 

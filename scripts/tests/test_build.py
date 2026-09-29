@@ -92,8 +92,12 @@ def main():
     check('unknown scenario', any('unknown scenario' in x for x in e))
 
     print('\nbudget bands (issue #1 review)')
-    check('every band label says 起/from, because banding is on entry price',
-          all(('起' in lab or 'from' in lab.lower()) for _, _, lab in build.BUDGET_BANDS))
+    check('every band label says whose price it is and that it is the entry price',
+          all(('两人最低' in lab or 'from' in lab.lower()) for _, _, lab in build.BUDGET_BANDS),
+          f'labels: {[lab for _, _, lab in build.BUDGET_BANDS]}')
+    check('no band label pairs a bound word with 起, which reads as a contradiction',
+          not any(('以内起' in lab or '以下起' in lab or '以上起' in lab)
+                  for _, _, lab in build.BUDGET_BANDS))
     check('bands are contiguous and ascending',
           all(build.BUDGET_BANDS[i][1] == build.BUDGET_BANDS[i+1][0]
               for i in range(len(build.BUDGET_BANDS)-1)))
@@ -116,9 +120,17 @@ def main():
     ala = [r for r in recs if r['price_unit'] == 'item']
     check('a la carte gives no two-person total',
           all(r['two_person_total_min'] is None for r in ala), 'must not be invented')
-    pp = [r for r in recs if r['price_unit'] in ('per_person_set', 'per_person_reported')]
-    check('per-person set menus double into a two-person total',
+    pp = [r for r in recs if r['price_unit'] == 'per_person_set']
+    check('a per-person SET price doubles into a two-person total',
           all(r['two_person_total_min'] == round(float(r['price_min_aud'])*2) for r in pp))
+    # a crowd-reported band is not a meal price: doubling $1-20 produced "two people, $2-40"
+    rep = [r for r in recs if r['price_unit'] == 'per_person_reported']
+    check('a crowd-reported per-person band is NOT doubled into a two-person total',
+          all(r['two_person_total_min'] is None for r in rep),
+          f'{sum(1 for r in rep if r["two_person_total_min"] is not None)} were doubled')
+    check('a venue with no derivable two-person total says why',
+          all((r['two_person_basis'] or '').strip()
+              for r in recs if r['two_person_total_min'] is None))
     check('venue_id is unique across the dataset',
           len({r['venue_id'] for r in recs}) == len(recs))
 

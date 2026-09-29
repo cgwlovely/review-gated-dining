@@ -1,6 +1,6 @@
 # Main table — 25 venues through the gate
 
-snapshot 2026-09-29 · commit 1008cd8 · ranked by shrunk rating
+snapshot 2026-09-29 · commit 1eae198 · ranked by shrunk rating
 
 | # | Venue | Suburb | Google | Shrunk | Two-person (food) | Price source | Confidence |
 |---|---|---|---|---|---|---|---|
@@ -8,7 +8,7 @@ snapshot 2026-09-29 · commit 1008cd8 · ranked by shrunk rating
 | 2 | Longwang | Brisbane City | 4.8/2,118 | 4.761 | $176–298 | official | low |
 | 3 | Oh Boy, Bok Choy! | Stafford | 4.8/1,991 | 4.759 | $125–125 | official | low |
 | 4 | Little Black Pug | Mount Gravatt | 4.8/1,695 | 4.753 | — | official | high |
-| 5 | John Mills Himself | Brisbane City | 4.8/1,120 | 4.732 | $2–40 | google_reported | medium |
+| 5 | John Mills Himself | Brisbane City | 4.8/1,120 | 4.732 | — | google_reported | medium |
 | 6 | Exhibition | Brisbane City | 4.9/397 | 4.716 | $510–670 | official | low |
 | 7 | Short Grain | Fortitude Valley | 4.8/606 | 4.688 | $110–250 | official | low |
 | 8 | Farm House | Kedron | 4.7/2,981 | 4.678 | — | official | low |
@@ -19,11 +19,11 @@ snapshot 2026-09-29 · commit 1008cd8 · ranked by shrunk rating
 | 13 | hôntô | Fortitude Valley | 4.7/1,603 | 4.661 | $178–260 | official | low |
 | 14 | Beccofino | Teneriffe | 4.7/1,220 | 4.651 | — | official | low |
 | 15 | Rothwell's Bar & Grill | Brisbane City | 4.7/1,067 | 4.645 | — | menu_photo | medium |
-| 16 | Vegeme | South Brisbane | 4.7/1,001 | 4.642 | $2–40 | google_reported | medium |
+| 16 | Vegeme | South Brisbane | 4.7/1,001 | 4.642 | — | google_reported | medium |
 | 17 | Smoked Paprika | Paddington | 4.7/924 | 4.638 | — | official | low |
 | 18 | Montrachet | Bowen Hills | 4.7/890 | 4.636 | — | official | low |
 | 19 | Ngon Brisbane | Paddington | 4.7/648 | 4.617 | — | official | high |
-| 20 | Nekoland Ramen & Bar | West End | 4.8/229 | 4.59 | $40–80 | google_reported | medium |
+| 20 | Nekoland Ramen & Bar | West End | 4.8/229 | 4.59 | — | google_reported | medium |
 | 21 | Naldham House | Brisbane City | 4.7/432 | 4.589 | — | — | low |
 | 22 | Unbearable Bagels | Teneriffe | 4.7/333 | 4.569 | — | official | low |
 | 23 | Chocolate Elements | South Brisbane | 4.7/241 | 4.541 | — | — | medium |

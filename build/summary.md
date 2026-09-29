@@ -1,10 +1,10 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- built from commit: `1008cd8` (HEAD at build time — a commit cannot contain its own SHA)
+- built from commit: `1eae198` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
-- published page: **284 distinct venues** / 350 venue links / 27 appearing in more than one section
+- published page: **284 distinct venues** / 348 venue links / 27 appearing in more than one section
 - through their gate: **25**
 
 ## Confidence
@@ -52,7 +52,7 @@
 
 ## Two-person totals
 
-- derivable: 10
+- derivable: 7
 - à la carte (not derivable): 12
 - no price recorded: 3
 
@@ -66,5 +66,5 @@
 ## Counts (issue #1: display rows are not unique venues)
 
 - structured dataset — unique_venues: **25**, display_rows: 25, branch_count: 4
-- published page — display_rows_page: **350**, distinct_on_page: **284**, repeated_venues: **35**
+- published page — display_rows_page: **348**, distinct_on_page: **284**, repeated_venues: **35**
 
