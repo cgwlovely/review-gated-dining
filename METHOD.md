@@ -157,6 +157,13 @@ there without writing English reviews**. A minimum-review-count gate silently co
 "how much English-language review volume has accumulated" into "quality", and those two things come
 apart hardest exactly where the food is least like everything else on the list.
 
+There is a second way the same communities go missing, and it is not about counts at all.
+Searching European cuisines surfaced **seven communities whose food lives in a member club, not a
+restaurant** — German, Ukrainian, Polish, Czech, Danish, Serbian, Portuguese. A club is not
+categorised as a restaurant, so cuisine searches reach it only by accident, and its rating covers
+the whole venue rather than the kitchen. **Search by venue type as well as by cuisine**, and keep
+club ratings in their own column.
+
 > **State this limit rather than lowering the threshold.** Lowering it would let genuinely weak
 > venues through everywhere else. The honest output is a separate section marked *recorded, not
 > recommended* — and an admission that evaluating this category needs a method that does not depend
