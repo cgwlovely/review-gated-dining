@@ -1,8 +1,8 @@
 {
  "snapshot": {
   "snapshot_date": "2026-09-29",
-  "built_from_commit": "73f2573",
-  "commit": "73f2573",
+  "built_from_commit": "17756e6",
+  "commit": "17756e6",
   "gates_version": 1,
   "unique_venues": 25,
   "display_rows": 25,
@@ -172,7 +172,8 @@
    "two_person_total_min": 510,
    "two_person_total_max": 670,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-longtime-dining",
@@ -223,7 +224,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-longwang",
@@ -270,7 +272,8 @@
    "two_person_total_min": 176,
    "two_person_total_max": 298,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-oh-boy-bok-choy",
@@ -317,7 +320,8 @@
    "two_person_total_min": 125,
    "two_person_total_max": 125,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-little-black-pug",
@@ -364,7 +368,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "high"
+   "confidence": "high",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-short-grain",
@@ -411,7 +416,8 @@
    "two_person_total_min": 110,
    "two_person_total_max": 250,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-farm-house-kedron",
@@ -460,7 +466,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-1889-enoteca",
@@ -508,7 +515,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-naim",
@@ -555,7 +563,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-honto",
@@ -604,7 +613,8 @@
    "two_person_total_min": 178,
    "two_person_total_max": 260,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-beccofino",
@@ -652,7 +662,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-rothwells",
@@ -700,7 +711,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-smoked-paprika",
@@ -748,7 +760,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-montrachet",
@@ -795,7 +808,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-naldham-house",
@@ -844,7 +858,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "no price recorded",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-unbearable-bagels",
@@ -892,7 +907,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-joy",
@@ -939,7 +955,8 @@
    "two_person_total_min": 440,
    "two_person_total_max": 440,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-the-fifty-six",
@@ -989,7 +1006,8 @@
    "two_person_total_min": 164,
    "two_person_total_max": 240,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "low"
+   "confidence": "low",
+   "oldest_observation_days": 1
   },
   {
    "venue_id": "bne-john-mills-himself",
@@ -1037,7 +1055,8 @@
    "two_person_total_min": 2,
    "two_person_total_max": 40,
    "two_person_basis": "per_person_reported x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-hashtag-burgers",
@@ -1086,7 +1105,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-sono-portside",
@@ -1135,7 +1155,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "no price recorded",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-vegeme",
@@ -1183,7 +1204,8 @@
    "two_person_total_min": 2,
    "two_person_total_max": 40,
    "two_person_basis": "per_person_reported x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-ngon",
@@ -1230,7 +1252,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "high"
+   "confidence": "high",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-nekoland",
@@ -1281,7 +1304,8 @@
    "two_person_total_min": 40,
    "two_person_total_max": 80,
    "two_person_basis": "per_person_reported x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   },
   {
    "venue_id": "bne-chocolate-elements",
@@ -1331,7 +1355,8 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "no price recorded",
-   "confidence": "medium"
+   "confidence": "medium",
+   "oldest_observation_days": 0
   }
  ]
 }

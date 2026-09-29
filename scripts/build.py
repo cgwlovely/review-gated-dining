@@ -202,6 +202,12 @@ def validate(gates, venues, sources, aliases, exemptions=None):
             errors.append(f"{where}: unknown recommendation_tier '{v.get('recommendation_tier')}'")
         if v.get('booking') not in ('required', 'recommended', 'walk_in'):
             errors.append(f"{where}: unknown booking '{v.get('booking')}'")
+        for fld in ('one_liner_zh', 'one_liner_en'):
+            s = (v.get(fld) or '')
+            if s != s.strip():
+                errors.append(f'{where}: {fld} has leading/trailing whitespace')
+            if s.strip() and s.strip()[-1] in ',;，；':
+                errors.append(f'{where}: {fld} ends with a stray {s.strip()[-1]!r}')
         if not (v.get('one_liner_zh') or '').strip():
             errors.append(f'{where}: one_liner_zh is empty - every recommended venue needs a reason')
         if not (v.get('one_liner_en') or '').strip():
@@ -294,23 +300,31 @@ def derive(gates, venues, aliases):
         if fn and lo is not None and hi is not None:
             a, b = fn(lo, hi)
             rec['two_person_total_min'], rec['two_person_total_max'] = round(a), round(b)
-            rec['two_person_basis'] = f"{v['price_unit']} x2, food only, excludes alcohol and weekend/PH surcharges"
+            op = 'already priced for two' if v['price_unit'] == 'for_two' else 'x2'
+            rec['two_person_basis'] = (f"{v['price_unit']} {op}, food only, "
+                                       f"excludes alcohol and weekend/PH surcharges")
         else:
             rec['two_person_total_min'] = rec['two_person_total_max'] = None
             rec['two_person_basis'] = ('a la carte - not derivable from a price range'
                                        if v['price_unit'] == 'item' else 'no price recorded')
 
-        age = days_since(v['rating_observed_at'])
-        has_full_price = all([lo is not None, v['price_unit'], v['price_source_type'], v['price_observed_at']])
         # These mirror data/gates.yml:confidence_rules exactly. If you change one, change both.
+        # gates.yml says "any observation", so BOTH the rating and the price date count.
+        ages = [a for a in (days_since(v['rating_observed_at']),
+                            days_since(v['price_observed_at'])) if a is not None]
+        oldest = max(ages) if ages else None
+        has_full_price = all([lo is not None, v['price_unit'],
+                              v['price_source_type'], v['price_observed_at']])
         if (v['status'] != 'active'
                 or v['rating_source'] == 'google_mirror'
-                or (age or 0) > 180):
+                or (oldest or 0) > 180):
             rec['confidence'] = 'low'
-        elif has_full_price and v['price_source_type'] == 'official' and (age or 0) <= 90:
+        elif (has_full_price and v['price_source_type'] == 'official'
+              and (oldest or 0) <= 90):
             rec['confidence'] = 'high'
         else:
             rec['confidence'] = 'medium'
+        rec['oldest_observation_days'] = oldest
         out.append(rec)
     return out
 
@@ -473,7 +487,7 @@ def emit(recs, gates, sources, errors, warnings):
 
     cols = ['venue_id','name','branch_name','suburb','address','lat','lon','category_primary',
             'cuisines','rating','review_count','rating_source','rating_observed_at',
-            'shrunk_rating','conservative_rating_proxy','borderline','gate_name','gate_pass','confidence','freshness',
+            'shrunk_rating','conservative_rating_proxy','borderline','oldest_observation_days','gate_name','gate_pass','confidence','freshness',
             'price_min_aud','price_max_aud','price_unit','price_source_type','price_observed_at',
             'two_person_total_min','two_person_total_max','status','price_source_url']
     for p in (BUILD/'venues.csv', DOCSDATA/'venues.csv'):

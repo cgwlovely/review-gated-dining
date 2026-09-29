@@ -78,8 +78,16 @@ def main():
     e, _ = with_rows(thai_claims_chinese)
     check('a thai venue cannot claim the chinese_food scenario',
           any('claims a cuisine the venue does not have' in x for x in e))
-    check('the deliberate pan-asian exemption is honoured',
-          ('bne-longwang', 'chinese_food') in exemptions and errs == [])
+    # A membership assertion would pass even if the exemption mechanism were broken.
+    # Drop the exemption -> must error; restore it -> must not.
+    g2, v2, s2, a2, ex2 = build.load()
+    without = {k: v for k, v in ex2.items() if k != ('bne-longwang', 'chinese_food')}
+    e_wo, _ = build.validate(g2, v2, s2, a2, without)
+    e_wi, _ = build.validate(g2, v2, s2, a2, ex2)
+    check('removing the exemption makes the build fail',
+          any('bne-longwang' in x and 'claims a cuisine' in x for x in e_wo),
+          f'errors without exemption: {e_wo[:1]}')
+    check('restoring the exemption clears it', e_wi == [])
     e, _ = with_rows(lambda vs: vs[0].update(scenarios='brunchy'))
     check('unknown scenario', any('unknown scenario' in x for x in e))
 
@@ -113,6 +121,36 @@ def main():
           all(r['two_person_total_min'] == round(float(r['price_min_aud'])*2) for r in pp))
     check('venue_id is unique across the dataset',
           len({r['venue_id'] for r in recs}) == len(recs))
+
+    print('\nreview round 4 findings')
+    hi = [r for r in recs if r['confidence'] == 'high']
+    check('high confidence requires BOTH observations fresh (<=90d)',
+          all((r['oldest_observation_days'] or 0) <= 90 for r in hi))
+
+    def stale_price(vs):
+        r = next(v for v in vs if v['venue_id'] == 'bne-short-grain')
+        r['price_observed_at'] = '2025-01-01'
+    g3, v3, a3 = gates, [dict(v) for v in venues], aliases
+    stale_price(v3)
+    r3 = next(r for r in build.derive(g3, v3, a3) if r['venue_id'] == 'bne-short-grain')
+    check('a stale price drags confidence down even when the rating is fresh',
+          r3['confidence'] == 'low', f"got {r3['confidence']}")
+
+    def for_two(vs):
+        r = next(v for v in vs if v['venue_id'] == 'bne-joy')
+        r.update(price_unit='for_two', price_min_aud='200', price_max_aud='260')
+    v4 = [dict(v) for v in venues]; for_two(v4)
+    r4 = next(r for r in build.derive(gates, v4, aliases) if r['venue_id'] == 'bne-joy')
+    check('for_two is not doubled', (r4['two_person_total_min'], r4['two_person_total_max']) == (200, 260))
+    check('for_two basis text does not claim x2', 'x2' not in r4['two_person_basis'],
+          r4['two_person_basis'])
+
+    e, _ = with_rows(lambda vs: vs[0].update(one_liner_en='trailing comma,'))
+    check('a stray trailing comma in a one-liner is rejected',
+          any('ends with a stray' in x for x in e))
+    check('the committed one-liners are clean',
+          all(not (r['one_liner_en'] or '').strip().endswith((',', ';'))
+              and not (r['one_liner_zh'] or '').strip().endswith(('，', '；')) for r in recs))
 
     print('\nreview round 3 findings')
     mir = [r for r in recs if r['rating_source'] == 'google_mirror']
