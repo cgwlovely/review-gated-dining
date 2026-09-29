@@ -28,7 +28,7 @@ written into the output.**
 | Restaurants (main gate) | ≥4.7 and ≥200 | The baseline |
 | Budget tier | ≥4.5 and **≥1,000** | Rating bar drops 0.2; **sample bar rises 5×** as compensation. Better "lots of people said 4.5" than "a few said 4.8" |
 | Coffee | ≥4.7 and ≥200 | **Not loosened.** Coffee ratings run high everywhere; the sample bar is what filters out "fifteen people gave it 5" |
-| Bubble tea / drinks | **≥4.5** and ≥200 | Same problem — the rating bar goes *up* toward the main gate, not down |
+| Bubble tea / drinks | **≥4.5** and ≥200 | Ratings are inflated as with coffee, but samples are far smaller, so the rating bar **drops to 4.5** while the sample bar stays at 200. Looser than coffee (4.7), tighter than the community-cuisine gate (4.3) |
 | Community cuisines (Chinese, Vietnamese, East African…) | ≥4.3 and **≥150** | Customers are mostly from that community; **English reviews are structurally scarcer** |
 | Other cuisines (Indian, Italian, French, Greek, Middle Eastern…) | ≥4.5 and ≥300 | Trading rating width for sample size |
 | Licensed clubs, and ethnic community clubs | ≥4.0 and ≥500 | The score rates the **whole venue** — gaming room, function rooms, live music — not the bistro. Seven European communities keep their food in a club rather than a restaurant, so this row is not a niche |
@@ -230,9 +230,9 @@ review text is Enterprise + Atmosphere, and a request bills at the highest tier 
 
 | Route | Unit price | 7,020 venues, one full pass |
 |---|---|---|
-| Text Search Enterprise | US$35 / 1,000 | ≈ US$210 |
-| Essentials for IDs (free) + Place Details Enterprise | US$20 / 1,000 | ≈ US$120 |
-| As above, plus review text | US$25 / 1,000 | ≈ US$150 |
+| Text Search Enterprise | US$35 / 1,000 | ≈ US$246 |
+| Essentials for IDs (free) + Place Details Enterprise | US$20 / 1,000 | ≈ US$140 |
+| As above, plus review text | US$25 / 1,000 | ≈ US$176 |
 
 **Covering only the four suburbs with the densest community dining (506 venues) costs about US$10 —
 right at the edge of the free tier. That is the highest-value one-off spend.**
@@ -276,8 +276,7 @@ A list built this way should carry all five of these:
 5. **Known gaps given their own section** — what could not be found, could not be retrieved, and
    has not been done.
 
-See [`docs/index.html`](docs/index.html) (web) and [`docs/pdf/`](docs/pdf/) (45-page PDF, 389
-clickable links).
+See [`docs/index.html`](docs/index.html) (web) and [`docs/pdf/`](docs/pdf/) (PDF build; page and link counts are printed by `make pdf-stats`, not hard-coded here).
 
 ---
 

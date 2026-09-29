@@ -191,6 +191,56 @@ def main():
     check('gates.yml describes freshness as one scalar from the oldest observation',
           'OLDEST observation' in gyz and '最旧' in gyz)
 
+    # --- METHOD gate table must not contradict gates.yml (round-5 P0) ---
+    import re as _re2
+    main_r = float(_re2.search(r'main:.*?min_rating:\s*([\d.]+)', gyz, _re2.S).group(1))
+    # the claim must be the one attached to the RATING bar, not the sample bar
+    DIRECTION = {
+        # the gap may not step over the *sample* bar on its way to the verb
+        'METHOD.md': (r'rating bar(?:(?!sample)[^.|]){0,40}?\b(up|rises|raised)\b'
+                      r'|\*\*Not loosened\.\*\*',
+                      r'rating bar(?:(?!sample)[^.|]){0,40}?\b(drops|down|lowered)\b'),
+        'METHOD.zh.md': (r'评分(?:门槛)?(?:(?!样本)[^。|]){0,12}(?:提高|上调)|不放宽',
+                         r'评分(?:门槛)?(?:(?!样本)[^。|]){0,12}(?:降到|下调|放宽)'),
+    }
+    for doc, (up_re, down_re) in DIRECTION.items():
+        text = (ROOT/doc).read_text()
+        rows = [l for l in text.splitlines()
+                if l.startswith('|') and _re2.search(r'≥\s*([\d.]+)', l) and '---' not in l]
+        bad = []
+        for line in rows:
+            shown = float(_re2.search(r'≥\s*([\d.]+)', line).group(1))
+            if _re2.search(up_re, line) and shown < main_r:
+                bad.append('claims a raised rating bar but shows %.1f < main %.1f: %s'
+                           % (shown, main_r, line[:70]))
+            if _re2.search(down_re, line) and shown > main_r:
+                bad.append('claims a lowered rating bar but shows %.1f > main %.1f: %s'
+                           % (shown, main_r, line[:70]))
+        check('%s gate table agrees with gates.yml on which way the rating bar moved' % doc,
+              not bad, '; '.join(bad))
+
+    # --- API cost table must be the stated venue count times the stated unit price ---
+    for doc in ('METHOD.md', 'METHOD.zh.md'):
+        text = (ROOT/doc).read_text()
+        n = int(_re2.search(r'7,020', text).group(0).replace(',', ''))
+        bad = []
+        for line in text.splitlines():
+            m = _re2.search(r'US\$(\d+)\s*[/／]\s*1,000.*?≈\s*US\$([\d,]+)', line)
+            if not m:
+                continue
+            unit, shown = int(m.group(1)), int(m.group(2).replace(',', ''))
+            want = round(unit * n / 1000)
+            if shown != want:
+                bad.append('US$%d/1,000 x %d = US$%d, table says US$%d' % (unit, n, want, shown))
+        check('%s API cost table is arithmetic on the stated venue count' % doc,
+              not bad, '; '.join(bad))
+
+    # --- rank badges must not run into the venue name in the text layer ---
+    html = (ROOT/'docs'/'index.html').read_text()
+    glued = _re2.findall(r'<span class="pin">\d+</span>(?=\S)', html)
+    check('rank badges are separated from the name they precede',
+          not glued, '%d badge(s) glued to the following text' % len(glued))
+
     print()
     if FAILED:
         print(f'{len(FAILED)} test(s) failed: ' + ', '.join(FAILED)); return 1

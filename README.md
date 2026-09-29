@@ -38,7 +38,7 @@ five reusable techniques.
 ## The worked case: Brisbane
 
 - 🌐 **[Web ｜ 网页版](https://cgwlovely.github.io/review-gated-dining/)**
-- 📄 **[PDF — 45 pages, 389 clickable links](docs/pdf/Brisbane_2026_餐厅指南.pdf)**
+- 📄 **[PDF](docs/pdf/Brisbane_2026_餐厅指南.pdf)** — page and link counts: `make pdf-stats`
 - 🔬 **[Full research record ｜ 完整调查记录](research/brisbane-dining.md)** — 19 sections, including
   rejected candidates and unfinished work
 

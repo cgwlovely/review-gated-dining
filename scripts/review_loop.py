@@ -38,6 +38,54 @@ def sh(*a, **kw):
     return subprocess.run(a, capture_output=True, text=True, cwd=ROOT, **kw).stdout.strip()
 
 
+def digest(path):
+    """A structural summary of the guide: the reviewer cannot read 1.4 MB of HTML,
+    but section/table shape is exactly where the defects have been."""
+    import re
+    if not path.exists():
+        return '(docs/index.html missing)'
+    s = path.read_text(encoding='utf-8')
+    out, sec = [], None
+    for m in re.finditer(r'<h2 id="(sec\d+)">(.*?)\s*<span class="h2en">(.*?)</span></h2>'
+                         r'|<h3>(.*?)</h3>'
+                         r'|<tr>(.*?)</tr>'
+                         r'|<b>本(?:类|节)(?:统一)?闸门：([^<]*)', s, re.S):
+        if m.group(1):
+            sec = m.group(1)
+            out.append('\n## %s  %s | %s' % (sec, re.sub('<.*?>', '', m.group(2)), m.group(3)))
+        elif m.group(4):
+            out.append('  ### ' + re.sub('<.*?>', '', m.group(4)).strip())
+        elif m.group(6):
+            out.append('    GATE STATED: ' + m.group(6).strip())
+        else:
+            body = m.group(5)
+            # header rows must be labelled: a reviewer counting <tr> without this
+            # reads "50 venues" as "55 venues" and files a false positive
+            kind = 'header' if '<th' in body else 'data'
+            cells = re.findall(r'<t[dh][^>]*>', body)
+            spans = re.findall(r'colspan="(\d+)"', body)
+            out.append('    %s row: %d cells%s' % (kind, len(cells),
+                       (' colspan=' + ','.join(spans)) if spans else ''))
+    # collapse runs of identical row shapes so the digest stays readable
+    packed, run = [], None
+    for line in out:
+        if line.lstrip().startswith(('header row:', 'data row:')):
+            if run and run[0] == line:
+                run[1] += 1
+                continue
+            if run:
+                packed.append('%s  x%d' % (run[0], run[1]))
+            run = [line, 1]
+        else:
+            if run:
+                packed.append('%s  x%d' % (run[0], run[1]))
+                run = None
+            packed.append(line)
+    if run:
+        packed.append('%s  x%d' % (run[0], run[1]))
+    return '\n'.join(packed)
+
+
 def gather(issue):
     """Everything the reviewer needs, straight from the repo and the issue thread."""
     commit = sh('git', 'rev-parse', '--short', 'HEAD') or 'unknown'
@@ -59,6 +107,8 @@ def gather(issue):
         return s if limit is None or len(s) <= limit else s[:limit] + f'\n...[truncated, {len(s)} chars total]'
 
     files = {
+        'METHOD.md': read('METHOD.md'),
+        'docs/index.html (structural digest)': digest(ROOT/'docs'/'index.html'),
         'data/gates.yml': read('data/gates.yml'),
         'data/venues.csv': read('data/venues.csv'),
         'data/scenario_exemptions.csv': read('data/scenario_exemptions.csv'),

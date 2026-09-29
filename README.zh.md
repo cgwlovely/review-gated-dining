@@ -42,7 +42,7 @@ community-facing restaurants have structurally fewer English reviews. So the met
 ## 案例：布里斯班 ｜ The worked case: Brisbane
 
 - 🌐 **[网页版 ｜ Web](https://cgwlovely.github.io/review-gated-dining/)**
-- 📄 **[PDF（45 页，389 个可点链接）](docs/pdf/Brisbane_2026_餐厅指南.pdf)**
+- 📄 **[PDF](docs/pdf/Brisbane_2026_餐厅指南.pdf)** —— 页数与链接数用 `make pdf-stats` 现算
 - 🔬 **[完整调查记录 ｜ Full research record](research/brisbane-dining.md)**（19 节，含被否决的候选与未完成项）
 
 页面上约 **300 条展示条目**；同一家店可能同时出现在价位档、菜系、场景等多个章节，所以**展示条目数 ≠ 独立门店数**。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。

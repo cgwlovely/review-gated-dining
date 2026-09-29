@@ -1,4 +1,4 @@
-.PHONY: all build check test maps review review-post clean
+.PHONY: all build check test maps pdf-stats review review-post clean
 
 all: check build
 
@@ -10,6 +10,9 @@ check:            ## validate only; non-zero exit on any error
 
 test:             ## prove the validators catch injected faults
 	python3 scripts/tests/test_build.py
+
+pdf-stats:        ## report the built PDF's real page/link counts; --check fails on blanks
+	python3 scripts/pdf_stats.py
 
 review:           ## ask the external reviewer model to critique HEAD (dry run)
 	python3 scripts/review_loop.py --issue 1
