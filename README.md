@@ -135,6 +135,29 @@ The front of the guide is now **generated from the dataset**, not hand-written:
 - **Budget bands never absorb a price that cannot be converted.** À la carte venues print
   "按菜品计价 · à la carte" instead of being forced into a band.
 
+### The review loop
+
+The method has been sharpened more by adversarial review than by adding venues. Two rounds of
+outside review caught three defects the maintainer had not seen: a Thai restaurant tagged into a
+Chinese-food shortlist, budget bands assigned on entry price while labelled as full ranges, and a
+small-sample heuristic described as a 95% confidence interval it was not.
+
+That loop is now a script:
+
+```bash
+make review        # dry run - print the critique, post nothing
+make review-post   # post it to issue #1, signed as a model review
+```
+
+`scripts/review_loop.py` assembles the prompt from the repository itself — `gates.yml`,
+`venues.csv`, the exemptions file, `build/summary.md`, the build and test output, and the full
+issue thread — asks an external model to find concrete, checkable defects, and posts the result
+**signed**, so no one mistakes it for a human review. It needs `OPENAI_API_KEY` in the environment
+or a key in `~/.config/openai.key`; with no key it prints what to do and sends nothing.
+
+Reviews are archived at `build/review-<commit>.md`, so every critique stays pinned to the commit
+it was made against.
+
 ---
 
 ## Layout

@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 # build/ outputs ARE committed: the README links to build/summary.md and they document
 # what one `make build` produces. Regenerate with `make build`.
+build/review-*.md
