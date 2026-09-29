@@ -22,6 +22,9 @@ is like.
 So the method became: **one stated gate per category, with the reason it was loosened or tightened
 written into the output.**
 
+**→ How this compares to other dining guides: [`PRIOR-ART.md`](PRIOR-ART.md)** — surveyed
+2026-09-29, including where another guide is ahead of this one.
+
 **→ Full method: [`METHOD.md`](METHOD.md)** — the gate table, nine lessons learned the hard way,
 seven reusable techniques.
 

@@ -26,6 +26,8 @@ One gate is not enough: coffee shops sit at 4.8 everywhere, licensed clubs at 4.
 community-facing restaurants have structurally fewer English reviews. So the method became:
 **one stated gate per category, with the reason it was loosened or tightened written down.**
 
+**→ 与其它餐饮指南的对照见 [`PRIOR-ART.md`](PRIOR-ART.md)**（2026-09-29 调查，含「别人比我们强的地方」）。
+
 **→ 方法全文见 [`METHOD.zh.md`](METHOD.zh.md)**（[English](METHOD.md)） ——一套闸门表、九条实际踩出来的教训、七个可复用做法。
 
 ---
