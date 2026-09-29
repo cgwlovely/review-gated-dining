@@ -86,6 +86,25 @@ def freshness(dates, half_life):
     if not ages: return None
     return round(0.5 ** (max(ages) / half_life), 3)
 
+FLAGS = {
+    'booking_ahead':      ('需提前订位', 'books well ahead'),
+    'weekend_surcharge':  ('周末/公假加价', 'weekend or PH surcharge'),
+    'member_price':       ('会员价', 'member pricing'),
+    'veg_friendly':       ('素食友好', 'vegetarian-friendly'),
+    'price_stale':        ('价格可能过期', 'price may be stale'),
+}
+SCENARIOS = {
+    'first_timer': ('第一次来布里斯班', 'First time in Brisbane'),
+    'chinese':     ('想吃中餐', 'Chinese food'),
+    'date':        ('约会', 'Date night'),
+    'family':      ('家庭聚餐', 'With family'),
+    'cheap_eat':   ('便宜吃饱', 'Cheap and filling'),
+    'coffee':      ('咖啡与甜点', 'Coffee and sweets'),
+    'late_night':  ('夜宵', 'Late night'),
+    'celebration': ('庆祝', 'Celebration'),
+}
+BUDGET_BANDS = [(0, 60, '$60 以内'), (60, 120, '$60–120'), (120, 250, '$120–250'), (250, 10**9, '$250 以上')]
+
 # per-unit multiplier to reach "estimated total for two, food only, no alcohol"
 TWO_PERSON = {
     'per_person_set':      lambda lo, hi: (lo*2, hi*2),
@@ -155,6 +174,20 @@ def validate(gates, venues, sources, aliases):
                 warnings.append(f'{where}: price has no source URL')
         if v['status'] not in ('active', 'uncertain', 'closed'):
             errors.append(f"{where}: unknown status '{v['status']}'")
+        if v.get('recommendation_tier') not in ('editors_pick', 'conditional', 'directory'):
+            errors.append(f"{where}: unknown recommendation_tier '{v.get('recommendation_tier')}'")
+        if v.get('booking') not in ('required', 'recommended', 'walk_in'):
+            errors.append(f"{where}: unknown booking '{v.get('booking')}'")
+        if not (v.get('one_liner_zh') or '').strip():
+            errors.append(f'{where}: one_liner_zh is empty - every recommended venue needs a reason')
+        if not (v.get('one_liner_en') or '').strip():
+            errors.append(f'{where}: one_liner_en is empty')
+        for fl in (v.get('flags') or '').split(';'):
+            if fl and fl not in FLAGS:
+                errors.append(f"{where}: unknown flag '{fl}'")
+        for sc in (v.get('scenarios') or '').split(';'):
+            if sc and sc not in SCENARIOS:
+                errors.append(f"{where}: unknown scenario '{sc}'")
 
         # staleness + borderline warnings
         age = days_since(v['rating_observed_at'])
@@ -239,7 +272,130 @@ def derive(gates, venues, aliases):
         out.append(rec)
     return out
 
+
+# ---------------------------------------------------------------- quick pick (P0)
+def quickpick_html(recs, snapshot):
+    """The 3-minute front section, GENERATED from data - never hand-edited."""
+    def maps(r):
+        import urllib.parse
+        return ('https://www.google.com/maps/search/?api=1&query='
+                + urllib.parse.quote(f"{r['name']} {r['address']} Brisbane QLD"))
+    def budget(r):
+        lo, hi = r['two_person_total_min'], r['two_person_total_max']
+        if lo is None:
+            return ('<span class="small">按菜品计价 · à la carte</span>' if r['price_unit'] == 'item'
+                    else '<span class="small">价格不足以估算 · not estimable</span>')
+        return f'<b>${lo}–{hi}</b>' if lo != hi else f'<b>${lo}</b>'
+    def chips(r):
+        out = []
+        for fl in (r.get('flags') or '').split(';'):
+            if fl in FLAGS:
+                zh, en = FLAGS[fl]
+                cls = 'chip warnchip' if fl in ('price_stale', 'weekend_surcharge') else 'chip'
+                out.append('<span class="%s" title="%s">%s</span>' % (cls, en, zh))
+        bk = {'required': '必须订位', 'recommended': '建议订位', 'walk_in': '可直接去'}[r['booking']]
+        out.insert(0, '<span class="chip bk-%s">%s</span>' % (r['booking'], bk))
+        return ' '.join(out)
+    def card(r):
+        br = ' <span class="small">%s</span>' % r['branch_name'] if r['branch_name'] else ''
+        rc = '{:,}'.format(r['review_count']) if r['review_count'] is not None else '—'
+        return ('<tr><td><b><a href="%s">%s</a></b>%s'
+                '<br><span class="small">%s</span>'
+                '<br><span class="small" style="opacity:.75">%s</span></td>'
+                '<td class="small">%s</td><td>%s</td><td class="small">%s</td>'
+                '<td class="small">%s／%s<br>'
+                '<span style="opacity:.75">核验 %s</span></td></tr>'
+                % (maps(r), r['name'], br, r['one_liner_zh'], r['one_liner_en'],
+                   r['suburb'], budget(r), chips(r), r['rating'], rc, r['rating_observed_at']))
+
+    picks = [r for r in recs if r['gate_pass'] and r['recommendation_tier'] == 'editors_pick']
+    rank = lambda rs: sorted(rs, key=lambda r: -(r['shrunk_rating'] or 0))
+    H = ['<div class="card" id="quickpick">',
+         '<h3>3 分钟选好 ｜ Pick in three minutes</h3>',
+         '<p class="small">本节由 <code>data/venues.csv</code> 自动生成，与后面的详细资料库同源，'
+         '不会各说各话。<b>两人预算＝食物总价，不含酒、不含周末与公假加价</b>；无法诚实换算的写明「按菜品计价」，不硬塞进档位。<br>'
+         '<span style="opacity:.8">Generated from the dataset. Two-person budget = food only, excluding alcohol and '
+         'weekend/public-holiday surcharges; venues that cannot be converted honestly say so instead of being forced into a band.</span></p>']
+
+    ft = rank([r for r in picks if 'first_timer' in r['scenarios']])[:5]
+    H += ['<h4>第一次来布里斯班 ｜ First time in Brisbane</h4>',
+          '<div style="overflow-x:auto"><table><tr><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
+    H += [card(r) for r in ft] + ['</table></div>']
+
+    H += ['<h4>按两人预算 ｜ By two-person budget</h4>',
+          '<div style="overflow-x:auto"><table><tr><th>档位</th><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
+    any_band = False
+    for lo, hi, label in BUDGET_BANDS:
+        band = rank([r for r in picks if r['two_person_total_min'] is not None
+                     and lo <= r['two_person_total_min'] < hi])[:3]
+        if not band:
+            H.append('<tr><td><b>%s</b></td><td colspan="4" class="small">'
+                     '本档暂无编辑精选 | no editor pick in this band yet</td></tr>' % label)
+            continue
+        any_band = True
+        for i, r in enumerate(band):
+            c = card(r)
+            H.append(c.replace('<tr><td>', '<tr><td rowspan="%d"><b>%s</b></td><td>' % (len(band), label), 1)
+                     if i == 0 else c)
+    H.append('</table></div>')
+
+    H += ['<h4>按场景 ｜ By occasion</h4>',
+          '<div style="overflow-x:auto"><table><tr><th>场景</th><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
+    for key, (zh, en) in SCENARIOS.items():
+        if key == 'first_timer':
+            continue
+        grp = rank([r for r in picks if key in r['scenarios']])[:3]
+        if not grp:
+            grp = rank([r for r in recs if r['gate_pass'] and key in r['scenarios']])[:2]
+        if not grp:
+            continue
+        for i, r in enumerate(grp):
+            c = card(r)
+            H.append(c.replace('<tr><td>', '<tr><td rowspan="%d"><b>%s</b><br>'
+                               '<span class="small">%s</span></td><td>' % (len(grp), zh, en), 1) if i == 0 else c)
+    H.append('</table></div>')
+
+    s = snapshot
+    H += ['<p class="small">共 <b>%d 家</b>进入结构化数据；其中编辑精选 <b>%d 家</b>。'
+          '后面的详细资料库另含 <b>%d 条展示条目</b>（%d 家跨章节重复出现），尚未全部迁入数据——见 '
+          '<a href="https://github.com/cgwlovely/review-gated-dining/issues/1">issue #1</a>。</p>'
+          % (s['unique_venues'], len(picks), s.get('display_rows_page', 0), s.get('repeated_venues', 0)),
+          '</div>']
+    return '\n'.join(H)
+
 # ---------------------------------------------------------------- emit
+def page_stats(recs):
+    """Count what the published page actually shows, so the cover can stop saying '300+'."""
+    import re, urllib.parse
+    page = ROOT/'docs'/'index.html'
+    if not page.exists():
+        return {'display_rows_page': 0, 'repeated_venues': 0, 'distinct_on_page': 0}
+    h = page.read_text()
+    qs = re.findall(r'maps/search/\?api=1&query=([^"\']+)', h)
+    names = []
+    for q in qs:
+        s = urllib.parse.unquote(q)
+        s = re.split(r'\s(?=(?:Shop|Level|Unit|Basement|L1|G\d|\d+[A-Za-z]?[/,]?\s))', s, maxsplit=1)[0]
+        names.append(s.strip().lower())
+    from collections import Counter
+    c = Counter(names)
+    return {'display_rows_page': len(names),
+            'distinct_on_page': len(c),
+            'repeated_venues': sum(1 for n, k in c.items() if k > 1)}
+
+
+def inject(fragment, marker, path):
+    """Replace the block between <!--marker:start--> and <!--marker:end-->, creating it if absent."""
+    a, b = f'<!--{marker}:start-->', f'<!--{marker}:end-->'
+    h = path.read_text()
+    if a in h and b in h:
+        i, j = h.index(a), h.index(b) + len(b)
+        h = h[:i] + a + '\n' + fragment + '\n' + b + h[j:]
+        path.write_text(h)
+        return 'replaced'
+    return 'marker-missing'
+
+
 def emit(recs, gates, sources, errors, warnings):
     BUILD.mkdir(exist_ok=True); DOCSDATA.mkdir(parents=True, exist_ok=True)
     try:
@@ -250,10 +406,16 @@ def emit(recs, gates, sources, errors, warnings):
     # NOTE: this is HEAD at build time, i.e. the commit the build ran *from*.
     # A commit cannot contain its own SHA, so a rebuild after committing will show a
     # one-commit difference. That is the only non-determinism in the build.
+    ps = page_stats(recs)
+    branches = sum(1 for r in recs if (r.get('branch_name') or '').strip())
     snapshot = {'snapshot_date': TODAY.isoformat(), 'built_from_commit': sha, 'commit': sha,
                 'gates_version': gates.get('version'),
                 'unique_venues': len({r['venue_id'] for r in recs}),
-                'display_rows': len(recs)}
+                'display_rows': len(recs),
+                'branch_count': branches,
+                'display_rows_page': ps['display_rows_page'],
+                'distinct_on_page': ps['distinct_on_page'],
+                'repeated_venues': ps['repeated_venues']}
 
     payload = {'snapshot': snapshot, 'gates': gates['gates'], 'venues': recs}
     for p in (BUILD/'venues.json', DOCSDATA/'venues.json'):
@@ -317,7 +479,18 @@ def emit(recs, gates, sources, errors, warnings):
           f"- errors: **{len(errors)}**", f"- warnings: {len(warnings)}", '']
     for w in warnings: s.append(f"  - ⚠ {w}")
     for e in errors: s.append(f"  - ✗ {e}")
-    (BUILD/'summary.md').write_text('\n'.join(s) + '\n')
+    frag = quickpick_html(recs, snapshot)
+    (BUILD/'quickpick.html').write_text(frag)
+    status = inject(frag, 'quickpick', ROOT/'docs'/'index.html')
+    print(f'  quick-pick section: {status}')
+
+    s2 = ['', '## Counts (issue #1: display rows are not unique venues)', '',
+          f"- structured dataset — unique_venues: **{snapshot['unique_venues']}**, "
+          f"display_rows: {snapshot['display_rows']}, branch_count: {snapshot['branch_count']}",
+          f"- published page — display_rows_page: **{snapshot['display_rows_page']}**, "
+          f"distinct_on_page: **{snapshot['distinct_on_page']}**, "
+          f"repeated_venues: **{snapshot['repeated_venues']}**", '']
+    (BUILD/'summary.md').write_text('\n'.join(s) + '\n'.join(s2) + '\n')
     return snapshot, len(passed)
 
 def main():

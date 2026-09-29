@@ -1,7 +1,7 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- built from commit: `725c04a` (HEAD at build time — a commit cannot contain its own SHA)
+- built from commit: `58d3a84` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
 - through their gate: **25**
@@ -58,3 +58,8 @@
 
   - ⚠ row 18 (bne-joy): review_count 215 is within 10% of the main threshold - a handful of reviews either way flips it
   - ⚠ row 19 (bne-the-fifty-six): review_count 207 is within 10% of the main threshold - a handful of reviews either way flips it
+## Counts (issue #1: display rows are not unique venues)
+
+- structured dataset — unique_venues: **25**, display_rows: 25, branch_count: 4
+- published page — display_rows_page: **312**, distinct_on_page: **249**, repeated_venues: **33**
+
