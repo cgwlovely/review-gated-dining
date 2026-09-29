@@ -29,8 +29,8 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:20px}
 <div class="w">
 <div class="hero">
 <h1>Data browser ｜ 数据浏览</h1>
-<p>Every venue in <code>data/venues.csv</code>, filtered and sorted in the browser.
-每一家都来自同一份数据；网页、PDF 与本页由同一次构建产出。</p>
+<p>Every venue in <code>data/venues.csv</code>, filtered and sorted in the browser.</p>
+<p><b>范围限定：</b>本页、指南开头的「3 分钟选好」与主闸门表来自结构化数据；<b>指南其余章节仍是手工内容，尚未迁入</b>（见 <a href="https://github.com/cgwlovely/review-gated-dining/issues/1" style="color:#ffd97a">issue #1</a>）。<br><span style="opacity:.85">Scope: this page, the guide's quick-pick section and the main-gate table come from the dataset. The rest of the guide is still hand-maintained and not yet migrated.</span></p>
 <p id="snap">loading…</p>
 <p style="margin-top:10px">
 <a class="btn" style="background:#fff;border-color:#fff" href="data/venues.csv" download>⬇ CSV</a>
@@ -57,7 +57,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:20px}
 <div style="overflow-x:auto;max-height:70vh">
 <table id="t"><thead><tr>
 <th data-k="name">Venue 店</th><th data-k="suburb">Suburb 区</th><th data-k="category_primary">Type</th>
-<th data-k="rating">Google</th><th data-k="shrunk_rating">Shrunk ▾</th>
+<th data-k="rating">Google</th><th data-k="shrunk_rating">Shrunk ▾<br><span class="small">/ proxy</span></th>
 <th data-k="two_person_total_min">两人（食物）Two-person</th>
 <th data-k="price_source_type">Price source</th><th data-k="confidence">Conf.</th>
 <th data-k="freshness">Fresh</th><th>Map</th>
@@ -123,7 +123,7 @@ function render(){
        <td>${v.suburb}</td><td class="small">${v.category_primary}<br>${v.cuisines.join(', ')}</td>
        <td><b>${v.rating??'—'}</b>${v.review_count!=null?' / '+v.review_count.toLocaleString():''}
         <br><span class="small">${v.rating_source||''} ${v.rating_observed_at||''}</span></td>
-       <td><b>${v.shrunk_rating??'—'}</b><br><span class="small">wilson ${v.wilson_lower??'—'}</span></td>
+       <td><b>${v.shrunk_rating??'—'}</b><br><span class="small" title="heuristic small-sample penalty, not a confidence interval">proxy ${v.conservative_rating_proxy??'—'}</span></td>
        <td>${tp}</td>
        <td class="small">${v.price_source_type||'—'}</td>
        <td><span class="pill ${v.confidence}">${v.confidence}</span></td>
@@ -131,8 +131,9 @@ function render(){
        <td><a href="${map}">地图</a></td></tr>`);
   });
   $('#count').textContent=`${rows.length} shown / ${D.length} total`;
-  $('#notes').innerHTML='<b>±</b> = passes the hard gate but its 95% lower bound does not — '
-    +'the hard gate stays the rule, this flags it for audit. '
+  $('#notes').innerHTML='<b>±</b> = passes the hard gate, but a heuristic small-sample penalty would not — '
+    +'<b>not</b> a confidence interval (Google gives a mean and a count, not the vote distribution). '
+    +'The hard gate stays the rule; this only flags it for re-checking. '
     +'<b>Shrunk</b> = Bayesian shrinkage toward the city mean, so a small-sample 4.9 cannot outrank a 4.8 with thousands of reviews. '
     +'<b>Two-person</b> = set-menu price × 2, food only, excludes alcohol and weekend/PH surcharges; à la carte is deliberately left blank rather than invented.';
 }

@@ -1,7 +1,7 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- built from commit: `58d3a84` (HEAD at build time — a commit cannot contain its own SHA)
+- built from commit: `0a79b00` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
 - through their gate: **25**
@@ -18,32 +18,35 @@
 - none: 3
 - google_reported: 3
 
-## Borderline (passes the hard gate, 95% lower bound does not)
+## Borderline (hard gate passed, small-sample proxy not)
 
 - **18 of 25** venues through the gate
-- Interpretation: with the gate at 4.7 and Google rounding to one decimal, a venue rated
-  exactly 4.7 can never have a lower bound above 4.7. So most passers are **statistically
-  indistinguishable from failing**. The hard gate stays the reader-facing rule because it is
-  explicable; `shrunk_rating` is what the main table is ordered by.
+- `conservative_rating_proxy` is a **heuristic small-sample penalty, not a confidence
+  interval**: Google publishes a mean and a count, not the 1-5 vote distribution, so no
+  strict interval can be computed from what we have.
+- Read this count as: with the gate at 4.7 and ratings rounded to one decimal, most passers
+  sit close enough to the line that a modest sample penalty pushes them under. It is a
+  prompt to re-check, not a claim that they fail.
+- The hard gate stays the reader-facing rule; `shrunk_rating` orders the main table.
 
-  - The Fifty Six: 4.7/207 -> lower bound 4.523 (gate 4.7)
-  - Joy: 4.7/215 -> lower bound 4.527 (gate 4.7)
-  - Chocolate Elements: 4.7/241 -> lower bound 4.539 (gate 4.7)
-  - Unbearable Bagels: 4.7/333 -> lower bound 4.566 (gate 4.7)
-  - Naldham House: 4.7/432 -> lower bound 4.585 (gate 4.7)
-  - Ngon Brisbane: 4.7/648 -> lower bound 4.608 (gate 4.7)
-  - Montrachet: 4.7/890 -> lower bound 4.623 (gate 4.7)
-  - Smoked Paprika: 4.7/924 -> lower bound 4.625 (gate 4.7)
-  - Vegeme: 4.7/1,001 -> lower bound 4.628 (gate 4.7)
-  - Rothwell's Bar & Grill: 4.7/1,067 -> lower bound 4.631 (gate 4.7)
-  - Beccofino: 4.7/1,220 -> lower bound 4.635 (gate 4.7)
-  - hôntô: 4.7/1,603 -> lower bound 4.644 (gate 4.7)
-  - NAÏM: 4.7/1,849 -> lower bound 4.648 (gate 4.7)
-  - Hashtag Burgers and Waffles: 4.7/2,154 -> lower bound 4.652 (gate 4.7)
-  - 1889 Enoteca: 4.7/2,341 -> lower bound 4.654 (gate 4.7)
-  - Nekoland Ramen & Bar: 4.8/229 -> lower bound 4.654 (gate 4.7)
-  - Sono Japanese: 4.7/2,388 -> lower bound 4.655 (gate 4.7)
-  - Farm House: 4.7/2,981 -> lower bound 4.66 (gate 4.7)
+  - The Fifty Six: 4.7/207 -> proxy 4.523 (gate 4.7)
+  - Joy: 4.7/215 -> proxy 4.527 (gate 4.7)
+  - Chocolate Elements: 4.7/241 -> proxy 4.539 (gate 4.7)
+  - Unbearable Bagels: 4.7/333 -> proxy 4.566 (gate 4.7)
+  - Naldham House: 4.7/432 -> proxy 4.585 (gate 4.7)
+  - Ngon Brisbane: 4.7/648 -> proxy 4.608 (gate 4.7)
+  - Montrachet: 4.7/890 -> proxy 4.623 (gate 4.7)
+  - Smoked Paprika: 4.7/924 -> proxy 4.625 (gate 4.7)
+  - Vegeme: 4.7/1,001 -> proxy 4.628 (gate 4.7)
+  - Rothwell's Bar & Grill: 4.7/1,067 -> proxy 4.631 (gate 4.7)
+  - Beccofino: 4.7/1,220 -> proxy 4.635 (gate 4.7)
+  - hôntô: 4.7/1,603 -> proxy 4.644 (gate 4.7)
+  - NAÏM: 4.7/1,849 -> proxy 4.648 (gate 4.7)
+  - Hashtag Burgers and Waffles: 4.7/2,154 -> proxy 4.652 (gate 4.7)
+  - 1889 Enoteca: 4.7/2,341 -> proxy 4.654 (gate 4.7)
+  - Nekoland Ramen & Bar: 4.8/229 -> proxy 4.654 (gate 4.7)
+  - Sono Japanese: 4.7/2,388 -> proxy 4.655 (gate 4.7)
+  - Farm House: 4.7/2,981 -> proxy 4.66 (gate 4.7)
 
 ## Two-person totals
 

@@ -66,8 +66,15 @@ def days_since(d):
     try: return (TODAY - datetime.date.fromisoformat(d)).days
     except ValueError: return None
 
-def wilson_lower(rating, n, z=1.96):
-    """Wilson lower bound on the 1-5 scale, so borderline venues can be flagged."""
+def conservative_rating_proxy(rating, n, z=1.96):
+    """A HEURISTIC penalty for small samples - NOT a confidence interval.
+
+    Google exposes a mean star rating and a count, not the 1-5 vote distribution, so a
+    Wilson interval (which is defined for a binomial proportion) has no strict statistical
+    reading here. We keep the shape of the formula because it penalises small n in a
+    defensible, monotonic way, and we name it for what it is. A real interval needs the
+    star histogram or review-level data.
+    """
     if not rating or not n: return None
     p = (rating - 1) / 4.0                         # map 1..5 -> 0..1
     d = 1 + z*z/n
@@ -95,7 +102,7 @@ FLAGS = {
 }
 SCENARIOS = {
     'first_timer': ('第一次来布里斯班', 'First time in Brisbane'),
-    'chinese':     ('想吃中餐', 'Chinese food'),
+    'chinese_food':('想吃中餐', 'Chinese food'),
     'date':        ('约会', 'Date night'),
     'family':      ('家庭聚餐', 'With family'),
     'cheap_eat':   ('便宜吃饱', 'Cheap and filling'),
@@ -103,7 +110,15 @@ SCENARIOS = {
     'late_night':  ('夜宵', 'Late night'),
     'celebration': ('庆祝', 'Celebration'),
 }
-BUDGET_BANDS = [(0, 60, '$60 以内'), (60, 120, '$60–120'), (120, 250, '$120–250'), (250, 10**9, '$250 以上')]
+# Bands are ENTRY price ("from"): a venue joins a band on its two-person minimum.
+# Every label must therefore say 起 / from - a test enforces it.
+BUDGET_BANDS = [(0, 60, '$60 以内起'), (60, 120, '$60–120 起'),
+                (120, 250, '$120–250 起'), (250, 10**9, '$250 以上起')]
+
+# A scenario that makes a cuisine claim must be backed by the cuisine field.
+SCENARIO_REQUIRES_CUISINE = {
+    'chinese_food': {'chinese', 'cantonese', 'sichuan', 'hunan', 'yum_cha', 'taiwanese', 'northern_chinese'},
+}
 
 # per-unit multiplier to reach "estimated total for two, food only, no alcohol"
 TWO_PERSON = {
@@ -121,10 +136,14 @@ def load():
     venues = list(csv.DictReader((DATA/'venues.csv').open()))
     sources = {r['source_id']: r for r in csv.DictReader((DATA/'sources.csv').open())}
     aliases = list(csv.DictReader((DATA/'venue_aliases.csv').open()))
-    return gates, venues, sources, aliases
+    ex_path = DATA/'scenario_exemptions.csv'
+    exemptions = {(r['venue_id'], r['scenario']): r['reason']
+                  for r in csv.DictReader(ex_path.open())} if ex_path.exists() else {}
+    return gates, venues, sources, aliases, exemptions
 
 # ---------------------------------------------------------------- validate
-def validate(gates, venues, sources, aliases):
+def validate(gates, venues, sources, aliases, exemptions=None):
+    exemptions = exemptions or {}
     errors, warnings = [], []
     seen_id, seen_place = {}, {}
     gate_names = set(gates['gates'])
@@ -185,9 +204,18 @@ def validate(gates, venues, sources, aliases):
         for fl in (v.get('flags') or '').split(';'):
             if fl and fl not in FLAGS:
                 errors.append(f"{where}: unknown flag '{fl}'")
+        vcui = {c for c in (v.get('cuisines') or '').split(';') if c}
         for sc in (v.get('scenarios') or '').split(';'):
-            if sc and sc not in SCENARIOS:
+            if not sc:
+                continue
+            if sc not in SCENARIOS:
                 errors.append(f"{where}: unknown scenario '{sc}'")
+                continue
+            need = SCENARIO_REQUIRES_CUISINE.get(sc)
+            if need and not (vcui & need) and (v['venue_id'], sc) not in exemptions:
+                errors.append(f"{where}: scenario '{sc}' claims a cuisine the venue does not have "
+                              f"(cuisines={sorted(vcui)}); add an entry to data/scenario_exemptions.csv "
+                              f"if this is deliberate")
 
         # staleness + borderline warnings
         age = days_since(v['rating_observed_at'])
@@ -237,14 +265,16 @@ def derive(gates, venues, aliases):
         rec['gate_min_rating'], rec['gate_min_reviews'] = g.get('min_rating'), g.get('min_reviews')
 
         rec['shrunk_rating'] = shrunk(r, n, pm, pw)
-        rec['wilson_lower'] = wilson_lower(r, n)
-        # Borderline: passes the hard gate, but the 95% lower bound does not clear it.
+        rec['conservative_rating_proxy'] = conservative_rating_proxy(r, n)
+        # Borderline: passes the hard gate, but the small-sample proxy does not clear it.
         # The hard gate stays the reader-facing rule; this flag is for auditing.
         # 硬闸门仍是对读者的规则；这个标记只用于审计与「边界候选」。
         mr = g.get('min_rating')
-        if mr is not None and rec.get('wilson_lower') is not None:
-            rec['borderline'] = bool(r is not None and r >= mr and rec['wilson_lower'] < mr)
-            rec['borderline_reason'] = (f"passes on {r} but 95% lower bound is {rec['wilson_lower']}"
+        if mr is not None and rec.get('conservative_rating_proxy') is not None:
+            rec['borderline'] = bool(r is not None and r >= mr
+                                     and rec['conservative_rating_proxy'] < mr)
+            rec['borderline_reason'] = (f"passes on {r}, but the small-sample proxy is "
+                                        f"{rec['conservative_rating_proxy']} (heuristic, not a CI)"
                                         if rec['borderline'] else '')
         else:
             rec['borderline'], rec['borderline_reason'] = False, ''
@@ -323,9 +353,15 @@ def quickpick_html(recs, snapshot):
     H += [card(r) for r in ft] + ['</table></div>']
 
     H += ['<h4>按两人预算 ｜ By two-person budget</h4>',
-          '<div style="overflow-x:auto"><table><tr><th>档位</th><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
+          '<p class="small"><b>档位按「最低两人消费」划分，所以每个标签都带「起」。</b>'
+          '右侧显示的是完整区间——套餐跨度大时，最高价可能远高于档位上限，这是刻意显示出来的。<br>'
+          '<span style="opacity:.8">Bands are entry price, hence "from" on every label. The column '
+          'shows the full range: a wide set-menu spread can exceed the band ceiling, and is shown rather than hidden.</span></p>',
+          '<div style="overflow-x:auto"><table><tr><th>档位（起）</th><th>店 ｜ 为什么选</th><th>区</th><th>两人预算（完整区间）</th><th>提示</th><th>Google</th></tr>']
     any_band = False
     for lo, hi, label in BUDGET_BANDS:
+        # Banding is by ENTRY price (the two-person minimum). Labels carry 起/from, and each
+        # row prints the full range, so a wide set-menu spread cannot read as the whole cost.
         band = rank([r for r in picks if r['two_person_total_min'] is not None
                      and lo <= r['two_person_total_min'] < hi])[:3]
         if not band:
@@ -423,7 +459,7 @@ def emit(recs, gates, sources, errors, warnings):
 
     cols = ['venue_id','name','branch_name','suburb','address','lat','lon','category_primary',
             'cuisines','rating','review_count','rating_source','rating_observed_at',
-            'shrunk_rating','wilson_lower','borderline','gate_name','gate_pass','confidence','freshness',
+            'shrunk_rating','conservative_rating_proxy','borderline','gate_name','gate_pass','confidence','freshness',
             'price_min_aud','price_max_aud','price_unit','price_source_type','price_observed_at',
             'two_person_total_min','two_person_total_max','status','price_source_url']
     for p in (BUILD/'venues.csv', DOCSDATA/'venues.csv'):
@@ -462,15 +498,18 @@ def emit(recs, gates, sources, errors, warnings):
     for k, n in sorted(psrc.items(), key=lambda x: -x[1]):
         s.append(f"- {k}: {n}")
     bl = [r for r in recs if r.get('borderline')]
-    s += ['', '## Borderline (passes the hard gate, 95% lower bound does not)', '',
+    s += ['', '## Borderline (hard gate passed, small-sample proxy not)', '',
           f"- **{len(bl)} of {len(passed)}** venues through the gate",
-          "- Interpretation: with the gate at 4.7 and Google rounding to one decimal, a venue rated",
-          "  exactly 4.7 can never have a lower bound above 4.7. So most passers are **statistically",
-          "  indistinguishable from failing**. The hard gate stays the reader-facing rule because it is",
-          "  explicable; `shrunk_rating` is what the main table is ordered by.", '']
-    for r in sorted(bl, key=lambda r: r['wilson_lower'] or 0):
-        s.append(f"  - {r['name']}: {r['rating']}/{r['review_count']:,} -> lower bound {r['wilson_lower']} "
-                 f"(gate {r['gate_min_rating']})")
+          "- `conservative_rating_proxy` is a **heuristic small-sample penalty, not a confidence",
+          "  interval**: Google publishes a mean and a count, not the 1-5 vote distribution, so no",
+          "  strict interval can be computed from what we have.",
+          "- Read this count as: with the gate at 4.7 and ratings rounded to one decimal, most passers",
+          "  sit close enough to the line that a modest sample penalty pushes them under. It is a",
+          "  prompt to re-check, not a claim that they fail.",
+          "- The hard gate stays the reader-facing rule; `shrunk_rating` orders the main table.", '']
+    for r in sorted(bl, key=lambda r: r['conservative_rating_proxy'] or 0):
+        s.append(f"  - {r['name']}: {r['rating']}/{r['review_count']:,} -> proxy "
+                 f"{r['conservative_rating_proxy']} (gate {r['gate_min_rating']})")
     s += ['', '## Two-person totals', '',
           f"- derivable: {sum(1 for r in recs if r['two_person_total_min'] is not None)}",
           f"- à la carte (not derivable): {sum(1 for r in recs if r['price_unit']=='item')}",
@@ -498,8 +537,8 @@ def main():
     for a in sys.argv[1:]:
         if a.startswith('--today='):
             TODAY = datetime.date.fromisoformat(a.split('=',1)[1])
-    gates, venues, sources, aliases = load()
-    errors, warnings = validate(gates, venues, sources, aliases)
+    gates, venues, sources, aliases, exemptions = load()
+    errors, warnings = validate(gates, venues, sources, aliases, exemptions)
     for w in warnings: print(f'warning: {w}')
     for e in errors:   print(f'ERROR:   {e}', file=sys.stderr)
     if '--check' in sys.argv:

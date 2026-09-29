@@ -20,15 +20,15 @@ def check(name, cond, detail=''):
 
 def with_rows(mutate):
     """Run validate() over the real data with one row mutated/added."""
-    gates, venues, sources, aliases = build.load()
+    gates, venues, sources, aliases, exemptions = build.load()
     venues = [dict(v) for v in venues]
     mutate(venues)
-    return build.validate(gates, venues, sources, aliases)
+    return build.validate(gates, venues, sources, aliases, exemptions)
 
 def main():
     print('clean dataset')
-    gates, venues, sources, aliases = build.load()
-    errs, warns = build.validate(gates, venues, sources, aliases)
+    gates, venues, sources, aliases, exemptions = build.load()
+    errs, warns = build.validate(gates, venues, sources, aliases, exemptions)
     check('no errors on the committed data', errs == [], f'{errs[:2]}')
     check('at least one venue loaded', len(venues) > 0)
 
@@ -71,6 +71,25 @@ def main():
     _, w = with_rows(lambda vs: vs[0].update(rating_observed_at='2024-01-01'))
     check('stale observation warns', any('days old' in x for x in w))
 
+    print('\nscenario / cuisine consistency (issue #1 review)')
+    def thai_claims_chinese(vs):
+        r = next(v for v in vs if v['venue_id'] == 'bne-short-grain')
+        r['scenarios'] = 'date;chinese_food'
+    e, _ = with_rows(thai_claims_chinese)
+    check('a thai venue cannot claim the chinese_food scenario',
+          any('claims a cuisine the venue does not have' in x for x in e))
+    check('the deliberate pan-asian exemption is honoured',
+          ('bne-longwang', 'chinese_food') in exemptions and errs == [])
+    e, _ = with_rows(lambda vs: vs[0].update(scenarios='brunchy'))
+    check('unknown scenario', any('unknown scenario' in x for x in e))
+
+    print('\nbudget bands (issue #1 review)')
+    check('every band label says 起/from, because banding is on entry price',
+          all(('起' in lab or 'from' in lab.lower()) for _, _, lab in build.BUDGET_BANDS))
+    check('bands are contiguous and ascending',
+          all(build.BUDGET_BANDS[i][1] == build.BUDGET_BANDS[i+1][0]
+              for i in range(len(build.BUDGET_BANDS)-1)))
+
     print('\nderived fields')
     recs = build.derive(gates, venues, aliases)
     check('gate_pass is computed, not read',
@@ -80,8 +99,11 @@ def main():
           r0['shrunk_rating'] < r0['rating'], f"{r0['shrunk_rating']} vs {r0['rating']}")
     big = next(r for r in recs if r['review_count'] and r['review_count'] > 4000)
     check('large sample barely shrinks', abs(big['shrunk_rating'] - big['rating']) < 0.05)
-    check('wilson lower bound below the point estimate',
-          all(r['wilson_lower'] < r['rating'] for r in recs if r['wilson_lower']))
+    check('conservative proxy sits below the point estimate',
+          all(r['conservative_rating_proxy'] < r['rating']
+              for r in recs if r['conservative_rating_proxy']))
+    check('the proxy is not described as a confidence interval anywhere',
+          not any('95%' in (r.get('borderline_reason') or '') for r in recs))
     check('freshness in (0,1]', all(0 < r['freshness'] <= 1 for r in recs if r['freshness']))
     ala = [r for r in recs if r['price_unit'] == 'item']
     check('a la carte gives no two-person total',

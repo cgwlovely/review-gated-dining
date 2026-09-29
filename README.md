@@ -76,8 +76,10 @@ crowd-reported band / review photo / third-party / not found).
 
 ## Reproducible build ｜ 可复现构建
 
-The venue data is no longer embedded in prose. It lives in [`data/`](data/) and everything else is
-generated from it.
+Venue data is moving out of prose into [`data/`](data/). **Scope today: the quick-pick section, the
+main-gate table and the data browser are generated from it; the rest of the guide is still
+hand-maintained.** Migration of the remaining venues is tracked in
+[issue #1](https://github.com/cgwlovely/review-gated-dining/issues/1).
 
 ```bash
 make check    # validate only — non-zero exit on any error
@@ -97,10 +99,11 @@ The build derives three audit signals alongside the hard gate, as
 
 - **`shrunk_rating`** — Bayesian shrinkage toward the city mean, so a 4.9 from 34 reviews cannot
   outrank a 4.8 from 9,015. The main table is ordered by this.
-- **`wilson_lower`** + **`borderline`** — the 95% lower bound. **18 of the 25 gate-passers are
-  flagged borderline**, because with the gate at 4.7 and Google rounding to one decimal a venue
-  rated exactly 4.7 can never have a lower bound above 4.7. The hard gate stays the reader-facing
-  rule because it is explicable; this flag exists so the ambiguity is visible rather than hidden.
+- **`conservative_rating_proxy`** + **`borderline`** — a **heuristic small-sample penalty, not a
+  confidence interval**. Google publishes a mean and a count, not the 1–5 vote distribution, so no
+  strict interval is computable from what we have; the field is named for what it is. 18 of the 25
+  gate-passers trip it, which reads as "most passers sit close enough to the line that a modest
+  sample penalty pushes them under" — a prompt to re-check, not a claim that they fail.
 - **`freshness`** — `0.5 ** (age_days / 180)`, so old and new observations are never weighted alike.
 
 **Price units are not mixed.** `price_unit` is one of `per_person_set`, `per_person_reported`,
