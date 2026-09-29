@@ -1,9 +1,10 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- built from commit: `6d2e56b` (HEAD at build time — a commit cannot contain its own SHA)
+- built from commit: `1008cd8` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
+- published page: **284 distinct venues** / 350 venue links / 27 appearing in more than one section
 - through their gate: **25**
 
 ## Confidence

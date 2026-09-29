@@ -34,7 +34,7 @@ td.n{text-align:right;white-space:nowrap}
 .chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:11.5px;font-weight:700;white-space:nowrap;background:#eef4f8;border:1px solid #cfe0ea;color:#12506f;margin:1px 2px 1px 0}
 .chip.warnchip{background:#fff3e0;border-color:#f0cf9c;color:#9a5b00}
 .chip.bk-required{background:#fdeceb;border-color:#f0bdb7;color:#a5291b}
-.chip.bk-walk_in{background:#e9f6f0;border-color:#a8d8c2;color:#146145}
+.miss{color:var(--muted);opacity:.85}.miss .dot{color:#c0392b;font-weight:700;margin-right:5px;font-size:12px;vertical-align:1px}.chip.bk-walk_in{background:#e9f6f0;border-color:#a8d8c2;color:#146145}
 #quickpick h4{margin:16px 0 6px}
 .btn{display:inline-block;margin:3px 5px 3px 0;padding:3px 10px;border:1px solid #b8d1df;border-radius:999px;background:#f4f9fc;font-size:12.5px;font-weight:600;white-space:nowrap}
 .btn:hover{background:var(--sea);color:#fff;text-decoration:none}
@@ -55,7 +55,9 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <div class="eyebrow">Brisbane · 评分驱动的餐厅清单</div>
 <h1>布里斯班餐厅指南</h1>
 <p>核查日 <b>2026-09-28</b>（俱乐部、菜系、饮品、海鲜、Pub 等节 <b>2026-09-29</b>）· 价格均为 AUD<br>
-<span id="counts">独立门店 <b>247</b> · 展示条目 <b>284</b> · 跨章节重复 <b>30</b> · 已迁入结构化数据 <b>25</b></span></p>
+<!--counts:start-->
+<span id="counts">独立门店 <b>284</b> 家 · 门店链接 <b>350</b> 条 · 出现在一个以上章节 <b>27</b> 家 · 已迁入结构化数据 <b>25</b> 家</span>
+<!--counts:end--></p>
 <div class="gate">
 <b>推荐依据评分、评论量、价格透明度、数据新鲜度与实际可达性。</b>
 每个品类各有一条写明的闸门，理由随表列出；完整方法见
@@ -108,7 +110,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Exhibition%20Basement%202/109%20Edward%20St%20Brisbane%20QLD">Exhibition</a></b> <span class="small" style="opacity:.7">Brisbane City</span><br><span class="small">全城 Google 分最高的正餐，24 座，按当日食材排菜</span><span class="en-only"><br><span class="small" style="opacity:.75">Highest-rated dinner in the city; 24 seats, no fixed menu</span></span></td><td><b>$510–670</b></td><td class="small"><span class="chip bk-required" title="booking required">必须订位</span> <span class="chip warnchip" title="weekend or PH surcharge">周末/公假加价</span></td><td class="small">4.9／397<br><span style="opacity:.75">核验 2026-09-28</span></td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Rothwell%27s%20Bar%20%26%20Grill%20235%20Edward%20St%20Brisbane%20QLD">Rothwell's Bar & Grill</a></b> <span class="small" style="opacity:.7">Brisbane City</span><br><span class="small">1885 年老楼里的老派 grill，Beef Wellington 600g $134</span><span class="en-only"><br><span class="small" style="opacity:.75">Old-world grill in an 1885 building; 600g Beef Wellington $134</span></span></td><td><span class="small">按菜品计价 · à la carte</span></td><td class="small"><span class="chip bk-recommended" title="booking recommended">建议订位</span> <span class="chip warnchip" title="price may be stale">价格可能过期</span></td><td class="small">4.7／1,067<br><span style="opacity:.75">核验 2026-09-29</span></td></tr>
 </table></div>
-<p class="small">共 <b>25 家</b>进入结构化数据；其中编辑精选 <b>12 家</b>。后面的详细资料库另含 <b>350 条展示条目</b>（35 家跨章节重复出现），尚未全部迁入数据——见 <a href="https://github.com/cgwlovely/review-gated-dining/issues/1">issue #1</a>。</p>
+<p class="small">本节的 <b>25 家</b>已进入结构化数据（编辑精选 <b>12 家</b>）。全书另有 <b>284 家独立门店</b>、<b>350 条门店链接</b>，其中 <b>27 家</b>出现在一个以上的章节；这部分尚未迁入数据——见 <a href="https://github.com/cgwlovely/review-gated-dining/issues/1">issue #1</a>。</p>
 </div>
 <!--quickpick:end-->
 
@@ -138,7 +140,7 @@ and every section heading carries an English subtitle. Here is what the labels m
 <tr><td><span class="src thr">评论照片／第三方</span></td><td><b>Review photo / third-party</b> — lower confidence. Third-party set-menu prices proved systematically stale; treat as a floor.</td></tr>
 <tr><td><span class="src nf">未查到</span></td><td><b>Not found</b> — genuinely could not be retrieved. Never a guess.</td></tr>
 <tr><td><b>人均</b> / <b>未过闸门</b></td><td>Per person / did not clear that category's gate.</td></tr>
-</table>
+<tr><td><span class="miss"><span class="dot">●</span></span></td><td class="small">该类闸门<b>没过</b>的店。列出来是为了让你知道它们存在、以及卡在哪一条，<b>不是推荐</b>。A red dot marks venues that did <b>not</b> clear that category's gate.</td></tr></table>
 <p class="small"><b>Each category has its own stated gate</b>, loosened or tightened for a reason given in that section —
 coffee and drinks are <i>tightened</i> (ratings run high), community cuisines and clubs are <i>loosened</i>
 (fewer English reviews; club scores rate the whole venue). The full rationale is in
@@ -388,7 +390,7 @@ coffee and drinks are <i>tightened</i> (ratings run high), community cuisines an
 
 
 <h2 id="sec3">按区域吃 · 商场、街区与社区餐饮带 <span class="h2en">By area — malls, streets and community dining strips</span></h2>
-<div class="note blue"><b>这一节回答「我人在这儿，附近吃什么」。</b>按地理排：Sunnybank 三栋商场逐层、Inala、Moorooka 东非带、Eight Mile Plains 韩餐带、Underwood／Slacks Creek 中东带、West End 拉面带、Woodridge 太平洋岛民餐饮，以及湾区海鲜。<br><b>合并说明：</b>原来「亚洲餐饮」与「族裔餐饮聚集区」是两节，但它们问的是同一个问题。拆开的坏处很具体——东非和中东餐厅没法塞进「亚洲餐饮」，只能另起一节，结果同一个区出现两次。<b>现在按区排，不按族裔排，非亚洲社区自然就有位置了。</b></div>
+<div class="note blue"><b>这一节回答「我人在这儿，附近吃什么」。</b>按地理排：Sunnybank 三栋商场逐层、Inala、Moorooka 东非带、Eight Mile Plains 韩餐带、Underwood／Slacks Creek 中东带、West End 拉面带、Woodridge 太平洋岛民餐饮，以及湾区海鲜。<br></div>
 <div class="card">
 <figure>
 <img src="assets/maps/brisbane-dining-metro.png" alt="布里斯班过闸门餐厅全域地图，17 个编号针">
@@ -408,7 +410,7 @@ coffee and drinks are <i>tightened</i> (ratings run high), community cuisines an
 <img src="assets/maps/brisbane-dining-budget.png" alt="平价档地图">
 <figcaption>④ 平价档（人均 $20–40，对应价位阶梯第二档）：<b>Andonis</b> 与 <b>Ben's Burgers</b> 都在 Fortitude Valley、步行可达；<b>Eat Street</b> 在最东北的河湾上，<b>Cafe O-Mai</b> 在最南的 Annerley——这两处都必须专程开车。图上编号 B1–B9 依价位阶梯第二档的顺序。</figcaption>
 </figure>
-<p class="small">坐标由各店<b>自己公布的街道地址</b>经 Nominatim 反查得到，底图 © OpenStreetMap contributors；生成脚本 <code>scripts/build_brisbane_dining_map.py</code>。地图用于规划，不替代实时导航。</p>
+<p class="small">坐标由各店<b>自己公布的街道地址</b>经 Nominatim 反查得到，底图 © OpenStreetMap contributors；地图为本指南自绘。地图用于规划，不替代实时导航。</p>
 </div>
 
 <div class="note">
@@ -680,7 +682,7 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Saffron%20Cuisine%20%E2%80%93%20Indian%20Restaurant%20%26amp%3B%20Bar%2022%20Barry%20Pde%2C%20Fortitude%20Valley%20Brisbane%20QLD">Saffron Cuisine – Indian Restaurant &amp; Bar</a></b></td><td><b>4.7</b>／560</td><td>$20–40</td><td class="small">22 Barry Pde, Fortitude Valley</td><td class="small">Fortitude Valley，带酒吧的印度餐厅</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Morningside%20Restaurant%20%26%20Bar%20645%20Wynnum%20Rd%2C%20Morningside%20Brisbane%20QLD">Morningside Restaurant & Bar</a></b></td><td><b>4.7</b>／542</td><td>$20–40</td><td class="small">645 Wynnum Rd, Morningside</td><td class="small"><b>尼泊尔菜</b>（Himalayan Lamb Curry、momo、thali）。在巴尔干搜索里误打误撞找到的，见下方「中东欧 · 巴尔干」的更正</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Sizzle and Spice Indian Cuisine 4.9／228 · Kurry Kingdom 4.7／194 · Rasoi by the Wharf 5.0／39</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Sizzle and Spice Indian Cuisine 4.9／228 · Kurry Kingdom 4.7／194 · Rasoi by the Wharf 5.0／39</p>
 </div>
 <div class="card"><h3>意大利 · 披萨</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
@@ -690,7 +692,7 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Toscano%20Bar%20%26amp%3B%20Kitchen%202%20Edward%20St%2C%20CBD%20Brisbane%20QLD">Toscano Bar &amp; Kitchen</a></b></td><td><b>4.7</b>／1,194</td><td>$40–120</td><td class="small">2 Edward St, CBD</td><td class="small">CBD Edward St，酒吧＋厨房形态</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=La%20Pizza%20Pasta%20N%20Schnitzel%20106%20Birkdale%20Rd%2C%20Birkdale%20Brisbane%20QLD">La Pizza Pasta N Schnitzel</a></b></td><td><b>4.7</b>／330</td><td>—</td><td class="small">106 Birkdale Rd, Birkdale</td><td class="small">Birkdale，湾区东侧的社区意餐，价位亲民</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Casa di Louie 4.5／273</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Casa di Louie 4.5／273</p>
 </div>
 <div class="card"><h3>法餐</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
@@ -699,7 +701,7 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=La%20Cache%20%C3%A0%20V%C3%ADn%20215%20Wharf%20St%2C%20Spring%20Hill%20Brisbane%20QLD">La Cache à Vín</a></b></td><td><b>4.8</b>／649</td><td>$80–180</td><td class="small">215 Wharf St, Spring Hill</td><td class="small">Spring Hill，人均 $80–180；酒单是重点</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=La%20Belle%20Vie%20French%20Restaurant%201/60%20MacGregor%20Tce%2C%20Bardon%20Brisbane%20QLD">La Belle Vie French Restaurant</a></b></td><td><b>4.7</b>／638</td><td>$60–180</td><td class="small">1/60 MacGregor Tce, Bardon</td><td class="small">Bardon，人均 $60–180；离市区较远</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Little Provence Restaurant 4.9／249 · The French Exit 4.5／198 · Bisou Bisou 4.4／673</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Little Provence Restaurant 4.9／249 · The French Exit 4.5／198 · Bisou Bisou 4.4／673</p>
 </div>
 <div class="card"><h3>希腊 · 地中海</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
@@ -709,7 +711,7 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Santorini%20Restaurant%20Bar%20Ground%20Level/5%20Kyabra%20St%2C%20Newstead%20Brisbane%20QLD">Santorini Restaurant Bar</a></b></td><td><b>4.8</b>／1,272</td><td>$40–100</td><td class="small">Ground Level/5 Kyabra St, Newstead</td><td class="small">Newstead，人均 $40–100</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Kafenio%208%20Vulture%20St%2C%20West%20End%20Brisbane%20QLD">Kafenio</a></b></td><td><b>4.6</b>／855</td><td>$20–40</td><td class="small">8 Vulture St, West End</td><td class="small">West End 咖啡馆式希腊小馆，人均 $20–40</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>The Great Greek Mediterranean Grill 4.7／198</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>The Great Greek Mediterranean Grill 4.7／198</p>
 </div>
 <div class="card"><h3>中东 · 土耳其 · 黎巴嫩</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
@@ -719,8 +721,8 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Tarbouche%20Mezza%20Bar%2056%20Boundary%20St%2C%20West%20End%20Brisbane%20QLD">Tarbouche Mezza Bar</a></b></td><td><b>4.6</b>／890</td><td>$40–60</td><td class="small">56 Boundary St, West End</td><td class="small">West End 黎巴嫩 meze，适合多人分食</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Mado%20Turkish%20Restaurant%201-3/15%20Tribune%20St%2C%20South%20Brisbane%20Brisbane%20QLD">Mado Turkish Restaurant</a></b></td><td><b>4.5</b>／2,904</td><td>$40–60</td><td class="small">1-3/15 Tribune St, South Brisbane</td><td class="small">South Brisbane，2,904 条为本组最大样本；土耳其连锁</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Downtown Istanbul 4.4／933 · Mecca Bah 4.0／1,665</p>
-<p class="small" style="margin-top:8px"><b>另有一份名单：</b>Underwood／Slacks Creek 的 Kingston Rd 一带还有七家中东与清真餐厅（Mandi Al Arabia 4.8／2,029 等），集中在一条路上——见 <a href="#sec3">§3 族裔餐饮聚集区</a>。本表列的是<b>不在那一带</b>的店。清真自助另见 <a href="#sec5">§5</a>。</p></div>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Downtown Istanbul 4.4／933 · Mecca Bah 4.0／1,665</p>
+<p class="small" style="margin-top:8px"><b>另有一份名单：</b>Underwood／Slacks Creek 的 Kingston Rd 一带还有七家中东与清真餐厅（Mandi Al Arabia 4.8／2,029 等），集中在一条路上——见 <a href="#sec3">§3 按区域吃</a>。本表列的是<b>不在那一带</b>的店。清真自助另见 <a href="#sec5">§5</a>。</p></div>
 <div class="card"><h3>墨西哥 · 南美</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Poca%20Madre%20Restaurant%20shop%2015/14%20Little%20Stanley%20St%2C%20South%20Bank%20Brisbane%20QLD">Poca Madre Restaurant</a></b></td><td><b>4.8</b>／1,837</td><td>$20–60</td><td class="small">shop 15/14 Little Stanley St, South Bank</td><td class="small">South Bank，人均 $20–60；本组样本最大</td></tr>
@@ -730,14 +732,14 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=La%20Bodega%20Taqueria%20-%20Fortitude%20Valley%20608%20Wickham%20St%20Brisbane%20QLD">La Bodega Taqueria - Fortitude Valley</a></b></td><td><b>4.6</b>／451</td><td>$20–60</td><td class="small">608 Wickham St</td><td class="small">同品牌 Valley 分店，人均更低（$20–60）</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=El%20Camino%20Cantina%20South%20Bank%20153%20Stanley%20St%2C%20South%20Brisbane%20Brisbane%20QLD">El Camino Cantina South Bank</a></b></td><td><b>4.5</b>／5,548</td><td>$20–100</td><td class="small">153 Stanley St, South Brisbane</td><td class="small">5,548 条为本组最大样本；美式墨西哥大份量</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Maizland 4.9／140</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Maizland 4.9／140</p>
 </div>
 <div class="card"><h3>西班牙 · tapas</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Moda%20Steak%20%C2%B7%20Tapas%20%C2%B7%20Seasons%20The%20Barracks%2C%2061%20Petrie%20Tce%20Brisbane%20QLD">Moda Steak · Tapas · Seasons</a></b></td><td><b>4.7</b>／1,643</td><td>$60–160</td><td class="small">The Barracks, 61 Petrie Tce</td><td class="small">西班牙组<b>样本最大</b>；同时算牛排馆</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Botellon%20Spanish%20Tapas%20%26amp%3B%20Wine%20Bar%201/327%20Honour%20Ave%2C%20Graceville%20Brisbane%20QLD">Botellon Spanish Tapas &amp; Wine Bar</a></b></td><td><b>4.7</b>／803</td><td>$40–120</td><td class="small">1/327 Honour Ave, Graceville</td><td class="small">Graceville，离市区较远</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Vinos Spring Hill 4.9／245 · Olé Restaurant 4.4／4,182</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Vinos Spring Hill 4.9／245 · Olé Restaurant 4.4／4,182</p>
 </div>
 <div class="note blue"><b>欧洲菜在布里斯班分成两条线，只看餐厅会漏掉一半。</b>
 一条是<b>餐厅线</b>——意大利、法国、希腊、西班牙，已在上面各有一格。
@@ -752,7 +754,7 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=The%20Bavarian%20Chermside%20Gympie%20Rd%2C%20Chermside%20Brisbane%20QLD">The Bavarian Chermside</a></b></td><td><b>4.6</b>／5,880</td><td>$40–60</td><td class="small">Gympie Rd, Chermside</td><td class="small"><b>连锁</b>，本节样本最大的一家；分数靠人多撑着，不是靠分高</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Brisbane%20German%20Club%20416%20Vulture%20St%2C%20East%20Brisbane%20Brisbane%20QLD">Brisbane German Club</a></b></td><td><b>4.5</b>／2,079</td><td>—</td><td class="small">416 Vulture St, East Brisbane</td><td class="small"><b>会员会馆</b>，不是餐厅——分数评的是整个场馆，参见 <a href="#sec8">§8</a> 的口径</td></tr>
 </table></div>
-<p class="small"><b>未过本节闸门（≥4.5／≥300）：</b>Chris and Kathy's Continental Cafe Bakehouse Deli 4.8／136（Toowong）</p></div>
+<p class="small miss"><span class="dot" title="未过本类闸门 ≥4.5／≥300">●</span>Chris and Kathy's Continental Cafe Bakehouse Deli 4.8／136（Toowong）</p></div>
 <div class="card"><h3>中东欧 · 巴尔干</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=The%20Ukrainian%20Club%20Brisbane%2047%20Galsworthy%20St%2C%20Holland%20Park%20West%20Brisbane%20QLD">The Ukrainian Club Brisbane</a></b></td><td><b>4.8</b>／438</td><td>$20–40</td><td class="small">47 Galsworthy St, Holland Park West</td><td class="small"><b>本节最高分，且过主闸门。</b>Holubtsi 卷心菜卷、pierogi；可在线订位，有现场音乐</td></tr>
@@ -760,7 +762,7 @@ Woodridge 的太平洋岛民餐饮更是整节零通过。<br><br>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Polonia%20-%20Polish%20Association%20of%20Queensland%2010%20Marie%20St%2C%20Milton%20Brisbane%20QLD">Polonia - Polish Association of Queensland</a></b></td><td><b>4.6</b>／354</td><td>$20–40</td><td class="small">10 Marie St, Milton</td><td class="small">波兰；pierogi、土豆饼、猪肘。<b>也是会馆</b>，但对外开放餐厅</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Gastronome%20European%20Deli%20Capalaba%20Central%2C%2038%E2%80%9362%20Moreton%20Bay%20Rd%20Brisbane%20QLD">Gastronome European Deli</a></b></td><td><b>4.5</b>／325</td><td>$20–40</td><td class="small">Capalaba Central, 38–62 Moreton Bay Rd</td><td class="small">东欧熟食店，不是坐下吃饭的地方</td></tr>
 </table></div>
-<p class="small"><b>未过本节闸门，但分数都很高：</b>
+<p class="small miss"><span class="dot" title="未过本类闸门，但分数都很高">●</span>
 The Polish Club Milton 4.8／104 · Czechoslovakian Club In Queensland 4.8／77（Kedron）· Konoba by DJ 4.8／68 · Cafe'79 4.9／18
 ——<b>后两家同址，都在 Willawong 的 Serbian Australian Centre 里</b>。</p>
 <div class="note"><b>两处更正，都是我自己扫出来的错。</b><br>
@@ -783,7 +785,7 @@ Finn McCool's 4.2／1,242、Riverside Arms 4.0／2,996、The Rose &amp; Crown 4.
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Mu%27ooz%2054%20Mollison%20St%2C%20West%20End%20Brisbane%20QLD">Mu'ooz</a></b></td><td><b>4.5</b>／556</td><td>$20–40</td><td class="small">54 Mollison St, West End</td><td class="small">West End 厄立特里亚菜；<b>东非组唯一过闸门的一家</b></td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Arhibu Restaurant 4.9／284 · Ethiopian Village 4.6／271 · Eliza Authentic Eritrean 4.9／80 · Salina Restaurant 4.9／72 · Afro Restaurant 4.9／39 · Arhibu Inala 4.6／64</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Arhibu Restaurant 4.9／284 · Ethiopian Village 4.6／271 · Eliza Authentic Eritrean 4.9／80 · Salina Restaurant 4.9／72 · Afro Restaurant 4.9／39 · Arhibu Inala 4.6／64</p>
 </div>
 <div class="note red">
 <b>这一轮扫出来的两件事。</b><br><br>
@@ -796,7 +798,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <b>Lune Croissanterie</b> 是全澳最有名的可颂店之一，布里斯班两家分店<b>4.2／1,155（South Brisbane）与 4.3／614（CBD）——都没过闸门</b>；
 西班牙菜里样本最大的 <b>Olé（4.4／4,182）</b> 同样没过。
 <b>样本量大只说明人多，不说明分高。</b>
-<p class="small" style="margin-top:8px"><b>另有一份名单：</b>Moorooka 的 Beaudesert Rd 147–201 号之间挤了七家东非店，<b>但没有一家过得了闸门</b>（样本 25–284）——见 <a href="#sec3">§3 族裔餐饮聚集区</a>。本表列的是<b>过了本节闸门</b>的，全城只有一家。</p></div>
+<p class="small" style="margin-top:8px"><b>另有一份名单：</b>Moorooka 的 Beaudesert Rd 147–201 号之间挤了七家东非店，<b>但没有一家过得了闸门</b>（样本 25–284）——见 <a href="#sec3">§3 按区域吃</a>。本表列的是<b>过了本节闸门</b>的，全城只有一家。</p></div>
 <h2 id="sec5">按想吃的东西找 <span class="h2en">By dish — not a cuisine</span></h2>
 <div class="note blue"><b>这一节放的是「吃什么形态」，不是「哪国菜」。</b>牛排、汉堡、素食、炭烤鸡、自助、深夜——这些横跨国别，放进 <a href="sec4">菜系</a>表会和「印度」「法餐」并列，读起来像同一个维度，其实不是。<br><b>每一类仍然各自写明闸门。</b>牛排保留两张表，因为老牌酒吧与精致牛排馆的分数不可横向比。</div>
 
@@ -832,7 +834,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Big%20Buns%20Burgers%20Ribs%20%26amp%3B%20Shakes%20111-121%20Grand%20Plaza%20Dr%2C%20Browns%20Plains%20Brisbane%20QLD">Big Buns Burgers Ribs &amp; Shakes</a></b></td><td><b>4.7</b>／1,634</td><td>—</td><td class="small">111-121 Grand Plaza Dr, Browns Plains</td><td class="small">Browns Plains，汉堡＋肋排＋奶昔；离市区远</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Sue%27s%20Burgers%20and%20Shakes%20Shop%201201A/1151%20Creek%20Rd%2C%20Carindale%20Brisbane%20QLD">Sue's Burgers and Shakes</a></b></td><td><b>4.5</b>／2,076</td><td>$20–40</td><td class="small">Shop 1201A/1151 Creek Rd, Carindale</td><td class="small">Carindale 复古快餐店形态，2,076 条样本</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Tiger Burger &amp; Hot Chicken 4.9／259 · Mr Jeebus Tingalpa 4.5／290 · Burger'D Belmont 4.6／154 · Broken Hearts Burger Club 4.3／995</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Tiger Burger &amp; Hot Chicken 4.9／259 · Mr Jeebus Tingalpa 4.5／290 · Burger'D Belmont 4.6／154 · Broken Hearts Burger Club 4.3／995</p>
 </div><div class="card"><h3>素食 · 纯素</h3><div style="overflow-x:auto"><table>
 <tr><th>店</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Vegan%20Restaurant%20West%20End%205/209%20Boundary%20St%2C%20West%20End%20Brisbane%20QLD">Vegan Restaurant West End</a></b></td><td><b>4.8</b>／537</td><td>$20–40</td><td class="small">5/209 Boundary St, West End</td><td class="small">West End 纯素正餐，直白的店名与定位</td></tr>
@@ -848,14 +850,14 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=The%20Flame%20House%20Charcoal%20Chicken%20%26amp%3B%20Grills%2066%20Old%20Cleveland%20Rd%2C%20Greenslopes%20Brisbane%20QLD">The Flame House Charcoal Chicken &amp; Grills</a></b></td><td><b>4.3</b>／1,021</td><td>$20–40</td><td class="small">66 Old Cleveland Rd, Greenslopes</td><td class="small"><b>本类样本最大</b></td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Stanley%27s%20Seafood%20%26amp%3B%20BBQ%20Chicken%206/182%20Stanley%20Rd%2C%20Carina%20Brisbane%20QLD">Stanley's Seafood &amp; BBQ Chicken</a></b></td><td><b>4.2</b>／205</td><td>$1–20</td><td class="small">6/182 Stanley Rd, Carina</td><td class="small"><b>人均 $1–20</b></td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Sea &amp; Wings 4.7／66 · Coorparoo Chicken and Seafood 4.0／139</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Sea &amp; Wings 4.7／66 · Coorparoo Chicken and Seafood 4.0／139</p>
 </div><div class="card"><h3>清真 · 自助</h3><p class="small">本类闸门：<b>Google ≥4.5 且 ≥500</b></p><div style="overflow-x:auto"><table>
 <tr><th>店／市集</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=LouLan%20Halal%20Restaurant%20%E6%A5%BC%E5%85%B0%E6%B8%85%E7%9C%9F%E9%A4%90%E5%8E%85%20T1%26amp%3BT2%2C%2022%20Gowan%20Rd%2C%20Sunnybank%20Hills%20Brisbane%20QLD">LouLan Halal Restaurant 楼兰清真餐厅</a></b></td><td><b>4.6</b>／969</td><td>$20–40</td><td class="small">T1&amp;T2, 22 Gowan Rd, Sunnybank Hills</td><td class="small"><b>新疆清真，本次唯一过闸门的清真馆</b></td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Ariala%20Kippa-Ring%20246%20Anzac%20Ave%2C%20Kippa-Ring%20Brisbane%20QLD">Ariala Kippa-Ring</a></b></td><td><b>4.5</b>／2,317</td><td>$40–60</td><td class="small">246 Anzac Ave, Kippa-Ring</td><td class="small">清真自助，<b>本类样本最大</b></td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Yido%20Korean%20BBQ%20%C2%B7%20ALL%20YOU%20CAN%20EAT%20shop%205/95%20Mains%20Rd%2C%20Sunnybank%20Brisbane%20QLD">Yido Korean BBQ · ALL YOU CAN EAT</a></b></td><td><b>4.8</b>／2,006</td><td>$60–80</td><td class="small">shop 5/95 Mains Rd, Sunnybank</td><td class="small">已在亚洲一节</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Ariala Springwood 4.3／1,158 · Hanwoori Restaurant 4.2／1,136 · BUFWIN 清真鸡自助 4.1／709 · BBQ Tonight（巴基斯坦） 4.0／1,315</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Ariala Springwood 4.3／1,158 · Hanwoori Restaurant 4.2／1,136 · BUFWIN 清真鸡自助 4.1／709 · BBQ Tonight（巴基斯坦） 4.0／1,315</p>
 <p class="small" style="margin-top:8px">中东与清真餐厅的完整名单在别处：<a href="#sec3">§3</a>（Kingston Rd 一带七家）与 <a href="#sec4">§4</a>（其余各区）。本卡片只放<b>自助形式</b>的。</p></div><div class="card">
 <h3>深夜餐饮 —— 这一类没能扫成</h3>
 <p><b>Google Maps 的文本检索查不出「24 小时营业」</b>：搜 late night / 24 hours open 只返回了一家不相关的 kebab 店。
@@ -865,7 +867,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <b>Wynnum Manly Leagues Club 9:00–翌日 3:00</b>；
 <b>hôntô</b> 周五六营业到较晚。<b>其余未查，不做推测。</b></p>
 </div><h2 id="sec6">咖啡 · 饮品 · 甜点与轻食 <span class="h2en">Coffee, drinks, sweets and light meals</span></h2>
-<div class="note blue"><b>正餐之外的一切合并在这里：</b>咖啡、奶茶与饮品、烘焙、冰淇淋、早午餐、精酿。<br><b>合并说明：</b>这些原来分散在三节里，奶茶还在商场表里出现过一次。现在一处一份完整名单，<b>各类闸门仍然分别写明</b>——咖啡 ≥4.7、饮品 ≥4.5，不是同一条。</div>
+<div class="note blue"><b>正餐之外的一切都在这里：</b>咖啡、奶茶与饮品、烘焙、冰淇淋、早午餐、精酿。<br><b>各类闸门不同，分别写在每张表上：</b>咖啡 ≥4.7（和主闸门一样严，因为一条街上 4.8 很常见）、饮品 ≥4.5、其余各表自行标明。<br></div>
 
 <div class="note blue"><b>本类闸门：Google ≥ 4.7 且评论 ≥ 200。</b>
 咖啡店评分普遍偏高（一条街上 4.8 很常见），所以<b>这里用的是和主闸门一样严的评分门槛</b>，
@@ -914,13 +916,13 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Riser%2085%20Miskin%20St%2C%20Toowong%20Brisbane%20QLD">Riser</a></b></td><td><b>4.8</b>／471</td><td>$20–40</td><td class="small">85 Miskin St, Toowong</td><td class="small">Toowong，人均 $20–40，本组最贵的一家</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=C%27est%20Du%20Gateau%20Bakery%20182%20Grey%20St%2C%20South%20Bank%20Brisbane%20QLD">C'est Du Gateau Bakery</a></b></td><td><b>4.8</b>／376</td><td>$1–20</td><td class="small">182 Grey St, South Bank</td><td class="small">South Bank，法式甜点路线</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Danny's Bread 4.6／220 · Jacques Patisserie Boulangerie 4.5／179 · Le Artisan Bakery 4.8／116</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Danny's Bread 4.6／220 · Jacques Patisserie Boulangerie 4.5／179 · Le Artisan Bakery 4.8／116</p>
 </div><div class="card"><h3>冰淇淋 · Gelato</h3><p class="small">本类闸门：<b>Google ≥4.7 且 ≥200</b></p><div style="overflow-x:auto"><table>
 <tr><th>店／市集</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Shiro%20Gelato%20%26amp%3B%20Snack%20Elizabeth%20St%2C%20CBD%20Brisbane%20QLD">Shiro Gelato &amp; Snack</a></b></td><td><b>4.9</b>／1,832</td><td>—</td><td class="small">Elizabeth St, CBD</td><td class="small"><b>本类最高分＋样本最大</b></td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Matilda%20The%20Art%20Of%20Gelato%2060%20Florence%20St%2C%20Teneriffe%20Brisbane%20QLD">Matilda The Art Of Gelato</a></b></td><td><b>4.8</b>／348</td><td>—</td><td class="small">60 Florence St, Teneriffe</td><td class="small">Teneriffe，与 11 Beccofino、16 Unbearable Bagels 同片区</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>ALIA Gelato 4.9／156 · Amoroso Gelateria New Farm 4.7／137 · Sweet tooth gelato 4.8／110</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>ALIA Gelato 4.9／156 · Amoroso Gelateria New Farm 4.7／137 · Sweet tooth gelato 4.8／110</p>
 </div><div class="card"><h3>早午餐 · Brunch</h3><p class="small">本类闸门：<b>Google ≥4.7 且 ≥500</b></p><div style="overflow-x:auto"><table>
 <tr><th>店／市集</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Clove%20n%20Honey%2025/405%20Logan%20Rd%2C%20Stones%20Corner%20Brisbane%20QLD">Clove n Honey</a></b></td><td><b>4.8</b>／2,502</td><td>$20–40</td><td class="small">25/405 Logan Rd, Stones Corner</td><td class="small"><b>本类样本最大</b></td></tr>
@@ -930,7 +932,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Farm%20House%2C%20Kedron%209%20Somerset%20Rd%2C%20Kedron%20Brisbane%20QLD">Farm House, Kedron</a></b></td><td><b>4.7</b>／2,981</td><td>$20–40</td><td class="small">9 Somerset Rd, Kedron</td><td class="small">已在主表 #7</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Blue%20Bear%20Coffeehouse%2092%20James%20St%2C%20Fortitude%20Valley%20Brisbane%20QLD">Blue Bear Coffeehouse</a></b></td><td><b>4.7</b>／767</td><td>$20–40</td><td class="small">92 James St, Fortitude Valley</td><td class="small">James St，Fortitude Valley 购物街上的咖啡＋早午餐</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Lokal + Co 4.6／708 · Felix For Goodness 4.4／1,547</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Lokal + Co 4.6／708 · Felix For Goodness 4.4／1,547</p>
 </div><div class="card"><h3>精酿啤酒厂 · Brewery</h3><p class="small">本类闸门：<b>Google ≥4.5 且 ≥200</b></p><div style="overflow-x:auto"><table>
 <tr><th>店／市集</th><th>Google（实时）</th><th>人均</th><th>地址</th><th>备注</th></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Range%20Brewing%204%20Byres%20St%2C%20Newstead%20Brisbane%20QLD">Range Brewing</a></b></td><td><b>4.8</b>／522</td><td>—</td><td class="small">4 Byres St, Newstead</td><td class="small">本类最高分＋样本最大</td></tr>
@@ -939,7 +941,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Working%20Title%20Brew%20Co.%2085%20Doggett%20St%2C%20Newstead%20Brisbane%20QLD">Working Title Brew Co.</a></b></td><td><b>4.7</b>／383</td><td>$20–40</td><td class="small">85 Doggett St, Newstead</td><td class="small">Newstead，Doggett St 一带的 brewpub</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Caxton%20Street%20Brewing%20Company%2052%20Petrie%20Tce%20Brisbane%20QLD">Caxton Street Brewing Company</a></b></td><td><b>4.6</b>／213</td><td>$20–40</td><td class="small">52 Petrie Tce</td><td class="small">Petrie Tce，球场散场后的去处</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>E.B. by Hiker Brewing 4.8／119 · Hudson Brewing 4.5／106</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>E.B. by Hiker Brewing 4.8／119 · Hudson Brewing 4.5／106</p>
 </div><h2 id="sec7">市场 · 鱼档 · 食品采购 <span class="h2en">Markets, fishmongers and buying to cook at home</span></h2>
 <div class="note blue"><b>这一节是「买回家做」，不是「坐下来吃」。</b>海鲜市场与鱼档、农夫市集、亚洲超市。<br><b>坐下来吃的海鲜餐厅已移到 <a href="sec3">按区域吃</a> 的湾区一段</b>——买生鲜和上馆子的评价维度完全不同（新鲜度与价格 vs 出品与服务），混在一张表里两边都不准。</div>
 <div class="note blue"><b>本类闸门：Google ≥ 4.2 且评论 ≥ 150。</b>
@@ -969,9 +971,9 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Sunlit%20Asian%20Supermarket%20Fortitude%20Valley%20%E4%B8%89%E4%B8%80%20Valley%20Metro%2C%20Shop%204/230%20Brunswick%20St%20Brisbane%20QLD">Sunlit Asian Supermarket Fortitude Valley 三一</a></b></td><td><b>4.5</b>／149</td><td>—</td><td class="small">Valley Metro, Shop 4/230 Brunswick St</td><td class="small">与下一家几乎并列（4.5／149 对 4.5／148）</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Davely%27s%20Asian%20Supermarket%20CBD%20Shop%203/119%20Charlotte%20St%20Brisbane%20QLD">Davely's Asian Supermarket CBD</a></b></td><td><b>4.5</b>／148</td><td>—</td><td class="small">Shop 3/119 Charlotte St</td><td class="small">CBD 内，步行可达 1/2/3/12/15 号点</td></tr>
 </table></div>
-<p class="small"><b>未过闸门：</b>Sunlit CBD 三一 3.8／113 · Yuen's Market（Sunnybank） 4.0／1,145 · HX 华欣亚洲超市 4.3／52</p>
+<p class="small miss"><span class="dot" title="未过本类闸门">●</span>Sunlit CBD 三一 3.8／113 · Yuen's Market（Sunnybank） 4.0／1,145 · HX 华欣亚洲超市 4.3／52</p>
 </div><h2 id="sec8">会员餐 · Pub 特价 · 低价晚餐 <span class="h2en">Club member pricing, pub specials and cheap weeknights</span></h2>
-<div class="note blue"><b>合并说明：</b>俱乐部和 Pub 原来是两节，但读者来这里的目的是同一个——<b>找便宜、稳定、可重复的本地饭，不是找高分餐厅。</b><br><b>一次说清口径：</b>俱乐部的 Google 分评的是整个场馆（含博彩厅、宴会、演出），<b>不可与普通餐厅横向比分</b>；所有特价<b>出发当天必须复核</b>，这类价目改得很勤。</div>
+<div class="note blue"><b>一次说清口径：</b>俱乐部的 Google 分评的是整个场馆（含博彩厅、宴会、演出），<b>不可与普通餐厅横向比分</b>；所有特价<b>出发当天必须复核</b>，这类价目改得很勤。</div>
 
 <div class="note blue">
 <b>这是一类完全不同的餐饮，必须另立一套闸门。</b>持牌俱乐部（RSL／联赛／体育会）的 Google 分评的是<b>整个场馆</b>——博彩厅、酒吧、演出、宴会厅、儿童游乐区都算在内，<b>不是 bistro 的分</b>。
@@ -1091,7 +1093,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <b>Woolloongabba Hotel 4.0／327</b> 分最低、特价最多。<b>要便宜就别看分，要体验就别指望特价。</b>
 </div>
 <h2 id="sec9">订位与出发前检查 <span class="h2en">Booking and the pre-departure check</span></h2>
-<div class="note blue"><b>先给结论，再给清单。</b>这一节合并了原来的「到底推荐什么」「按场景怎么挑」「出发前复核清单」三节——它们都在回答同一件事：<b>定下来之后，出发前还要做什么。</b></div>
+<div class="note blue"><b>先给结论，再给清单。</b>本节回答的是「已经选好了，出发前还要做什么」：哪些必须提前订、哪些价格要打电话确认、哪些有周末与公假加价、哪些营业状态存疑。</div>
 
 
 <div class="note green">
@@ -1195,7 +1197,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <li><b>Restaurant Dan Arnold、Gum Bistro</b>：出发前确认是否仍在营业。</li>
 <li><b>Pub 特价变得比餐厅还快</b>：本页 Pub 一节的菜价沿用一份 2026 年的本地长期记录，<b>本轮没有重新核价</b>，出门前务必打电话或看官网。</li>
 <li><b>俱乐部特价随时变</b>：Easts 官网自己写「特价与菜品经常变动，来之前打电话问」；Kedron-Wavell 是按月换。<b>俱乐部一节出发当天再核一次。</b></li>
-<li>所有 Google 评分取自 Wanderlog 镜像，<b>出发前用 Google Maps 实时值复核</b>，尤其是卡在边缘的 Joy（215）、The Fifty Six（207）、Unbearable Bagels（333）。</li>
+<li><b>评分来源逐行标注，不是同一种。</b>一部分取自 Google Maps 实时条目，一部分取自 Wanderlog 等第三方镜像——<b>以表内标签为准</b>。镜像值会滞后，<b>出发前用 Google Maps 实时值复核</b>，尤其是卡在边缘的 Joy（215）、The Fifty Six（207）、Unbearable Bagels（333）。</li>
 </ul>
 </div>
 
@@ -1209,7 +1211,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <li><b>AGFG 澳洲美食指南 2026 帽子奖</b>（20 分制，布里斯班 49 家）：Exhibition <b>18</b> · Joy <b>17</b> · Rogue Bistro 16 · Montrachet／Essa／SUUM 15 · Agnes／e'cco 14 · hôntô／Longwang／sAme sAme 13 · Donna Chang／Stanley／Hellenika／Sono Portside／The Brasserie 12。</li>
 <li><b>Gourmet Traveller 2026 指南</b>（全澳 100 家，布里斯班 9 家）：Agnes · August · Clarence · Essa · Exhibition · Joy · Pilloni · Supernormal · +81 Sushi Kappo。</li>
 </ul>
-<div class="note blue"><b>三套口径同时点名的只有两家：Exhibition 和 Joy。</b>本页主表的 23 家里只有 7 家进了 AGFG 名单；AGFG 排第 3 的 Rogue Bistro 在 Google 口径下一张表都没进。<b>这不是谁错了——两套口径在测不同的东西。</b></div>
+<div class="note blue"><b>三套口径同时点名的只有两家：Exhibition 和 Joy。</b>主闸门的 25 家里，本页只为 <b>3 家</b>标出了 AGFG 分数（Exhibition、Joy、Sono Japanese）——<b>AGFG 收录与否没有进入结构化数据，所以这个数只反映本页标注了多少，不等于实际收录数</b>。AGFG 排第 3 的 Rogue Bistro 在 Google 口径下一张表都没进。<b>这不是谁错了——两套口径在测不同的东西。</b></div>
 </div>
 
 <div class="card">
@@ -1226,7 +1228,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <div class="card">
 <h3>已知空白</h3>
 <ul>
-<li><b>这份清单不是名录。</b>布里斯班市议会的持牌食品场所登记册有 <b>8,046 条</b>（面向食客 7,020 家），本页收录约 <b>150 家</b>——主闸门「Google ≥4.7 且 ≥200」本来就是极窄的筛子。从那份名录随机抽样还抓出过本页原先漏掉的店（#24 Nekoland、#25 Chocolate Elements），<b>说明全市过闸门的店是几百家量级</b>。完整的普查、抽样与 API 成本推算在 <a href="https://github.com/cgwlovely/review-gated-dining/blob/main/research/brisbane-dining.md">research/brisbane-dining.md</a>。</li>
+<li><b>这份清单不是名录。</b>布里斯班市议会的持牌食品场所登记册有 <b>8,046 条</b>（面向食客 7,020 家），本页收录 <b>284 家</b>独立门店（由构建脚本解析本页得出）——主闸门「Google ≥4.7 且 ≥200」本来就是极窄的筛子。从那份名录随机抽样还抓出过本页原先漏掉的店（#24 Nekoland、#25 Chocolate Elements），<b>说明全市过闸门的店是几百家量级</b>。完整的普查、抽样与 API 成本推算在 <a href="https://github.com/cgwlovely/review-gated-dining/blob/main/research/brisbane-dining.md">research/brisbane-dining.md</a>。</li>
 <li><b>大众点评、小红书仍然取不到</b>：大众点评跳人机验证（本项目不做验证码），TripAdvisor 对自动访问返回空白页。不过<b>用中文在 Google Maps 搜已经补上了绝大部分缺口</b>——Google 会返回中文分类和这些店的真实分数。</li>
 <li><b>评分用的是镜像值时会滞后</b>：卡在 4.5／4.7 或 200／1,000 边界的店，订位前看一次 Google 实时值（例：Andonis 镜像 4.6、实时已掉到 4.5）。</li>
 <li><b>Biànca 的 Google 价位带未采信</b>：查询返回的是搜索结果列表而非门店卡片，没有拿列表首条的数字充数。</li>
@@ -1313,7 +1315,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <p><b>第三方套餐盘点（本轮已证明会过期，仅作下限参考）：</b>
 <a href="https://sitchu.com.au/brisbane/restaurants/best-set-menus-brisbane">Sitchu</a> ·
 <a href="https://www.theurbanlist.com/brisbane/a-list/best-degustations-brisbane">Urban List</a></p>
-<p><b>地图：</b>底图 © OpenStreetMap contributors；坐标由各店公布地址经 Nominatim 反查；生成脚本 <code>scripts/build_brisbane_dining_map.py</code>。</p>
+<p><b>地图：</b>底图 © OpenStreetMap contributors；坐标由各店公布地址经 Nominatim 反查；地图为本指南自绘。</p>
 </div>
 
 <footer>

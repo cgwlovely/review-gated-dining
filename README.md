@@ -42,10 +42,12 @@ six reusable techniques.
 - 🔬 **[Full research record ｜ 完整调查记录](research/brisbane-dining.md)** — 19 sections, including
   rejected candidates and unfinished work
 
-The page carries **350 venue links** across **302 distinct venues**. Of those, **39 are linked
-more than once and 28 appear in more than one section** — deliberate cross-listings (a venue in
-both the price ladder and the main table, say), each labelled in the row itself. Counts are
-measured from the published page, not asserted. The structured dataset reports both —
+The page carries **350 venue links** across **284 distinct venues**, **27** of which appear in
+more than one section — deliberate cross-listings (a venue in both the price ladder and the main
+table, say), each labelled in the row itself. These three numbers are parsed out of the published
+page by `make build`, written to [`build/summary.md`](build/summary.md) and injected into the
+cover; **none of them is typed by hand**, and the cover no longer keeps a second copy that can
+drift. The structured dataset reports both —
 see [`build/summary.md`](build/summary.md) and the [data browser](https://cgwlovely.github.io/review-gated-dining/data.html).
 
 Ten sections, each answering one question: by budget · worth a special trip · **by area**

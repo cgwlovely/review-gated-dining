@@ -432,20 +432,55 @@ def quickpick_html(recs, snapshot):
     H.append('</table></div>')
 
     s = snapshot
-    H += ['<p class="small">共 <b>%d 家</b>进入结构化数据；其中编辑精选 <b>%d 家</b>。'
-          '后面的详细资料库另含 <b>%d 条展示条目</b>（%d 家跨章节重复出现），尚未全部迁入数据——见 '
+    H += ['<p class="small">本节的 <b>%d 家</b>已进入结构化数据（编辑精选 <b>%d 家</b>）。'
+          '全书另有 <b>%d 家独立门店</b>、<b>%d 条门店链接</b>，其中 <b>%d 家</b>出现在一个以上的章节；'
+          '这部分尚未迁入数据——见 '
           '<a href="https://github.com/cgwlovely/review-gated-dining/issues/1">issue #1</a>。</p>'
-          % (s['unique_venues'], len(picks), s.get('display_rows_page', 0), s.get('repeated_venues', 0)),
+          % (s['unique_venues'], len(picks), s.get('distinct_on_page', 0),
+             s.get('display_rows_page', 0), s.get('in_two_sections', 0)),
           '</div>']
     return '\n'.join(H)
 
 # ---------------------------------------------------------------- emit
+def check_page_refs():
+    """Cross-references must survive a section being renamed or merged.
+
+    Two ways they rot, both of which actually happened:
+      - "§3 <old title>" keeps the old title after the section is renamed
+      - href="#secN" points at a section that no longer exists
+    """
+    import re
+    page = ROOT/'docs'/'index.html'
+    if not page.exists():
+        return [], []
+    h = page.read_text()
+    titles = {sid: re.sub('<.*?>', '', zh).strip() for sid, zh, _en in
+              re.findall(r'<h2 id="(sec\d+)">(.*?)\s*<span class="h2en">(.*?)</span></h2>', h)}
+    errs, warns = [], []
+    ids = set(re.findall(r'id="([^"]+)"', h))
+    for a in sorted(set(re.findall(r'href="#([^"]+)"', h))):
+        if a not in ids:
+            errs.append('docs/index.html: href="#%s" points at nothing' % a)
+    # "§N 名称" must agree with that section's real title
+    for num, named in re.findall(r'§(\d+)\s*([^<，。；、：:（）()【】「」]{2,24})', h):
+        sid = 'sec' + num
+        if sid not in titles:
+            errs.append('docs/index.html: §%s referenced but there is no %s' % (num, sid))
+            continue
+        named = named.strip()
+        real = titles[sid]
+        if named and not (named in real or real.startswith(named) or named.startswith(real[:4])):
+            warns.append('docs/index.html: "§%s %s" but §%s is titled "%s"' % (num, named, num, real))
+    return errs, warns
+
+
 def page_stats(recs):
     """Count what the published page actually shows, so the cover can stop saying '300+'."""
     import re, urllib.parse
     page = ROOT/'docs'/'index.html'
     if not page.exists():
-        return {'display_rows_page': 0, 'repeated_venues': 0, 'distinct_on_page': 0}
+        return {'display_rows_page': 0, 'repeated_venues': 0, 'distinct_on_page': 0,
+                'in_two_sections': 0}
     h = page.read_text()
     qs = re.findall(r'maps/search/\?api=1&query=([^"\']+)', h)
     names = []
@@ -455,9 +490,20 @@ def page_stats(recs):
         names.append(s.strip().lower())
     from collections import Counter
     c = Counter(names)
+    # "linked twice" and "in two sections" are different numbers; the page used to
+    # mix them, so both are computed here and neither is ever typed by hand
+    sec_of = {}
+    for part in re.split(r'(?=<h2 id="sec\d+">)', h):
+        m = re.match(r'<h2 id="(sec\d+)">', part)
+        sid = m.group(1) if m else 'front'
+        for q in re.findall(r'maps/search/\?api=1&query=([^"\']+)', part):
+            s = urllib.parse.unquote(q)
+            s = re.split(r'\s(?=(?:Shop|Level|Unit|Basement|L1|G\d|\d+[A-Za-z]?[/,]?\s))', s, maxsplit=1)[0]
+            sec_of.setdefault(s.strip().lower(), set()).add(sid)
     return {'display_rows_page': len(names),
             'distinct_on_page': len(c),
-            'repeated_venues': sum(1 for n, k in c.items() if k > 1)}
+            'repeated_venues': sum(1 for n, k in c.items() if k > 1),
+            'in_two_sections': sum(1 for n, ss in sec_of.items() if len(ss) > 1)}
 
 
 def inject(fragment, marker, path):
@@ -491,7 +537,8 @@ def emit(recs, gates, sources, errors, warnings):
                 'branch_count': branches,
                 'display_rows_page': ps['display_rows_page'],
                 'distinct_on_page': ps['distinct_on_page'],
-                'repeated_venues': ps['repeated_venues']}
+                'repeated_venues': ps['repeated_venues'],
+                'in_two_sections': ps['in_two_sections']}
 
     payload = {'snapshot': snapshot, 'gates': gates['gates'], 'venues': recs}
     for p in (BUILD/'venues.json', DOCSDATA/'venues.json'):
@@ -530,6 +577,9 @@ def emit(recs, gates, sources, errors, warnings):
          f"- built from commit: `{sha}` (HEAD at build time — a commit cannot contain its own SHA)",
          f"- **unique_venues: {snapshot['unique_venues']}**  ·  **display_rows: {snapshot['display_rows']}**",
          f"- gates defined: {len(gates['gates'])}",
+         f"- published page: **{snapshot.get('distinct_on_page', 0)} distinct venues** / "
+         f"{snapshot.get('display_rows_page', 0)} venue links / "
+         f"{snapshot.get('in_two_sections', 0)} appearing in more than one section",
          f"- through their gate: **{len(passed)}**",
          '', '## Confidence', '']
     for k in ('high','medium','low'):
@@ -561,7 +611,15 @@ def emit(recs, gates, sources, errors, warnings):
     frag = quickpick_html(recs, snapshot)
     (BUILD/'quickpick.html').write_text(frag)
     status = inject(frag, 'quickpick', ROOT/'docs'/'index.html')
+    # the cover used to carry a second, hand-kept copy of these numbers that had
+    # drifted apart from the generated one; there is now a single source
+    counts = ('<span id="counts">独立门店 <b>%d</b> 家 · 门店链接 <b>%d</b> 条 · '
+              '出现在一个以上章节 <b>%d</b> 家 · 已迁入结构化数据 <b>%d</b> 家</span>'
+              % (snapshot.get('distinct_on_page', 0), snapshot.get('display_rows_page', 0),
+                 snapshot.get('in_two_sections', 0), snapshot['unique_venues']))
+    status_counts = inject(counts, 'counts', ROOT/'docs'/'index.html')
     print(f'  quick-pick section: {status}')
+    print(f'  cover counts: {status_counts}')
 
     s2 = ['', '## Counts (issue #1: display rows are not unique venues)', '',
           f"- structured dataset — unique_venues: **{snapshot['unique_venues']}**, "
@@ -579,6 +637,8 @@ def main():
             TODAY = datetime.date.fromisoformat(a.split('=',1)[1])
     gates, venues, sources, aliases, exemptions = load()
     errors, warnings = validate(gates, venues, sources, aliases, exemptions)
+    pe, pw = check_page_refs()      # cross-references rot when a section is renamed
+    errors.extend(pe); warnings.extend(pw)
     for w in warnings: print(f'warning: {w}')
     for e in errors:   print(f'ERROR:   {e}', file=sys.stderr)
     if '--check' in sys.argv:

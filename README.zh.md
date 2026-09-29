@@ -45,7 +45,7 @@ community-facing restaurants have structurally fewer English reviews. So the met
 - 📄 **[PDF](docs/pdf/Brisbane_2026_餐厅指南.pdf)** —— 页数与链接数用 `make pdf-stats` 现算
 - 🔬 **[完整调查记录 ｜ Full research record](research/brisbane-dining.md)**（19 节，含被否决的候选与未完成项）
 
-页面上共 **350 条门店链接**，**302 家独立门店**。其中 **39 家被链接超过一次、28 家出现在一个以上的章节**——都是刻意的交叉列（例如同时出现在价位档与主表），每一处都在行内写明原因。这些数字从已发布页面实测得出，不是估的。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。
+页面上共 **350 条门店链接**、**284 家独立门店**，其中 **27 家**出现在一个以上的章节——都是刻意的交叉列（例如同时出现在价位档与主表），每一处都在行内写明原因。这三个数由 `make build` 解析已发布页面得出，写进 [`build/summary.md`](build/summary.md) 并注入封面；**没有一个是手写的**，封面也不再另存一份会漂移的副本。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。
 
 十节，每节回答一个问题：按预算 · 值得专程去 · **按区域**（商场楼层、街区、社区餐饮带）· **按菜系（含覆盖全书的 35 行索引）** · 按想吃的东西 · 咖啡饮品轻食 · 市场鱼档采购 · 会员餐与 Pub 特价 · 订位与出发前检查 · 方法口径来源。
 
