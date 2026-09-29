@@ -1,8 +1,8 @@
 {
  "snapshot": {
   "snapshot_date": "2026-09-29",
-  "built_from_commit": "e4b6524",
-  "commit": "e4b6524",
+  "built_from_commit": "68aae2c",
+  "commit": "68aae2c",
   "gates_version": 1,
   "unique_venues": 25,
   "display_rows": 25,

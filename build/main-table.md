@@ -1,6 +1,6 @@
 # Main table — 25 venues through the gate
 
-snapshot 2026-09-29 · commit e4b6524 · ranked by shrunk rating
+snapshot 2026-09-29 · commit 68aae2c · ranked by shrunk rating
 
 | # | Venue | Suburb | Google | Shrunk | Two-person (food) | Price source | Confidence |
 |---|---|---|---|---|---|---|---|
