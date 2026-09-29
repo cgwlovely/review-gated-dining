@@ -1,0 +1,139 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data · 布里斯班餐厅指南</title>
+<style>
+:root{--ink:#182026;--muted:#65727c;--line:#dbe6ec;--sea:#2b7ca3;--deep:#184e77;--bg:#f4f7f8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}
+.w{max-width:1250px;margin:auto;padding:18px}
+a{color:#12688c;text-decoration:none}a:hover{text-decoration:underline}
+.hero{background:linear-gradient(130deg,#184e77,#2b7ca3);color:#fff;padding:22px;border-radius:16px}
+.hero h1{margin:4px 0 6px;font-size:26px}.hero p{margin:5px 0;color:#dceaf4;font-size:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#edf3f6;position:sticky;top:0;cursor:pointer;user-select:none}
+th:hover{background:#e2ecf2}
+.controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:10px}
+select,input{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.btn{display:inline-block;padding:5px 12px;border:1px solid var(--sea);border-radius:999px;background:#f2f9fc;font-size:13px;font-weight:600}
+.btn:hover{background:var(--sea);color:#fff;text-decoration:none}
+.pill{display:inline-block;border-radius:5px;padding:0 6px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.high{background:#e9f6f0;color:#146145;border:1px solid #a8d8c2}
+.medium{background:#fff3e0;color:#9a5b00;border:1px solid #f0cf9c}
+.low{background:#fdeceb;color:#a5291b;border:1px solid #f0bdb7}
+.small{color:var(--muted);font-size:12.5px}
+.warn{color:#c0392b;font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:12.5px;padding:20px}
+</style>
+<div class="w">
+<div class="hero">
+<h1>Data browser ｜ 数据浏览</h1>
+<p>Every venue in <code>data/venues.csv</code>, filtered and sorted in the browser.
+每一家都来自同一份数据；网页、PDF 与本页由同一次构建产出。</p>
+<p id="snap">loading…</p>
+<p style="margin-top:10px">
+<a class="btn" style="background:#fff;border-color:#fff" href="data/venues.csv" download>⬇ CSV</a>
+<a class="btn" style="background:#fff;border-color:#fff" href="data/venues.json" download>⬇ JSON</a>
+<a class="btn" style="background:#fff;border-color:#fff" href="index.html">← 指南 ｜ Guide</a>
+</p>
+</div>
+
+<div class="card">
+<div class="controls">
+  <input id="q" placeholder="搜索名称／地址 · search" size="22">
+  <select id="suburb"><option value="">所有区 · all suburbs</option></select>
+  <select id="cuisine"><option value="">所有菜系 · all cuisines</option></select>
+  <select id="gate"><option value="">所有闸门 · all gates</option></select>
+  <select id="conf"><option value="">所有置信度 · all confidence</option><option>high</option><option>medium</option><option>low</option></select>
+  <select id="budget"><option value="">两人预算 · any budget</option>
+    <option value="0-100">≤ $100</option><option value="100-200">$100–200</option>
+    <option value="200-400">$200–400</option><option value="400-9999">≥ $400</option></select>
+  <select id="fresh"><option value="">核验日期 · any</option>
+    <option value="30">30 天内</option><option value="90">90 天内</option><option value="180">180 天内</option></select>
+  <label class="small"><input type="checkbox" id="passonly" checked> 仅过闸门 · gate pass only</label>
+  <span class="small" id="count"></span>
+</div>
+<div style="overflow-x:auto;max-height:70vh">
+<table id="t"><thead><tr>
+<th data-k="name">Venue 店</th><th data-k="suburb">Suburb 区</th><th data-k="category_primary">Type</th>
+<th data-k="rating">Google</th><th data-k="shrunk_rating">Shrunk ▾</th>
+<th data-k="two_person_total_min">两人（食物）Two-person</th>
+<th data-k="price_source_type">Price source</th><th data-k="confidence">Conf.</th>
+<th data-k="freshness">Fresh</th><th>Map</th>
+</tr></thead><tbody></tbody></table>
+</div>
+<p class="small" id="notes"></p>
+</div>
+<footer id="foot"></footer>
+</div>
+<script>
+let D=[],SNAP={},sortK='shrunk_rating',sortDesc=true;
+const $=s=>document.querySelector(s);
+fetch('data/venues.json').then(r=>r.json()).then(j=>{
+  D=j.venues; SNAP=j.snapshot;
+  $('#snap').textContent=`snapshot ${SNAP.snapshot_date} · commit ${SNAP.commit} · `
+    +`unique_venues ${SNAP.unique_venues} · display_rows ${SNAP.display_rows}`;
+  $('#foot').textContent=`Generated from data/venues.csv · snapshot ${SNAP.snapshot_date} · commit ${SNAP.commit}`;
+  fill('#suburb',[...new Set(D.map(v=>v.suburb))].sort());
+  fill('#cuisine',[...new Set(D.flatMap(v=>v.cuisines))].sort());
+  fill('#gate',[...new Set(D.map(v=>v.gate_name))].sort());
+  render();
+});
+function fill(sel,vals){const e=$(sel);vals.forEach(v=>{const o=document.createElement('option');o.textContent=v;e.appendChild(o)})}
+document.querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k; sortDesc = (k===sortK)? !sortDesc : true; sortK=k;
+  document.querySelectorAll('th[data-k]').forEach(x=>x.textContent=x.textContent.replace(/ [▾▴]$/,''));
+  th.textContent+= sortDesc?' ▾':' ▴'; render();
+});
+['q','suburb','cuisine','gate','conf','budget','fresh','passonly'].forEach(id=>{
+  const e=$('#'+id); e.addEventListener(e.type==='checkbox'?'change':'input',render);
+});
+function render(){
+  const q=$('#q').value.toLowerCase(), sb=$('#suburb').value, cu=$('#cuisine').value,
+        ga=$('#gate').value, cf=$('#conf').value, bu=$('#budget').value,
+        fr=$('#fresh').value, po=$('#passonly').checked;
+  let rows=D.filter(v=>{
+    if(po && v.gate_pass!==true) return false;
+    if(q && !((v.name+' '+v.address+' '+(v.branch_name||'')).toLowerCase().includes(q))) return false;
+    if(sb && v.suburb!==sb) return false;
+    if(cu && !v.cuisines.includes(cu)) return false;
+    if(ga && v.gate_name!==ga) return false;
+    if(cf && v.confidence!==cf) return false;
+    if(bu){const[a,b]=bu.split('-').map(Number);
+      if(v.two_person_total_min==null) return false;
+      if(!(v.two_person_total_min>=a && v.two_person_total_min<=b)) return false;}
+    if(fr){const d=(new Date(SNAP.snapshot_date)-new Date(v.rating_observed_at))/864e5;
+      if(!(d<=Number(fr))) return false;}
+    return true;
+  });
+  rows.sort((x,y)=>{const a=x[sortK],b=y[sortK];
+    if(a==null)return 1; if(b==null)return -1;
+    const c = (typeof a==='number')? a-b : String(a).localeCompare(String(b));
+    return sortDesc? -c : c;});
+  const tb=$('#t tbody'); tb.innerHTML='';
+  rows.forEach(v=>{
+    const tp = v.two_person_total_min!=null ? `$${v.two_person_total_min}–${v.two_person_total_max}`
+             : `<span class="small">${v.price_unit==='item'?'à la carte':'—'}</span>`;
+    const map=`https://www.google.com/maps/search/?api=1&query=`+encodeURIComponent(v.name+' '+v.address+' Brisbane QLD');
+    const bl = v.borderline? ' <span class="warn" title="'+v.borderline_reason+'">±</span>':'';
+    tb.insertAdjacentHTML('beforeend',
+      `<tr><td><b>${v.name}</b>${v.branch_name?' <span class="small">'+v.branch_name+'</span>':''}${bl}
+        <br><span class="small">${v.address}</span></td>
+       <td>${v.suburb}</td><td class="small">${v.category_primary}<br>${v.cuisines.join(', ')}</td>
+       <td><b>${v.rating??'—'}</b>${v.review_count!=null?' / '+v.review_count.toLocaleString():''}
+        <br><span class="small">${v.rating_source||''} ${v.rating_observed_at||''}</span></td>
+       <td><b>${v.shrunk_rating??'—'}</b><br><span class="small">wilson ${v.wilson_lower??'—'}</span></td>
+       <td>${tp}</td>
+       <td class="small">${v.price_source_type||'—'}</td>
+       <td><span class="pill ${v.confidence}">${v.confidence}</span></td>
+       <td class="small">${v.freshness??'—'}</td>
+       <td><a href="${map}">地图</a></td></tr>`);
+  });
+  $('#count').textContent=`${rows.length} shown / ${D.length} total`;
+  $('#notes').innerHTML='<b>±</b> = passes the hard gate but its 95% lower bound does not — '
+    +'the hard gate stays the rule, this flags it for audit. '
+    +'<b>Shrunk</b> = Bayesian shrinkage toward the city mean, so a small-sample 4.9 cannot outrank a 4.8 with thousands of reviews. '
+    +'<b>Two-person</b> = set-menu price × 2, food only, excludes alcohol and weekend/PH surcharges; à la carte is deliberately left blank rather than invented.';
+}
+</script>

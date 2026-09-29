@@ -42,7 +42,11 @@ four reusable techniques.
 - 🔬 **[Full research record ｜ 完整调查记录](research/brisbane-dining.md)** — 19 sections, including
   rejected candidates and unfinished work
 
-Roughly **300 venues**, tiered: 25 through the main gate · a five-band price ladder of 50 ·
+The page shows roughly **300 display rows**; one venue can appear in several sections (price band,
+cuisine, occasion), so **display rows ≠ unique venues**. The structured dataset reports both —
+see [`build/summary.md`](build/summary.md) and the [data browser](https://cgwlovely.github.io/review-gated-dining/data.html).
+
+Tiered as: 25 through the main gate · a five-band price ladder of 50 ·
 pan-Asian dining indexed by mall floor and by cuisine · a dozen cuisines · steak · coffee ·
 bubble tea · seafood markets · craft breweries · farmers markets · club member pricing ·
 pub weekday specials.
@@ -70,6 +74,49 @@ crowd-reported band / review photo / third-party / not found).
 
 ---
 
+## Reproducible build ｜ 可复现构建
+
+The venue data is no longer embedded in prose. It lives in [`data/`](data/) and everything else is
+generated from it.
+
+```bash
+make check    # validate only — non-zero exit on any error
+make build    # data -> gate evaluation -> build/ and docs/data/
+make test     # prove the validators catch injected faults (21 cases)
+```
+
+| File | What it is |
+|---|---|
+| `data/venues.csv` | one row per venue: rating + platform + observation date, price + unit + source type + date, lat/lon, gate, status |
+| `data/gates.yml` | **every gate threshold and its rationale.** `gate_pass` is computed from this file and is never hand-entered |
+| `data/sources.csv` | source URL, kind, licence, access date |
+| `data/venue_aliases.csv` | licence-holder name / trading name / branch aliases — this is what makes register-to-Google matching possible |
+
+The build derives three audit signals alongside the hard gate, as
+[issue #1](https://github.com/cgwlovely/review-gated-dining/issues/1) asked:
+
+- **`shrunk_rating`** — Bayesian shrinkage toward the city mean, so a 4.9 from 34 reviews cannot
+  outrank a 4.8 from 9,015. The main table is ordered by this.
+- **`wilson_lower`** + **`borderline`** — the 95% lower bound. **18 of the 25 gate-passers are
+  flagged borderline**, because with the gate at 4.7 and Google rounding to one decimal a venue
+  rated exactly 4.7 can never have a lower bound above 4.7. The hard gate stays the reader-facing
+  rule because it is explicable; this flag exists so the ambiguity is visible rather than hidden.
+- **`freshness`** — `0.5 ** (age_days / 180)`, so old and new observations are never weighted alike.
+
+**Price units are not mixed.** `price_unit` is one of `per_person_set`, `per_person_reported`,
+`item`, `for_two`, `set_menu`, `whole_dish`. A normalised **two-person food total** is derived only
+where it can be derived honestly — à la carte venues are left blank rather than given an invented
+range.
+
+**Browse or download:** [data browser](https://cgwlovely.github.io/review-gated-dining/data.html)
+(filter by suburb, cuisine, gate, budget, confidence, verification age) ·
+[CSV](https://cgwlovely.github.io/review-gated-dining/data/venues.csv) ·
+[JSON](https://cgwlovely.github.io/review-gated-dining/data/venues.json)
+
+Every generated artefact carries its **snapshot date and commit SHA**.
+
+---
+
 ## Layout
 
 ```text
@@ -79,7 +126,10 @@ README.md       this file
 README.zh.md    中文版
 docs/           published site (GitHub Pages): index.html + PDF + 5 OSM maps
 research/       full working record + complete council licence register (8,046 records)
-scripts/        OSM tile map renderer
+data/            venues.csv · gates.yml · sources.csv · venue_aliases.csv
+build/           generated: venues.json/csv · main-table.md · summary.md
+scripts/         build.py (data -> gates -> outputs) · tests/ · OSM map renderer
+Makefile         make check | build | test | maps
 ```
 
 ---

@@ -56,7 +56,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 价格只写查到的，<b>查不到就写「未查到」</b>，不估算、不编造。来源逐条标注：<br>
 <span class="src off">官网</span> 商家菜单实价　<span class="src gm">Google 众报</span> Google Maps 的「每人 $X–Y」　<span class="src thr">评论照片／第三方</span> 可信度较低　<span class="src nf">未查到</span>
 </div>
-<p style="margin-top:12px"><a class="btn" style="background:#fff;border-color:#fff;color:#12688c" href="pdf/Brisbane_2026_%E9%A4%90%E5%8E%85%E6%8C%87%E5%8D%97.pdf">📄 下载 PDF（地图与地址链接可点）</a></p>
+<p style="margin-top:12px"><a class="btn" style="background:#fff;border-color:#fff;color:#12688c" href="pdf/Brisbane_2026_%E9%A4%90%E5%8E%85%E6%8C%87%E5%8D%97.pdf">📄 下载 PDF（地图与地址链接可点）</a> <a class="btn" style="background:#fff;border-color:#fff;color:#12688c" href="data.html">📊 数据浏览 · Data browser（可筛选／下载 CSV·JSON）</a></p>
 </div>
 
 <div class="note green">
@@ -1049,8 +1049,10 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 </div>
 
 <footer>
+<span id="snapfoot" class="small"></span><br>
 评分核查 2026-09-28 · 菜单价格逐家进官网核查 2026-09-28 · 一切都会过期，出行前请以商家页面为准<br>
 <a href="index.html">← 回索引</a>
 </footer>
+<script>fetch("data/venues.json").then(r=>r.json()).then(j=>{const s=j.snapshot;document.getElementById("snapfoot").textContent=`data snapshot ${s.snapshot_date} · commit ${s.commit} · unique_venues ${s.unique_venues} · display_rows ${s.display_rows}`;}).catch(()=>{});</script>
 
 </div></body></html>

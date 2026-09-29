@@ -1,0 +1,133 @@
+# Gate definitions. Every gate a venue is judged against lives here, never in prose.
+# scripts/build.py computes gate_pass from this file; gate_pass is never hand-entered.
+#
+# 每一条闸门都写在这里，不散落在正文里。gate_pass 由 build.py 依此计算，禁止手填。
+
+version: 1
+updated: 2026-09-29
+
+gates:
+  main:
+    label_en: Restaurants (main gate)
+    label_zh: 正餐（主闸门）
+    min_rating: 4.7
+    min_reviews: 200
+    rationale_en: "The baseline. Tuned for 'proper restaurants'; it breaks in every other category, which is why the gates below exist."
+    rationale_zh: "基准闸门，针对「正经餐厅」。套到别的品类上会立刻失效，所以下面每类各立一条。"
+  budget:
+    label_en: Budget tier
+    label_zh: 平价档
+    min_rating: 4.5
+    min_reviews: 1000
+    rationale_en: "Rating bar drops 0.2; sample bar rises 5x as compensation. Better 'lots of people said 4.5' than 'a few said 4.8'."
+    rationale_zh: "评分降 0.2，样本门槛提高 5 倍作补偿——宁要「很多人打 4.5」，不要「少数人打 4.8」。"
+  coffee:
+    label_en: Coffee
+    label_zh: 咖啡
+    min_rating: 4.7
+    min_reviews: 200
+    rationale_en: "Deliberately NOT loosened. Coffee ratings run high everywhere; the sample bar is what filters out 'fifteen people gave it 5'."
+    rationale_zh: "刻意不放宽。咖啡店评分虚高，靠样本量挡住「十几个人打 5 分」。"
+  drinks:
+    label_en: Bubble tea and drinks
+    label_zh: 奶茶饮品
+    min_rating: 4.5
+    min_reviews: 200
+    rationale_en: Same inflation problem as coffee; the rating bar goes up, not down.
+    rationale_zh: 与咖啡同理，评分门槛上调而非下调。
+
+  community_cuisine:
+    label_en: Community cuisines (Chinese, Vietnamese, East African...)
+    label_zh: 族裔餐饮（华／越／东非等）
+    min_rating: 4.3
+    min_reviews: 150
+    rationale_en: "Customers are mostly from that community, so English-language reviews are structurally scarcer regardless of quality."
+    rationale_zh: "顾客以该社群为主，英文点评天然更少，与好不好吃无关。"
+  cuisine:
+    label_en: Other cuisines (Indian, Italian, French, Greek, Middle Eastern...)
+    label_zh: 各菜系
+    min_rating: 4.5
+    min_reviews: 300
+    rationale_en: Trading rating width for sample size.
+    rationale_zh: 用样本量换评分宽度。
+
+  club:
+    label_en: Licensed clubs
+    label_zh: 持牌俱乐部
+    min_rating: 4.0
+    min_reviews: 500
+    rationale_en: "The score rates the whole venue - gaming room, function rooms, live music - not the bistro. Not comparable to a restaurant score."
+    rationale_zh: "分数评的是整个场馆（含博彩厅、宴会、演出），不是 bistro，与餐厅分不可横向比较。"
+  steak_pub:
+    label_en: Old steak pubs
+    label_zh: 老牌牛排酒吧
+    min_rating: 4.2
+    min_reviews: 500
+    rationale_en: 4.2-4.3 with samples in the thousands at A$40-60. Split from fine dining on purpose.
+    rationale_zh: 4.2–4.3、样本上万、人均 $40–60。与精致牛排馆刻意分表。
+
+  steak_fine:
+    label_en: Fine-dining steakhouses
+    label_zh: 精致牛排馆
+    min_rating: 4.2
+    min_reviews: 500
+    rationale_en: 4.4-4.8 at A$80-200+. Cannot share a ranking with the pubs above.
+    rationale_zh: 4.4–4.8、人均 $80–200+。不能与上面的酒吧共用一个排名。
+
+  seafood_retail:
+    label_en: Seafood retail
+    label_zh: 海鲜鱼档
+    min_rating: 4.2
+    min_reviews: 150
+    rationale_en: Buying raw fish is not eating out; sold by weight, so there is no "per person".
+    rationale_zh: 买生鲜不是吃正餐；按重量卖，没有「人均」。
+
+  brewery:
+    label_en: Craft breweries
+    label_zh: 精酿啤酒厂
+    min_rating: 4.5
+    min_reviews: 200
+    rationale_en: Taprooms are rated as venues; sample sizes are small city-wide.
+    rationale_zh: 酒厂按场地被打分，全市样本普遍偏小。
+
+  market:
+    label_en: Farmers markets
+    label_zh: 农夫市集
+    min_rating: 4.2
+    min_reviews: 200
+    rationale_en: Markets are rated as events, not businesses; scores cluster low.
+    rationale_zh: 市集是按活动被打分，不是店，分数普遍偏低。
+
+  brunch:
+    label_en: Brunch
+    label_zh: 早午餐
+    min_rating: 4.7
+    min_reviews: 500
+    rationale_en: Brunch cafes are numerous and highly rated; both bars raised.
+    rationale_zh: 早午餐店多且评分高，两条门槛同时抬高。
+
+  pub_special:
+    label_en: Pub weekday specials
+    label_zh: Pub 每周特价
+    min_rating: null
+    min_reviews: null
+    rationale_en: "NO rating gate. This tier is selected on published price, not score - rating and deal strength are inversely correlated (see METHOD.md, lesson 6)."
+    rationale_zh: "不设评分闸门。这一档按公布的价格入选，不按分数——评分与特价强度反相关（见 METHOD 教训 6）。"
+# Confidence is assigned by build.py, not by hand.
+confidence_rules:
+  high:   "rating + review_count + a price with unit & source_type & observed_at, all present; observed within 90 days"
+  medium: "rating present but price missing OR price source_type is menu_photo / third_party"
+  low:    "rating source is a mirror, or any observation older than 180 days, or status uncertain"
+
+freshness:
+  half_life_days: 180
+  note_en: "freshness = 0.5 ** (age_days / half_life_days), computed per observation date."
+  note_zh: "新鲜度 = 0.5 ** (天数 / 半衰期)，按各字段的采集日期分别计算。"
+
+shrinkage:
+  # Bayesian shrinkage toward the city mean, so a 4.9/34 does not outrank a 4.8/9015.
+  # 贝叶斯收缩：让小样本高分自动向全市均值靠拢。
+  prior_weight: 200
+  prior_mean: 4.35
+  note_en: "prior_mean is the observed mean of consumer-facing venues sampled in this project."
+  note_zh: "prior_mean 取本项目抽样到的面向食客场所均值。"

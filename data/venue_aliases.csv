@@ -1,0 +1,11 @@
+venue_id,alias,alias_type,source,notes
+bne-chocolate-elements,Toiseach Pty Ltd T/As Chocolate Elements,licence_holder,bcc-eat-safe,"T/As field is what made the match possible"
+bne-nekoland,Neko Land,licence_holder,bcc-eat-safe,"register spells it as two words"
+bne-nekoland,Nekoland Ramen & Bar,trading,google-maps,
+bne-naldham-house,The Brasserie at Naldham House,trading,agfg,"AGFG lists the restaurant, not the building"
+bne-the-fifty-six,The Fifty Six,trading,google-maps,"top floor of Naldham House - same building as bne-naldham-house"
+bne-sono-portside,Sono Japanese Restaurant | Portside Wharf,trading,google-maps,
+bne-honto,Honto,trading,agfg,"AGFG drops the circumflexes"
+bne-farm-house-kedron,"Farmhouse, Kedron Cafe",trading,wanderlog,
+bne-longtime-dining,LONGTIME DINING,trading,google-maps,"distinct from 'Longtime' at 610 Ann St - different venue"
+bne-hashtag-burgers,"Hashtag Burgers and Waffles, Fortitude Valley",trading,google-maps,"chain - other branches exist and must be checked separately"

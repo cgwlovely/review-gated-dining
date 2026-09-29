@@ -45,7 +45,9 @@ community-facing restaurants have structurally fewer English reviews. So the met
 - 📄 **[PDF（45 页，389 个可点链接）](docs/pdf/Brisbane_2026_餐厅指南.pdf)**
 - 🔬 **[完整调查记录 ｜ Full research record](research/brisbane-dining.md)**（19 节，含被否决的候选与未完成项）
 
-收录约 **300 家**，分档：过主闸门 25 家 · 五档价位阶梯 50 条 · 亚洲餐饮按商场楼层与菜系 ·
+页面上约 **300 条展示条目**；同一家店可能同时出现在价位档、菜系、场景等多个章节，所以**展示条目数 ≠ 独立门店数**。结构化数据里两个数都会输出——见 [`build/summary.md`](build/summary.md) 与[数据浏览页](https://cgwlovely.github.io/review-gated-dining/data.html)。
+
+分档：过主闸门 25 家 · 五档价位阶梯 50 条 · 亚洲餐饮按商场楼层与菜系 ·
 十余个菜系 · 牛排 · 咖啡 · 奶茶饮品 · 海鲜鱼档 · 精酿啤酒 · 农夫市集 · 俱乐部会员价 · Pub 每周特价。
 
 **每家店都链到 Google 地图；每个价格都标了来源**（官网 / Google 众报 / 评论照片 / 第三方 / 未查到）。
@@ -62,6 +64,49 @@ community-facing restaurants have structurally fewer English reviews. So the met
 
 ---
 
+## 可复现构建 ｜ Reproducible build
+
+The venue data is no longer embedded in prose. It lives in [`data/`](data/) and everything else is
+generated from it.
+
+```bash
+make check    # validate only — non-zero exit on any error
+make build    # data -> gate evaluation -> build/ and docs/data/
+make test     # prove the validators catch injected faults (21 cases)
+```
+
+| File | What it is |
+|---|---|
+| `data/venues.csv` | one row per venue: rating + platform + observation date, price + unit + source type + date, lat/lon, gate, status |
+| `data/gates.yml` | **every gate threshold and its rationale.** `gate_pass` is computed from this file and is never hand-entered |
+| `data/sources.csv` | source URL, kind, licence, access date |
+| `data/venue_aliases.csv` | licence-holder name / trading name / branch aliases — this is what makes register-to-Google matching possible |
+
+The build derives three audit signals alongside the hard gate, as
+[issue #1](https://github.com/cgwlovely/review-gated-dining/issues/1) asked:
+
+- **`shrunk_rating`** — Bayesian shrinkage toward the city mean, so a 4.9 from 34 reviews cannot
+  outrank a 4.8 from 9,015. The main table is ordered by this.
+- **`wilson_lower`** + **`borderline`** — the 95% lower bound. **18 of the 25 gate-passers are
+  flagged borderline**, because with the gate at 4.7 and Google rounding to one decimal a venue
+  rated exactly 4.7 can never have a lower bound above 4.7. The hard gate stays the reader-facing
+  rule because it is explicable; this flag exists so the ambiguity is visible rather than hidden.
+- **`freshness`** — `0.5 ** (age_days / 180)`, so old and new observations are never weighted alike.
+
+**Price units are not mixed.** `price_unit` is one of `per_person_set`, `per_person_reported`,
+`item`, `for_two`, `set_menu`, `whole_dish`. A normalised **two-person food total** is derived only
+where it can be derived honestly — à la carte venues are left blank rather than given an invented
+range.
+
+**Browse or download:** [data browser](https://cgwlovely.github.io/review-gated-dining/data.html)
+(filter by suburb, cuisine, gate, budget, confidence, verification age) ·
+[CSV](https://cgwlovely.github.io/review-gated-dining/data/venues.csv) ·
+[JSON](https://cgwlovely.github.io/review-gated-dining/data/venues.json)
+
+Every generated artefact carries its **snapshot date and commit SHA**.
+
+---
+
 ## 仓库结构 ｜ Layout
 
 ```text
@@ -71,7 +116,10 @@ README.md       英文说明
 README.zh.md    本文件
 docs/        发布站点（GitHub Pages）：index.html + PDF + 地图
 research/    完整调查记录 + 市议会持牌名录全量导出（8,046 条）
-scripts/     OSM 瓦片地图渲染脚本
+data/           venues.csv · gates.yml · sources.csv · venue_aliases.csv
+build/          构建产物：venues.json/csv · main-table.md · summary.md
+scripts/        build.py（数据→闸门→产出）· tests/ · 地图渲染脚本
+Makefile        make check | build | test | maps
 ```
 
 ---

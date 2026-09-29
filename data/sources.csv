@@ -1,0 +1,8 @@
+source_id,name,url,kind,licence,accessed_at,notes
+bcc-eat-safe,"Brisbane City Council · Food Safety Permits (Eat Safe)",https://data.brisbane.qld.gov.au/explore/dataset/food-safety-permits/,official_register,CC-BY,2026-09-29,"8046 records; full export archived at research/brisbane-food-permits-2026-09-29.json"
+google-maps,Google Maps venue entries,https://www.google.com/maps,rating_platform,"Terms of Service - not redistributed",2026-09-29,"rating, review_count, crowd-reported price band, menu photos; read manually, not bulk-scraped"
+wanderlog,Wanderlog mirrors of Google ratings,https://wanderlog.com,rating_mirror,"third-party",2026-09-28,"used only for initial screening; lags live values enough to cross a tier"
+agfg,Australian Good Food Guide Chef Hat Awards,https://www.agfg.com.au/awards/brisbane,expert_panel,"third-party",2026-09-28,"20-point scale; 49 Brisbane venues"
+gourmet-traveller,Gourmet Traveller Restaurant Guide 2026,https://www.gourmettraveller.com.au/dining-out/restaurant-guide/best-restaurants-queensland-20148/,expert_panel,"third-party",2026-09-28,"anonymous reviewers, bills paid in full; 15 QLD venues"
+osm,OpenStreetMap tiles and Nominatim geocoding,https://www.openstreetmap.org,basemap,ODbL,2026-09-28,"map rendering and address geocoding"
+venue-sites,Individual venue websites and ordering pages,,official,"各自版权",2026-09-28,"per-venue URLs recorded in venues.csv price_source_url"
