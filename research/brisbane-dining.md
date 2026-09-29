@@ -647,7 +647,7 @@ The Kitchen（另有 Bravo Brewhouse、The Shack）· 全周 10:00–20:45，周
 2. **非会员差价非常小，会员费一顿就回本。**Easts 明写**非会员 +$3**；多数俱乐部只印会员价。会员费本次查到 **Broncos $2、Carina $2、Greenbank $5**。
 3. **俱乐部的 Google 分不能和餐厅横向比。**4.1–4.3 在餐厅表里是不及格，在俱乐部里是正常水平——因为这个分包含博彩厅、宴会、演出和游乐区。**单列一节、单列一套闸门，就是为了不让这两组数字混排。**
 
-### 就近（Manly West 一带）
+### 就近（Wynnum–Manly 湾区）
 
 **C2 Wynnum Manly Leagues** 就在本地。同区评分最高、样本最大的餐饮场所是 **C10 Manly Hotel（4.6／2,900）**——但它是酒吧不是俱乐部，**官网没有每周特价**，价格要到店问。**C9 Wynnum RSL（4.1／521）刚过本类闸门，官网未列特价。**
 
@@ -952,7 +952,7 @@ Arhibu **4.9／284** · Ethiopian Village 4.6／271 · Eliza Eritrean 4.9／80 �
 
 ### 各组要点
 
-- **印度**：Bagicha 4.9／578 最高分；**Indian Curry Hutt 4.8／864 人均 $1–20 最便宜**；**Namaste Manly 4.8／317 离 Manly West 最近**。
+- **印度**：Bagicha 4.9／578 最高分；**Indian Curry Hutt 4.8／864 人均 $1–20 最便宜**；**Namaste Manly 4.8／317 湾区一侧最近**。
 - **意大利**：Antica 4.8／1,534、Italia Lane 4.8／1,068、La Favolosa 4.9／690、Toscano 4.7／1,194。
 - **法餐**：**À la Bonne Franquette 5.0／464 是全指南唯一一家 5.0 且样本过 300**；Pompette 4.8／1,817（AGFG 12）。
 - **希腊**：Opa Bar & Mezze 4.8／**4,239**（本组样本最大）；**Lemoni Tingalpa 4.8／1,635，人均 $20–80，离湾区最近**。
