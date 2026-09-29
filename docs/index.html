@@ -13,7 +13,7 @@ a{color:#12688c;text-decoration:none}a:hover{text-decoration:underline}
 .eyebrow{font-weight:800;letter-spacing:.06em;color:#ffd97a;font-size:13px}
 .gate{margin:14px 0 0;padding:12px 15px;background:#ffffff1a;border-left:4px solid #a9d3e8;border-radius:9px;font-size:.95em;color:#eaf4fa}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:14px 0}
-h2{font-size:22px;margin:30px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h2{font-size:22px;margin:30px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}.h2en{display:block;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.02em;margin-top:3px}
 h3{margin:2px 0 8px;font-size:19px}
 h4{margin:14px 0 4px;font-size:15px;color:var(--deep)}
 table{width:100%;border-collapse:collapse;background:#fff;font-size:13.5px;margin:8px 0}
@@ -66,26 +66,47 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 </div>
 
 <div class="card" id="toc"><h3>目录</h3><div class="small" style="columns:2;column-gap:26px">
-<div>1. <a href="#sec1">价位阶梯 · 五档 50 条</a></div>
-<div>2. <a href="#sec2">过闸门的 25 家</a></div>
-<div>3. <a href="#sec3">地图</a></div>
-<div>4. <a href="#sec4">值得单独说的 8 家</a></div>
-<div>5. <a href="#sec5">亚洲餐饮 · 按商场楼层与菜系</a></div>
-<div>6. <a href="#sec6">奶茶 · 饮品 · 酸奶</a></div>
-<div>7. <a href="#sec7">咖啡排行</a></div>
-<div>8. <a href="#sec8">海鲜市场与鱼档</a></div>
-<div>9. <a href="#sec9">各菜系</a></div>
-<div>10. <a href="#sec10">牛排</a></div>
-<div>11. <a href="#sec11">补扫：之前漏掉的九类</a></div>
-<div>12. <a href="#sec12">俱乐部与会员价</a></div>
-<div>13. <a href="#sec13">Pub 每周特价</a></div>
-<div>14. <a href="#sec14">未过闸门、但你仍然会看到它们被推荐</a></div>
-<div>15. <a href="#sec15">按场景怎么挑</a></div>
-<div>16. <a href="#sec16">出发前复核清单</a></div>
-<div>17. <a href="#sec17">口径与边界</a></div>
-<div>18. <a href="#sec18">资料依据</a></div>
+<div>1. <a href="#sec1">价位阶梯 · 五档 50 条</a> <span style="color:var(--muted)">· Price ladder — five bands, 50 venues</span></div>
+<div>2. <a href="#sec2">过闸门的 25 家</a> <span style="color:var(--muted)">· Through the main gate — 25 venues</span></div>
+<div>3. <a href="#sec3">地图</a> <span style="color:var(--muted)">· Maps</span></div>
+<div>4. <a href="#sec4">值得单独说的 8 家</a> <span style="color:var(--muted)">· Eight worth writing up</span></div>
+<div>5. <a href="#sec5">亚洲餐饮 · 按商场楼层与菜系</a> <span style="color:var(--muted)">· Pan-Asian — by mall floor and by cuisine</span></div>
+<div>6. <a href="#sec6">奶茶 · 饮品 · 酸奶</a> <span style="color:var(--muted)">· Bubble tea, drinks and frozen yoghurt</span></div>
+<div>7. <a href="#sec7">咖啡排行</a> <span style="color:var(--muted)">· Coffee</span></div>
+<div>8. <a href="#sec8">海鲜市场与鱼档</a> <span style="color:var(--muted)">· Seafood markets and fishmongers</span></div>
+<div>9. <a href="#sec9">各菜系</a> <span style="color:var(--muted)">· By cuisine</span></div>
+<div>10. <a href="#sec10">牛排</a> <span style="color:var(--muted)">· Steak</span></div>
+<div>11. <a href="#sec11">补扫：之前漏掉的九类</a> <span style="color:var(--muted)">· Gap scan — nine categories the framework had missed</span></div>
+<div>12. <a href="#sec12">俱乐部与会员价</a> <span style="color:var(--muted)">· Licensed clubs and member pricing</span></div>
+<div>13. <a href="#sec13">Pub 每周特价</a> <span style="color:var(--muted)">· Pub weekday specials</span></div>
+<div>14. <a href="#sec14">未过闸门、但你仍然会看到它们被推荐</a> <span style="color:var(--muted)">· Did not clear the gate, but you will still see them recommended</span></div>
+<div>15. <a href="#sec15">按场景怎么挑</a> <span style="color:var(--muted)">· Picking by occasion</span></div>
+<div>16. <a href="#sec16">出发前复核清单</a> <span style="color:var(--muted)">· Pre-departure checklist</span></div>
+<div>17. <a href="#sec17">口径与边界</a> <span style="color:var(--muted)">· Rating systems and boundaries</span></div>
+<div>18. <a href="#sec18">资料依据</a> <span style="color:var(--muted)">· Sources</span></div>
 </div></div>
-<h2 id="sec1">价位阶梯 · 五档 50 条</h2>
+<div class="card" style="border-left:4px solid var(--deep)">
+<h3>Reading this page in English</h3>
+<p class="small">The commentary is in Chinese; <b>venue names, addresses, prices and ratings are all in English</b>,
+and every section heading carries an English subtitle. Here is what the labels mean.</p>
+<table>
+<tr><th>Label</th><th>Meaning</th></tr>
+<tr><td><b>4.8／1,186</b></td><td>Google rating / number of reviews. <b>Live values</b> unless marked otherwise.</td></tr>
+<tr><td><b>★</b></td><td>Clears the <b>main gate</b>: Google ≥ 4.7 and ≥ 200 reviews.</td></tr>
+<tr><td><span class="src off">官网</span></td><td><b>Official</b> — price read off the venue's own site or ordering page. Safe to budget with.</td></tr>
+<tr><td><span class="src gm">Google 众报</span></td><td><b>Crowd-reported band</b> — Google Maps' "$X–Y per person, reported by N people". For comparison, not a bill.</td></tr>
+<tr><td><span class="src thr">评论照片／第三方</span></td><td><b>Review photo / third-party</b> — lower confidence. Third-party set-menu prices proved systematically stale; treat as a floor.</td></tr>
+<tr><td><span class="src nf">未查到</span></td><td><b>Not found</b> — genuinely could not be retrieved. Never a guess.</td></tr>
+<tr><td><b>人均</b> / <b>未过闸门</b></td><td>Per person / did not clear that category's gate.</td></tr>
+</table>
+<p class="small"><b>Each category has its own stated gate</b>, loosened or tightened for a reason given in that section —
+coffee and drinks are <i>tightened</i> (ratings run high), community cuisines and clubs are <i>loosened</i>
+(fewer English reviews; club scores rate the whole venue). The full rationale is in
+<a href="https://github.com/cgwlovely/review-gated-dining/blob/main/METHOD.md">METHOD.md</a>.</p>
+<p class="small"><b>Everything here expires.</b> Checked 28–29 Sep 2026. Re-verify prices and hours against the venue's own page.</p>
+</div>
+
+<h2 id="sec1">价位阶梯 · 五档 50 条 <span class="h2en">Price ladder — five bands, 50 venues</span></h2>
 <p class="small">价位有两种来源，<b>分开标、不混用</b>：<span class="src off">官网</span>＝商家菜单实价；<span class="src gm">Google 众报</span>＝Google Maps 的「$X–Y per person · reported by N people」；<span class="src thr">评论照片</span>＝Google 评论里的实体菜单照片。每家店名都链到 Google 地图。<b>★ ＝过了主闸门（Google ≥4.7 且 ≥200），同价位里优先选它们。</b></p>
 <div class="card"><h3 id="T1">$1–20 · 口袋档</h3><p class="small">咖啡、素食、快食。<b>前四家都过了主闸门（Google ≥4.7 且 ≥200）——最便宜的一档反而不用降标准。</b></p>
 <div style="overflow-x:auto"><table><tr><th>店</th><th>菜系</th><th>Google</th><th>价格</th><th>备注</th></tr>
@@ -153,7 +174,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Agnes%2022%20Agnes%20St%2C%20Fortitude%20Valley%20QLD%204006">Agnes</a></b><br><span class="small">22 Agnes St, Fortitude Valley QLD 4006</span></td><td>全柴火烧烤（长餐）</td><td><b>4.6</b>／1,376</td><td>$139 · 9+ Kiwami 和牛短腰脊 $380 <span class="src off">官网</span></td><td class="small">单道菜全城最贵</td></tr>
 </table></div></div>
 
-<h2 id="sec2">过闸门的 25 家</h2>
+<h2 id="sec2">过闸门的 25 家 <span class="h2en">Through the main gate — 25 venues</span></h2>
 <p class="small">排序：Google 评分降序，同分按评论数降序。编号与下方地图上的针号一致（<b>24、25 是从市议会 8,046 家持牌名录里随机抽样抓到的</b>，不在任何餐饮榜单上）。评分取自 Wanderlog 对 Google Maps 的镜像页（<b>会比实时值滞后</b>）。</p>
 <div class="card" style="overflow-x:auto">
 <table>
@@ -188,7 +209,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 </div>
 
 
-<h2 id="sec3">地图</h2>
+<h2 id="sec3">地图 <span class="h2en">Maps</span></h2>
 <div class="card">
 <figure>
 <img src="assets/maps/brisbane-dining-metro.png" alt="布里斯班过闸门餐厅全域地图，17 个编号针">
@@ -212,7 +233,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 </div>
 
 
-<h2 id="sec4">值得单独说的 8 家</h2>
+<h2 id="sec4">值得单独说的 8 家 <span class="h2en">Eight worth writing up</span></h2>
 
 <div class="card">
 <h3><span class="pin">18</span>The Fifty Six — 最该由华人食客去吃的一家</h3>
@@ -341,7 +362,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 </div>
 
 
-<h2 id="sec5">亚洲餐饮 · 按商场楼层与菜系</h2>
+<h2 id="sec5">亚洲餐饮 · 按商场楼层与菜系 <span class="h2en">Pan-Asian — by mall floor and by cuisine</span></h2>
 <div class="note">
 <b>这一节是用中文关键词在 Google Maps 按菜系搜出来的，不是英文餐饮榜单。</b>差别很大：英文榜单只捞得到几家老牌大茶楼，中文搜索直接返回「火锅／川菜／珍珠奶茶」分类和这些店的真实分数。同一条街上的对照最能说明问题——<b>Landmark 饮茶 3.2／1,291，Goodtime Bistro 的饮茶 4.7／2,296</b>。
 </div>
@@ -474,7 +495,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <tr><td>Yum Cha Cuisine Carindale</td><td>3.9／635</td><td class="small">饮茶</td></tr>
 <tr><td>Xiang Chinese 川湘荟</td><td>4.0／249</td><td class="small">川湘</td></tr>
 </table></div>
-<h2 id="sec6">奶茶 · 饮品 · 酸奶</h2>
+<h2 id="sec6">奶茶 · 饮品 · 酸奶 <span class="h2en">Bubble tea, drinks and frozen yoghurt</span></h2>
 <div class="note blue"><b>本类闸门：Google ≥ 4.5 且评论 ≥ 200。</b>
 饮品店评分普遍偏高、样本偏小，所以<b>评分门槛提高、样本门槛压到 200</b>——这一档要防的是「十几个人打 5 分」。
 本类<b>没有 Google 众报价位带</b>（几乎全部未显示），价格以店内为准。</div>
@@ -490,7 +511,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=%E5%85%AB%E5%AF%B6%E9%A3%9F%E5%A0%82%20BO%20QQ%20%E7%94%9C%E5%93%81%20Shop%2035/223%20Calam%20Rd%2C%20Sunnybank%20Hills%20Brisbane%20QLD">八寶食堂 BO QQ 甜品</a></b></td><td>台式甜品</td><td><b>4.9</b>／411</td><td class="small">Shop 35/223 Calam Rd, Sunnybank Hills</td><td class="small">人均 $1–20</td></tr>
 </table></div>
 <p class="small"><b>没过闸门的连锁（记录备查）：</b>Milksha Sunnybank 4.3／410 · Sharetea Sunnybank 4.3／112 · machi machi 3.8／298 · MajesTea 3.7／229 · Sakuraya 3.4／484 · Gong Cha Fortitude Valley 2.8／104 · Chatime Sunnybank Plaza 2.9／70。<b>几家国际连锁在布里斯班的分数明显低于本地店</b>——Chatime Sunnybank Plaza 2.9、Gong Cha Valley 2.8。</p></div>
-<h2 id="sec7">咖啡排行</h2>
+<h2 id="sec7">咖啡排行 <span class="h2en">Coffee</span></h2>
 <div class="note blue"><b>本类闸门：Google ≥ 4.7 且评论 ≥ 200。</b>
 咖啡店评分普遍偏高（一条街上 4.8 很常见），所以<b>这里用的是和主闸门一样严的评分门槛</b>，
 靠样本量把「十几个人打 5 分」挡在外面。</div>
@@ -516,7 +537,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Coffee%20Mentality%20Roastery%2043%20Balaclava%20St%2C%20Woolloongabba%20Brisbane%20QLD">Coffee Mentality Roastery</a></b></td><td><b>4.8</b>／167</td><td class="small">43 Balaclava St, Woolloongabba</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Foster%20%26amp%3B%20Black%20Specialty%20Coffee%20Roastery%20628%20Wickham%20St%2C%20Fortitude%20Valley%20Brisbane%20QLD">Foster &amp; Black Specialty Coffee Roastery</a></b></td><td><b>4.7</b>／100</td><td class="small">628 Wickham St, Fortitude Valley</td></tr>
 </table></div><div class="note green"><b>离 Manly West 最近的是 Joe Tom Coffees（4.9／49，423 Wondall Rd）</b>——就在 Wynnum Manly Leagues Club 同一条路上，样本还小。</div></div>
-<h2 id="sec8">海鲜市场与鱼档</h2>
+<h2 id="sec8">海鲜市场与鱼档 <span class="h2en">Seafood markets and fishmongers</span></h2>
 <div class="note blue"><b>本类闸门：Google ≥ 4.2 且评论 ≥ 150。</b>
 这是<b>买生鲜</b>不是吃正餐，评价维度完全不同（新鲜度、价格、排队），所以单列一档。
 多数鱼档<b>不显示 Google 众报价位带</b>——按重量买，没有「人均」。</div>
@@ -535,7 +556,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 34px}
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Manly%20Boathouse%204%20Trafalgar%20St%2C%20Manly%20Brisbane%20QLD">Manly Boathouse</a></b></td><td><b>4.2</b>／2,810</td><td>$20–120</td><td class="small">4 Trafalgar St, Manly</td><td class="small">样本大、位置在码头边</td></tr>
 <tr><td><b><a href="https://www.google.com/maps/search/?api=1&query=Manly%20Fish%20Co.%201%20Cambridge%20Pde%2C%20Manly%20Brisbane%20QLD">Manly Fish Co.</a></b></td><td><b>3.9</b>／45</td><td>$20–40</td><td class="small">1 Cambridge Pde, Manly</td><td class="small">样本太小，仅记录</td></tr>
 </table></div><p class="small"><b>Shucks Bar 4.8／708 是整个湾区评分最高的海鲜去处</b>，比 Manly Boathouse（4.2／2,810）高 0.6 分，但样本只有它的四分之一。</p></div>
-<h2 id="sec9">各菜系</h2>
+<h2 id="sec9">各菜系 <span class="h2en">By cuisine</span></h2>
 <div class="note blue"><b>本节统一闸门：Google ≥ 4.5 且评论 ≥ 300。</b>
 比主闸门低 0.2、样本门槛从 200 提到 300——<b>用样本量换评分宽度</b>，避免小店的高分噪音。
 每个菜系下另列「分数够高但样本不足」的观察名单。<b>中／日／韩／东南亚、牛排、咖啡、海鲜、饮品已各有专节，此处不重复。</b></div>
@@ -648,7 +669,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 西班牙菜里样本最大的 <b>Olé（4.4／4,182）</b> 同样没过。
 <b>样本量大只说明人多，不说明分高。</b>
 </div>
-<h2 id="sec10">牛排</h2>
+<h2 id="sec10">牛排 <span class="h2en">Steak</span></h2>
 <div class="note blue"><b>本类闸门：Google ≥ 4.2 且评论 ≥ 500。</b>
 牛排在布里斯班<b>分成两个完全不同的世界</b>，分数不能放在一起比——
 老牌牛排酒吧稳定在 4.2–4.3 但样本上千甚至上万、人均 $40–60；
@@ -675,7 +696,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <tr><td>Black Hide by Gambaro</td><td>4.0／1,084</td><td>$20–40</td><td class="small">Caxton St 一带</td><td class="small"><b>评分 4.0，未过</b>；同样只返回列表</td></tr>
 </table></div><p class="small"><b>San Telmo 4.8／150 值得单说：</b>分数是全组最高之一，但样本只有 150——<b>按本类闸门不能进表，不代表不好吃。</b></p></div>
 
-<h2 id="sec11">补扫：之前漏掉的九类</h2>
+<h2 id="sec11">补扫：之前漏掉的九类 <span class="h2en">Gap scan — nine categories the framework had missed</span></h2>
 <div class="note blue">按同一套方法把框架里<b>没覆盖到的品类</b>补齐：精酿啤酒、农夫市集、早午餐、炭烤鸡与炸鱼薯条、
 冰淇淋、清真与自助、亚洲超市、深夜餐饮，以及一个页面结构问题。<b>每一类仍然各自写明闸门。</b></div>
 <div class="card"><h3>精酿啤酒厂 · Brewery</h3><p class="small">本类闸门：<b>Google ≥4.5 且 ≥200</b></p><div style="overflow-x:auto"><table>
@@ -758,7 +779,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <b>Wynnum Manly Leagues Club 9:00–翌日 3:00</b>；
 <b>hôntô</b> 周五六营业到较晚。<b>其余未查，不做推测。</b></p>
 </div>
-<h2 id="sec12">俱乐部与会员价</h2>
+<h2 id="sec12">俱乐部与会员价 <span class="h2en">Licensed clubs and member pricing</span></h2>
 <div class="note blue">
 <b>这是一类完全不同的餐饮，必须另立一套闸门。</b>持牌俱乐部（RSL／联赛／体育会）的 Google 分评的是<b>整个场馆</b>——博彩厅、酒吧、演出、宴会厅、儿童游乐区都算在内，<b>不是 bistro 的分</b>。
 用主闸门（≥4.7）会把这一整类删光：本次查到的 10 家全部落在 <b>4.1–4.6</b>。<br><br>
@@ -834,7 +855,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 同区评分最高、样本最大的餐饮场所是 <b>C10 Manly Hotel（4.6／2,900）</b>——但它是酒吧不是俱乐部，<b>官网没有每周特价</b>，价格要到店问。
 <b>C9 Wynnum RSL（4.1／521）刚过本类闸门，且官网未列特价。</b>
 </div>
-<h2 id="sec13">Pub 每周特价</h2>
+<h2 id="sec13">Pub 每周特价 <span class="h2en">Pub weekday specials</span></h2>
 <div class="note green">
 <b>这一节的特价内容来自一份 2026 年的本地长期记录</b>（Manly／Wynnum 一带与往 Gabba 方向的 weekday night specials）。
 <b>本轮做的是两件事：</b>① 逐家补上 <b>Google 实时评分与样本量</b>；② 核实 Manly Hotel 官网<b>确实没有</b>固定的 weekday steak special。
@@ -876,7 +897,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 往 Gabba 方向也一样：<b>RedBrick 4.4／978</b> 分最高、人均带也最高（$40–60），
 <b>Woolloongabba Hotel 4.0／327</b> 分最低、特价最多。<b>要便宜就别看分，要体验就别指望特价。</b>
 </div>
-<h2 id="sec14">未过闸门、但你仍然会看到它们被推荐</h2>
+<h2 id="sec14">未过闸门、但你仍然会看到它们被推荐 <span class="h2en">Did not clear the gate, but you will still see them recommended</span></h2>
 <p class="small">这一段的意义不是把它们抹掉，而是<b>标清楚它们没过我们自己的闸门</b>。</p>
 <div class="card" style="overflow-x:auto">
 <table>
@@ -909,7 +930,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 </div>
 
 
-<h2 id="sec15">按场景怎么挑</h2>
+<h2 id="sec15">按场景怎么挑 <span class="h2en">Picking by occasion</span></h2>
 <div class="card" style="overflow-x:auto">
 <table>
 <tr><th>场景</th><th>首选</th><th>两人预算<br><span class="small">官网价，未含周末/假日加价</span></th><th>备选</th></tr>
@@ -928,7 +949,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 </div>
 
 
-<h2 id="sec16">出发前复核清单</h2>
+<h2 id="sec16">出发前复核清单 <span class="h2en">Pre-departure checklist</span></h2>
 <div class="card">
 <ul>
 <li><b>Exhibition</b>：确认当期价格（10/1 起 $255／$335）与配对档位；周末含 $80 餐饮额度的规则是否仍在。</li>
@@ -946,7 +967,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 </ul>
 </div>
 
-<h2 id="sec17">口径与边界</h2>
+<h2 id="sec17">口径与边界 <span class="h2en">Rating systems and boundaries</span></h2>
 <div class="card">
 <h3>三套评分口径，分开记</h3>
 <p>本页的排序只用 <b>Google</b>（本项目长期打分）。另外两套是<b>专业评审制</b>，仅作对照，<b>绝不与 Google 分混排</b>：</p>
@@ -979,7 +1000,7 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 <p class="small">完整的调查过程、被否决的候选、以及方法学上的几条教训，留在仓库的 <a href="https://github.com/cgwlovely/review-gated-dining/blob/main/research/brisbane-dining.md">research/brisbane-dining.md</a> 里，本页不重复。</p>
 </div>
 
-<h2 id="sec18">资料依据</h2>
+<h2 id="sec18">资料依据 <span class="h2en">Sources</span></h2>
 <div class="card small">
 <p><b>官方名录与食品安全星级：</b><a href="https://data.brisbane.qld.gov.au/explore/dataset/food-safety-permits/">Brisbane City Council · Food Safety Permits（Eat Safe）开放数据</a>，8,046 条，CC-BY，导出于 2026-09-29</p>
 <p><b>专业评审口径：</b>

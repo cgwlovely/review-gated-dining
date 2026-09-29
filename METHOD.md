@@ -1,199 +1,237 @@
-# 评分闸门法 · Review-Gate Method
+# The Review-Gate Method
 
-用**可核验的评分数据**筛餐厅，而不是转述攻略文章。
-本文是方法本体；[`research/brisbane-dining.md`](research/brisbane-dining.md) 是完整的实施记录，
-[`docs/`](docs/) 是最终产出（网页与 PDF）。
+*[中文版 ｜ Chinese version](METHOD.zh.md)*
+
+Building restaurant shortlists from **verifiable review data** instead of relaying blog roundups.
+
+This file is the method itself. [`research/brisbane-dining.md`](research/brisbane-dining.md) is the
+full working record; [`docs/`](docs/) is the finished output (web page and PDF).
 
 ---
 
-## 一、核心：闸门不是一条，是一套
+## 1. The core idea: one gate is never enough
 
-最初只有一条主闸门：
+It starts with a single hard gate:
 
-> **主闸门：Google ≥ 4.7 且评论数 ≥ 200。**
+> **Main gate: Google ≥ 4.7 AND ≥ 200 reviews.**
 
-它能在「正经餐厅」这个品类里挑出值得专程去的店。但把它套到别的品类上会立刻失效——
-咖啡店遍地 4.8，俱乐部整体分只有 4.2，族裔餐馆英文点评天然稀少。
+That works inside one category — "proper restaurants". Apply it anywhere else and it breaks
+immediately. Coffee shops sit at 4.8 up and down the street. Licensed clubs score 4.2 because the
+rating covers the whole venue. Restaurants serving a migrant community have structurally fewer
+English-language reviews, whatever the food is like.
 
-**于是规则变成：每个品类各立一条闸门，并在成果里写明门槛与放宽／收紧的理由。**
+**So the rule became: one stated gate per category, with the reason it was loosened or tightened
+written into the output.**
 
-| 品类 | 闸门 | 为什么这样定 |
+| Category | Gate | Why this one |
 |---|---|---|
-| 正餐（主闸门） | ≥4.7 且 ≥200 | 基准 |
-| 平价档 | ≥4.5 且 **≥1,000** | 评分降 0.2，**样本门槛提高 5 倍作补偿**——宁要「很多人打 4.5」，不要「少数人打 4.8」 |
-| 咖啡 | ≥4.7 且 ≥200 | **不放宽**。咖啡店评分虚高，一条街上 4.8 很常见，靠样本量挡住「十几个人打 5 分」 |
-| 奶茶饮品 | **≥4.5** 且 ≥200 | 同上，评分门槛反而提高到与主闸门同级 |
-| 族裔餐饮（华／越／东非等） | ≥4.3 且 **≥150** | 顾客以该社群为主，**英文点评天然更少** |
-| 各菜系（印意法希腊中东等） | ≥4.5 且 ≥300 | 用样本量换评分宽度 |
-| 持牌俱乐部 | ≥4.0 且 ≥500 | 分数评的是**整个场馆**（含博彩厅、宴会、演出），不是 bistro |
-| 牛排 | ≥4.2 且 ≥500，**分两张表** | 老牌牛排酒吧 4.2–4.3／样本上万／人均 $40–60；精致牛排馆 4.4–4.8／人均 $80–200+。**两组不能混排** |
-| 海鲜鱼档 | ≥4.2 且 ≥150 | 买生鲜不是吃正餐，按重量卖没有「人均」 |
-| Pub 特价 | **不设评分闸门** | 这一档看的是价格，不是分数（见教训 6） |
+| Restaurants (main gate) | ≥4.7 and ≥200 | The baseline |
+| Budget tier | ≥4.5 and **≥1,000** | Rating bar drops 0.2; **sample bar rises 5×** as compensation. Better "lots of people said 4.5" than "a few said 4.8" |
+| Coffee | ≥4.7 and ≥200 | **Not loosened.** Coffee ratings run high everywhere; the sample bar is what filters out "fifteen people gave it 5" |
+| Bubble tea / drinks | **≥4.5** and ≥200 | Same problem — the rating bar goes *up* toward the main gate, not down |
+| Community cuisines (Chinese, Vietnamese, East African…) | ≥4.3 and **≥150** | Customers are mostly from that community; **English reviews are structurally scarcer** |
+| Other cuisines (Indian, Italian, French, Greek, Middle Eastern…) | ≥4.5 and ≥300 | Trading rating width for sample size |
+| Licensed clubs | ≥4.0 and ≥500 | The score rates the **whole venue** — gaming room, function rooms, live music — not the bistro |
+| Steak | ≥4.2 and ≥500, **split into two tables** | Old steak pubs: 4.2–4.3, samples in the thousands, A$40–60. Fine-dining steakhouses: 4.4–4.8, A$80–200+. **The two groups cannot share a ranking** |
+| Seafood retail | ≥4.2 and ≥150 | Buying raw fish is not eating out; sold by weight, so there is no "per person" |
+| Pub weekly specials | **No rating gate at all** | This tier is about price, not score (see Lesson 6) |
 
-**两条硬规则贯穿全部：**
+**Two hard rules run through all of it:**
 
-1. **平台分开记，绝不混用、绝不取平均。** 一个没标平台的数字是错误，不是省略。
-2. **查不到就写「未查到」并说明卡在哪里。** 不估算、不编造、不用「大概」填格子。
+1. **Platforms are recorded separately, never averaged, never substituted.** A number without a
+   platform label is a bug, not shorthand.
+2. **Anything not found is written as "not found", with the reason it failed.** Never estimated,
+   never filled in to complete a row.
 
 ---
 
-## 二、八条教训（全部是实际踩出来的）
+## 2. Eight lessons, all learned the hard way
 
-### 1. 候选池的语言决定结果
+### 1. The language of your candidate pool decides your result
 
-第一轮用英文 "best restaurants in Brisbane" 榜单取候选池，结论是
-「Sunnybank 的华人餐饮在 Google 口径下几乎集体不过闸门」（依据：老牌茶楼 Landmark 3.2）。
+The first pass drew candidates from English "best restaurants in Brisbane" listicles and concluded
+that **the Chinese restaurants in one suburb "almost all fail the gate"** — the evidence being a
+well-known yum cha hall at 3.2.
 
-**这个结论错了。** 改用**中文关键词**直接在 Google Maps 按菜系搜（火锅／川菜／湘菜／兰州拉面／麻辣烫／珍珠奶茶），
-同一片区立刻冒出一批高分高样本的店：蜀道山 4.9／590、Miss 7 柒彩 4.8／802、海底捞 4.8／1,551、Orange Tea 4.8／1,186。
+**That conclusion was wrong.** Searching Google Maps directly **in Chinese, by regional cuisine**
+(hotpot, Sichuan, Hunan, Lanzhou noodles, malatang, bubble tea) surfaced a whole set of
+high-rated, high-sample venues in the same streets: 4.9/590, 4.8/802, 4.8/1,551, 4.8/1,186, 4.7/620.
 
-最锋利的对照是同一条街上的两家饮茶：**Landmark 3.2／1,291 vs Goodtime Bistro 4.7／2,296。**
+The sharpest comparison is two yum cha restaurants on the same road:
+**3.2/1,291 versus 4.7/2,296.**
 
-> **偏差不在评分，在取候选池的语言。做多语言社区的餐饮，候选池必须用该社群自己的语言各搜一轮。**
+> **The bias was not in the ratings. It was in the language used to build the candidate pool.
+> For any multilingual food scene, search once in each community's own language.**
 
-### 2. 候选池的**类型**同样会偏
+### 2. The *type* of your candidate pool biases it too
 
-第二轮发现主表漏了 5 家同样过主闸门的店——John Mills Himself 4.8／1,120、Hashtag Burgers 4.7／2,154、
-Vegeme 4.7／1,001、Ngon 4.7／648、Sono Portside 4.7／2,388。
+A second pass found five more venues that cleared the same main gate and had simply never appeared:
+a coffee bar at 4.8/1,120, a burger shop at 4.7/2,154, a vegetarian place at 4.7/1,001, a
+Vietnamese diner at 4.7/648, a Japanese restaurant at 4.7/2,388.
 
-原因：候选全部来自「best restaurants／best places to eat」类榜单，**这类榜单天然排除汉堡店、咖啡馆、素食小馆、越南小馆**。
+The cause: every candidate came from "best restaurants / best places to eat" lists, and
+**those lists structurally exclude burger shops, cafés, vegetarian diners and neighbourhood
+noodle bars.**
 
-> **候选池必须从至少 5 类榜单取（正餐、平价、咖啡、单一菜系、单一品类），再过闸门。**
+> **Draw candidates from at least five kinds of list — fine dining, budget, coffee, single cuisine,
+> single dish — before applying any gate.**
 
-### 3. 连锁品牌必须逐个分店查
+### 3. Chains must be checked branch by branch
 
-平价档里列的是 Andonis **Fortitude Valley 4.5／3,313**，
-但同品牌在 Manly 还有一间 **4.7／1,514**——分数高 0.2。
+The list carried one café at **4.5/3,313**. The same brand's other branch, in a different suburb,
+is **4.7/1,514** — 0.2 higher.
 
-> **同名不同分店差 0.2 很常见，而榜单只会收录其中一家。**
+> **A 0.2 gap between branches of one brand is common, and a listicle will only ever include one
+> of them.**
 
-### 4. 第三方盘点的套餐价系统性过期
+### 4. Third-party set-menu prices are systematically stale
 
-凡是能与官网对上的第三方价格，**无一例外偏低**：
+Every third-party price that could be checked against the venue's own site was **too low, without
+exception**:
 
-| 店 | 第三方 | 官网实际 |
+| Venue | Third-party listing | Actual (venue's own site) |
 |---|---|---|
-| hôntô | $84/人 | **$89 / $130 两档** |
-| Agnes | $100/人 | **$89 / $139 两档**（结构完全不同） |
-| sAme sAme | $84/人 | **$89 / $130 两档** |
-| Joy | $205 / $175 | **$220** |
-| Exhibition | $247 | **$255 平日 / $335 周末** |
+| Japanese restaurant | $84 pp | **$89 / $130, two tiers** |
+| Fire-cooking restaurant | $100 pp | **$89 / $139** (different structure entirely) |
+| Thai restaurant | $84 pp | **$89 / $130** |
+| 10-seat tasting counter | $205 / $175 | **$220** |
+| Degustation restaurant | $247 | **$255 weekday / $335 weekend** |
 
-> **只有「官网」价可直接做预算；「第三方」一律视为下限。**
+> **Only "official site" prices can be used for a budget. Treat every third-party price as a floor.**
 
-### 5. 样本量大 ≠ 分数高
+### 5. Big sample ≠ high score
 
-- **Lune Croissanterie**（全澳最有名的可颂店之一）布里斯班两家：4.2／1,155 与 4.3／614，**都没过闸门**。
-- 西班牙菜里样本最大的 Olé：**4.4／4,182，没过**。
-- 反过来 Milky Lane Newstead **4.8／9,015** 是全项目样本最大的一家。
+- One of Australia's most famous croissant bakeries: both local branches sit at **4.2/1,155 and
+  4.3/614 — neither clears the gate.**
+- The largest-sample Spanish restaurant in the city: **4.4/4,182 — does not clear.**
+- Meanwhile the single largest sample in the whole project, **4.8/9,015**, belongs to a burger shop.
 
-> **样本量和评分是两个维度，必须分开看。**
+> **Sample size and rating are two separate dimensions. Read them separately.**
 
-### 6. 评分与「特价强度」经常反相关
+### 6. Rating and "deal strength" are often inversely correlated
 
-特价最硬的两家 pub 评分最低（Manly Harbour Boat Club 3.8／1,092 周四 200g rump $19.90；
-Waterloo Bay Hotel 3.9／1,606），而评分最高的 Manly Hotel 4.6／2,900 **根本没有每周特价**。
+The two pubs with the hardest weekly specials scored **lowest** (3.8/1,092 with a 200g rump at
+A$19.90; 3.9/1,606 with a A$21 parmi), while the highest-rated pub in the same area — **4.6/2,900** —
+**runs no weekly specials at all.**
 
-> **要便宜就别看分，要体验就别指望特价。**
+> **If you want cheap, stop reading the score. If you want the experience, stop expecting a special.**
 
-### 7. 镜像评分会滞后到跨档
+### 7. Mirrored ratings lag far enough to cross a tier
 
-第三方镜像（如 Wanderlog）通常只滞后 1–2% 的评论数，但足以让边缘店跨档：
-**Andonis 镜像 4.6，Google 实时已是 4.5。**
+Third-party mirrors of Google ratings typically lag 1–2% on review count — but that is enough to
+move a borderline venue: one café showed **4.6 on the mirror and 4.5 live**.
 
-> **卡在 4.5／4.7 或 200／1,000 边界的店，出发前必须看一次实时值。**
+> **Any venue sitting on a 4.5 / 4.7 or 200 / 1,000 boundary must be re-checked against the live
+> value before you rely on it.**
 
-### 8. 取不到就写取不到
+### 8. When you cannot get it, say you cannot get it
 
-- **大众点评**跳滑块人机验证——**本项目不做验证码**，未取到。
-- **TripAdvisor** 对自动访问返回空白页，未取到。
-- **「24 小时营业」查不出**——营业时间是**字段**不是关键词，文本检索无解。
-- **按店名猜菜系失败**：52% 判断不出，中餐只数出 1.6%（专有名词命名的店全漏）。
+- **Dianping (Chinese review platform)** redirects to a slider CAPTCHA. **This project does not
+  solve CAPTCHAs** — not retrieved.
+- **TripAdvisor** returns a blank page to automated access — not retrieved.
+- **"Open 24 hours" cannot be searched.** Opening hours are a *field*, not a keyword; text search
+  cannot reach them.
+- **Guessing cuisine from business names failed**: 52% were unclassifiable, and Chinese restaurants
+  came out at 1.6% — obviously wrong, because they are named with proper nouns, not the word
+  "Chinese".
 
-> **成果里必须留下「这一格没查到」，不能装作那一格不存在。**
+> **The output must carry the empty cells. Never quietly pretend the question was not asked.**
 
 ---
 
-## 三、可复用的四个做法
+## 3. Four reusable techniques
 
-### 1. 官方持牌名录当分母，评分当质量
+### 1. Use the official licence register as the denominator, and ratings as the quality signal
 
-各市议会通常公开**持牌食品经营场所登记册**。布里斯班市议会的
-[Food Safety Permits（Eat Safe）](https://data.brisbane.qld.gov.au/explore/dataset/food-safety-permits/)
-是 CC-BY 的完整名录：**8,046 条，其中面向食客 7,020 家**。
+Councils usually publish a **register of licensed food premises**. Brisbane City Council's
+[Food Safety Permits (Eat Safe)](https://data.brisbane.qld.gov.au/explore/dataset/food-safety-permits/)
+is a complete, CC-BY list: **8,046 records, of which 7,020 are consumer-facing venues.**
 
-- **名录**回答「总共多少家、分布在哪、按类别怎么分」；
-- **评分**回答「哪家值得去」。
-- **两者互补，谁也替代不了谁**——登记册没有菜系与口碑，Google 没有完整名录。
+- The **register** answers *how many exist, where, in what categories*.
+- **Ratings** answer *which ones are worth going to*.
+- **Neither substitutes for the other** — the register has no cuisine and no word-of-mouth; Google
+  has no complete roll.
 
-它还附带**第四套评分口径**：食品安全星级（5 星只有 282 家，占 6.8%；一半未评级）——
-**测的是厨房卫生，不是好不好吃，可叠加不可替代。**
+It also carries a **fourth, independent rating system**: food-safety stars. Only **282 venues
+(6.8%) hold 5 stars**, and half are unrated — a *narrower* filter than Google 4.7, but one that
+measures kitchen hygiene, not whether the food is good. **Stackable, not interchangeable.**
 
-### 2. Google 评论照片当菜单来源
+### 2. Read menus out of Google review photos
 
-官网菜单链接失效时（PDF 404、菜单页渲染为空白），
-**Google Maps 的「Menu」相册里是顾客拍的实体菜单照片**，可下载后直接读价。
+When a venue's own menu link dies (404 PDF, blank menu page), **the "Menu" album in Google Maps
+holds photographs of the physical menu taken by customers**. Download at full resolution and read
+the prices off it.
 
-本项目靠这条救回两家：Rothwell's 的 Beef Wellington 600g **$134**、
-Longtime Dining 的完整中英对照饮茶单（朗廷八寶 $47、蝦餃皇 $20……）。
+This recovered two venues in the case study: a A$134 Beef Wellington, and a complete bilingual yum
+cha list with per-item prices.
 
-**边界：照片可能是旧版（拍摄日期不明），对焦不清时数字会读错。**
-所以这类价格标注为「评论照片」，可信度介于官网与第三方之间。
+**Limits: the photo may be an old menu (date unknown), and out-of-focus regions produce misreads.**
+So these prices carry their own source label — more reliable than third-party, less than official.
 
-### 3. 多套评审口径分开记，绝不混排
+### 3. Keep multiple review systems strictly apart
 
-除 Google（用户长期打分）之外，本项目另用两套**专业评审制**：
+Beyond Google (long-run public scoring), the case study used two **professional-panel** systems:
+a 20-point chef-hat guide, and an anonymous-reviewer restaurant guide.
 
-- **AGFG 澳洲美食指南帽子奖**（20 分制，布里斯班 49 家）
-- **Gourmet Traveller 餐厅指南**（匿名到访、自费结账）
+**Only two venues in the entire city are named by all three.** Of the 25 venues clearing the main
+gate, only 7 appear in the chef-hat list — and that guide's third-ranked restaurant appears
+nowhere in the Google-gated tables.
 
-**三套口径同时点名的只有两家。** 主表 25 家里只有 7 家进了 AGFG 名单；
-AGFG 排第 3 的餐厅在 Google 口径下一张表都没进。
+> **This is not one of them being wrong. They measure different things. Never merge a hat score
+> with a Google score into one ranking.**
 
-> **这不是谁错了——两套口径在测不同的东西。永远不要把帽子分和 Google 分混着排名。**
+### 4. Sample first, then decide whether to pay for the API
 
-### 4. 抽样验证匹配率，再决定要不要上 API
+Matching a full register against Google needs the Places API (paid). Before paying, **sample**:
 
-把名录与 Google 全量匹配需要 Places API（付费）。上之前**先抽样**：
+15 random venues looked up one by one → **13 clean matches (87%)**. Both failures had the same
+cause: **the register stores the licence holder's legal name (Pty Ltd), not the trading name**;
+a `T/As` field recovers some of them.
 
-随机抽 15 家逐条查，**13 家干净命中（87%）**。两例失败同一原因——
-**登记册用的是持证主体名（Pty Ltd），不是招牌名**；`T/As`（trading as）字段能救回一部分。
+More importantly: **2 of the 13 clean matches cleared the main gate and were missing from the
+existing list.**
 
-更重要的是：**13 家干净样本里有 2 家过主闸门，都是原清单漏掉的**
-（Nekoland Ramen & Bar 4.8／229、Chocolate Elements 4.7／241）。
+> **That is the real finding — the ceiling was never the gate being too strict, it was the
+> candidate pool being too narrow.**
 
-> 这说明**天花板不是闸门太严，是候选池太窄**。
+**Full-run cost** (Google Places API; `rating` and `userRatingCount` are Enterprise-SKU fields,
+review text is Enterprise + Atmosphere, and a request bills at the highest tier it asks for):
 
-**全量成本**（Google Places API，`rating`／`userRatingCount` 属 Enterprise SKU，评论正文属 Enterprise + Atmosphere，
-整次请求按最高档字段计价）：
-
-| 路线 | 单价 | 7,020 家一次全量 |
+| Route | Unit price | 7,020 venues, one full pass |
 |---|---|---|
-| Text Search Enterprise | US$35／1,000 | ≈ US$210 |
-| Essentials 取 ID（免费）＋ Place Details Enterprise | US$20／1,000 | ≈ US$120 |
-| 同上 ＋ 评论正文 | US$25／1,000 | ≈ US$150 |
+| Text Search Enterprise | US$35 / 1,000 | ≈ US$210 |
+| Essentials for IDs (free) + Place Details Enterprise | US$20 / 1,000 | ≈ US$120 |
+| As above, plus review text | US$25 / 1,000 | ≈ US$150 |
 
-**只做族裔餐饮最密的四个区（506 家）：约 US$10，压在免费额度边缘——性价比最高的一次性投入。**
-
----
-
-## 四、成果长什么样
-
-一份用这套方法做出来的清单，应该同时具备：
-
-1. **每一条都带平台标签**——`4.8／1,186（Google 实时）`，不是裸分。
-2. **每一个价格都带来源标签**——官网 / Google 众报 / 评论照片 / 第三方 / 未查到。
-3. **过闸门与不过闸门分列**，不过的照实标出分数，让读者自己判断。
-4. **每家都链到地图**，点开即可导航。
-5. **已知空白单独成节**——查不到的、取不到的、还没做的，全部写出来。
-
-参见 [`docs/index.html`](docs/index.html)（网页版）与 [`docs/pdf/`](docs/pdf/)（43 页 PDF，386 个可点链接）。
+**Covering only the four suburbs with the densest community dining (506 venues) costs about US$10 —
+right at the edge of the free tier. That is the highest-value one-off spend.**
 
 ---
 
-## 五、这套方法的边界
+## 4. What the output should look like
 
-- **一切都会过期。** 价格、营业时间、评分每天都在变。文中标注了采集日期，用之前必须复核。
-- **它挑的是「值得专程去」，不是「全部」。** 7,020 家里本清单收录约 300 家——主闸门本就是极窄的筛子。
-- **它测不了口味偏好。** 评分是人群的平均判断，不是你的判断。
-- **它对英文点评生态薄弱的餐馆仍有残余偏差**，中文平台（大众点评／小红书）本项目取不到。
+A list built this way should carry all five of these:
+
+1. **Every figure labelled by platform** — `4.8/1,186 (Google, live)`, never a bare number.
+2. **Every price labelled by source** — official site / crowd-reported band / review photo /
+   third-party / not found.
+3. **Cleared and not-cleared listed separately**, with the failing scores shown so the reader can
+   judge.
+4. **Every venue linked to a map**, one tap to navigate.
+5. **Known gaps given their own section** — what could not be found, could not be retrieved, and
+   has not been done.
+
+See [`docs/index.html`](docs/index.html) (web) and [`docs/pdf/`](docs/pdf/) (45-page PDF, 389
+clickable links).
+
+---
+
+## 5. Limits of this method
+
+- **Everything expires.** Prices, hours and ratings change daily. Collection dates are recorded
+  throughout; re-verify before you rely on anything.
+- **It selects "worth a special trip", not "everything".** Roughly 300 venues out of 7,020 — the
+  main gate is deliberately a very narrow sieve.
+- **It cannot measure your taste.** A rating is a crowd's average judgement, not yours.
+- **Residual bias remains** against venues with thin English-language review ecosystems; the
+  Chinese-language platforms could not be retrieved (CAPTCHA).

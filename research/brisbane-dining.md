@@ -1,5 +1,18 @@
 # Brisbane 餐厅打卡点扫查
 
+> **English abstract** — This is the full working record behind the Brisbane case study:
+> every gate applied, every candidate rejected, every source that could not be retrieved, and the
+> method lessons that came out of each mistake. Written in Chinese; venue names, addresses, ratings
+> and prices are in English throughout. The distilled method is in
+> [`METHOD.md`](../METHOD.md) (English) / [`METHOD.zh.md`](../METHOD.zh.md) (中文).
+> The finished, readable output is [`docs/index.html`](../docs/index.html).
+>
+> Nineteen sections: three independent rating systems kept apart · the source-language bias that
+> invalidated an early conclusion · menus recovered from Google review photos · a city-wide census
+> of 8,046 licensed premises used as the denominator · a 15-venue sampling study measuring
+> register-to-Google match rate (87%) · Places API cost modelling · and every category's gate with
+> its rationale.
+
 > **这份是完整调查记录**（含被否决的候选、取不到的口径、方法学教训）。
 > 只想要能直接用的清单，看干净版网页：[`docs/index.html`](../docs/index.html)（或 [PDF](../docs/pdf/Brisbane_2026_餐厅指南.pdf)，19 页，地址链接可点）。
 
