@@ -1053,6 +1053,6 @@ Eliza Eritrean 4.9／80、Salina 4.9／72、Afro 4.9／39——<b>分数全在 4
 评分核查 2026-09-28 · 菜单价格逐家进官网核查 2026-09-28 · 一切都会过期，出行前请以商家页面为准<br>
 <a href="index.html">← 回索引</a>
 </footer>
-<script>fetch("data/venues.json").then(r=>r.json()).then(j=>{const s=j.snapshot;document.getElementById("snapfoot").textContent=`data snapshot ${s.snapshot_date} · commit ${s.commit} · unique_venues ${s.unique_venues} · display_rows ${s.display_rows}`;}).catch(()=>{});</script>
+<script>fetch("data/venues.json").then(r=>r.json()).then(j=>{const s=j.snapshot;document.getElementById("snapfoot").textContent=`结构化数据集 ｜ structured dataset: ${s.unique_venues} venues · snapshot ${s.snapshot_date} · built from ${s.built_from_commit} — 本页展示条目多于此数，其余尚未迁入数据（见 issue #1）｜ this page shows more rows than that; the rest are not yet migrated`;}).catch(()=>{});</script>
 
 </div></body></html>
