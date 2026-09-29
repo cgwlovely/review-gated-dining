@@ -1,7 +1,7 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- commit: `505808c`
+- built from commit: `725c04a` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
 - through their gate: **25**

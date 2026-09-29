@@ -247,7 +247,10 @@ def emit(recs, gates, sources, errors, warnings):
                              capture_output=True, text=True).stdout.strip() or 'uncommitted'
     except Exception:
         sha = 'unknown'
-    snapshot = {'snapshot_date': TODAY.isoformat(), 'commit': sha,
+    # NOTE: this is HEAD at build time, i.e. the commit the build ran *from*.
+    # A commit cannot contain its own SHA, so a rebuild after committing will show a
+    # one-commit difference. That is the only non-determinism in the build.
+    snapshot = {'snapshot_date': TODAY.isoformat(), 'built_from_commit': sha, 'commit': sha,
                 'gates_version': gates.get('version'),
                 'unique_venues': len({r['venue_id'] for r in recs}),
                 'display_rows': len(recs)}
@@ -286,7 +289,7 @@ def emit(recs, gates, sources, errors, warnings):
     for r in recs: psrc[r['price_source_type'] or 'none'] = psrc.get(r['price_source_type'] or 'none', 0) + 1
     s = [f"# Build summary", '',
          f"- snapshot date: **{snapshot['snapshot_date']}**",
-         f"- commit: `{sha}`",
+         f"- built from commit: `{sha}` (HEAD at build time — a commit cannot contain its own SHA)",
          f"- **unique_venues: {snapshot['unique_venues']}**  ·  **display_rows: {snapshot['display_rows']}**",
          f"- gates defined: {len(gates['gates'])}",
          f"- through their gate: **{len(passed)}**",
