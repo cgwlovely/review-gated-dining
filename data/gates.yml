@@ -33,8 +33,8 @@ gates:
     label_zh: 奶茶饮品
     min_rating: 4.5
     min_reviews: 200
-    rationale_en: Same inflation problem as coffee; the rating bar goes up, not down.
-    rationale_zh: 与咖啡同理，评分门槛上调而非下调。
+    rationale_en: "Ratings are inflated as with coffee, but samples are far smaller, so the rating bar drops to 4.5 while the sample bar stays at 200. Looser than coffee (4.7), tighter than the community-cuisine gate (4.3)."
+    rationale_zh: "与咖啡同样存在评分虚高，但样本量小得多，因此评分门槛降到 4.5、样本门槛保持 200。比咖啡（4.7）宽，比族裔餐饮闸门（4.3）严。"
 
   community_cuisine:
     label_en: Community cuisines (Chinese, Vietnamese, East African...)
@@ -121,8 +121,8 @@ confidence_rules:
 
 freshness:
   half_life_days: 180
-  note_en: "freshness = 0.5 ** (age_days / half_life_days), computed per observation date."
-  note_zh: "新鲜度 = 0.5 ** (天数 / 半衰期)，按各字段的采集日期分别计算。"
+  note_en: "freshness = 0.5 ** (age_days / half_life_days), using the OLDEST observation on the record (rating or price). One scalar per venue, not per field."
+  note_zh: "新鲜度 = 0.5 ** (天数 / 半衰期)，取该店最旧的一次观测（评分或价格）。每家一个标量，不分字段。"
 
 shrinkage:
   # Bayesian shrinkage toward the city mean, so a 4.9/34 does not outrank a 4.8/9015.

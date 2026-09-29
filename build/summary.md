@@ -1,7 +1,7 @@
 # Build summary
 
 - snapshot date: **2026-09-29**
-- built from commit: `0a79b00` (HEAD at build time — a commit cannot contain its own SHA)
+- built from commit: `73f2573` (HEAD at build time — a commit cannot contain its own SHA)
 - **unique_venues: 25**  ·  **display_rows: 25**
 - gates defined: 14
 - through their gate: **25**
@@ -9,7 +9,8 @@
 ## Confidence
 
 - high: 2
-- medium: 23
+- medium: 8
+- low: 15
 
 ## Price source
 

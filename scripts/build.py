@@ -116,6 +116,11 @@ BUDGET_BANDS = [(0, 60, '$60 以内起'), (60, 120, '$60–120 起'),
                 (120, 250, '$120–250 起'), (250, 10**9, '$250 以上起')]
 
 # A scenario that makes a cuisine claim must be backed by the cuisine field.
+# Codes that name an occasion, never a cuisine. 'coffee' is deliberately absent: it is a
+# legitimate cuisine value as well as a scenario, so it must not be rejected.
+SCENARIO_ONLY_CODES = {'first_timer', 'chinese_food', 'date', 'family', 'cheap_eat',
+                       'late_night', 'celebration'}
+
 SCENARIO_REQUIRES_CUISINE = {
     'chinese_food': {'chinese', 'cantonese', 'sichuan', 'hunan', 'yum_cha', 'taiwanese', 'northern_chinese'},
 }
@@ -205,6 +210,10 @@ def validate(gates, venues, sources, aliases, exemptions=None):
             if fl and fl not in FLAGS:
                 errors.append(f"{where}: unknown flag '{fl}'")
         vcui = {c for c in (v.get('cuisines') or '').split(';') if c}
+        leaked = vcui & SCENARIO_ONLY_CODES
+        if leaked:
+            errors.append(f"{where}: cuisines contains scenario code(s) {sorted(leaked)} - "
+                          f"cuisines and scenarios are different vocabularies")
         for sc in (v.get('scenarios') or '').split(';'):
             if not sc:
                 continue
@@ -293,8 +302,11 @@ def derive(gates, venues, aliases):
 
         age = days_since(v['rating_observed_at'])
         has_full_price = all([lo is not None, v['price_unit'], v['price_source_type'], v['price_observed_at']])
-        if v['status'] != 'active' or v['rating_source'] == 'google_mirror' or (age or 0) > 180:
-            rec['confidence'] = 'low' if v['status'] != 'active' or (age or 0) > 180 else 'medium'
+        # These mirror data/gates.yml:confidence_rules exactly. If you change one, change both.
+        if (v['status'] != 'active'
+                or v['rating_source'] == 'google_mirror'
+                or (age or 0) > 180):
+            rec['confidence'] = 'low'
         elif has_full_price and v['price_source_type'] == 'official' and (age or 0) <= 90:
             rec['confidence'] = 'high'
         else:
@@ -352,6 +364,7 @@ def quickpick_html(recs, snapshot):
           '<div style="overflow-x:auto"><table><tr><th>店 ｜ 为什么选</th><th>区</th><th>两人预算</th><th>提示</th><th>Google</th></tr>']
     H += [card(r) for r in ft] + ['</table></div>']
 
+    BUDGET_COLS = 6   # 档位 | 店 | 区 | 预算 | 提示 | Google
     H += ['<h4>按两人预算 ｜ By two-person budget</h4>',
           '<p class="small"><b>档位按「最低两人消费」划分，所以每个标签都带「起」。</b>'
           '右侧显示的是完整区间——套餐跨度大时，最高价可能远高于档位上限，这是刻意显示出来的。<br>'
@@ -365,8 +378,9 @@ def quickpick_html(recs, snapshot):
         band = rank([r for r in picks if r['two_person_total_min'] is not None
                      and lo <= r['two_person_total_min'] < hi])[:3]
         if not band:
-            H.append('<tr><td><b>%s</b></td><td colspan="4" class="small">'
-                     '本档暂无编辑精选 | no editor pick in this band yet</td></tr>' % label)
+            H.append('<tr><td><b>%s</b></td><td colspan="%d" class="small">'
+                     '本档暂无编辑精选 | no editor pick in this band yet</td></tr>'
+                     % (label, BUDGET_COLS - 1))
             continue
         any_band = True
         for i, r in enumerate(band):

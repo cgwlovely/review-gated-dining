@@ -7,7 +7,7 @@ Each case copies the real dataset, injects one fault, and asserts the validator
 reports it. A test that passes because nothing was checked is worse than no test,
 so every case also asserts the clean dataset produces zero errors.
 """
-import csv, io, sys, pathlib, tempfile, shutil, importlib.util
+import csv, io, json, sys, pathlib, tempfile, shutil, importlib.util
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location('build', ROOT/'scripts'/'build.py')
@@ -111,8 +111,47 @@ def main():
     pp = [r for r in recs if r['price_unit'] in ('per_person_set', 'per_person_reported')]
     check('per-person set menus double into a two-person total',
           all(r['two_person_total_min'] == round(float(r['price_min_aud'])*2) for r in pp))
-    check('display_rows counts rows, unique_venues counts venues',
+    check('venue_id is unique across the dataset',
           len({r['venue_id'] for r in recs}) == len(recs))
+
+    print('\nreview round 3 findings')
+    mir = [r for r in recs if r['rating_source'] == 'google_mirror']
+    check('mirror-sourced ratings are confidence=low, as gates.yml states',
+          bool(mir) and all(r['confidence'] == 'low' for r in mir),
+          f"{len(mir)} mirror rows, confidences={sorted({r['confidence'] for r in mir})}")
+    check('cuisines never contain a scenario-only code',
+          not any(set(r['cuisines']) & build.SCENARIO_ONLY_CODES for r in recs))
+    e, _ = with_rows(lambda vs: vs[0].update(cuisines='chinese_food;italian'))
+    check('a scenario code in cuisines is rejected',
+          any('cuisines contains scenario code' in x for x in e))
+    check('coffee stays legal as a cuisine', 'coffee' not in build.SCENARIO_ONLY_CODES)
+
+    gy = (ROOT/'data'/'gates.yml').read_text()
+    main_r = gates['gates']['main']['min_rating']
+    for name, g in gates['gates'].items():
+        mr = g.get('min_rating')
+        if mr is None:
+            continue
+        txt = (g.get('rationale_en','') + ' ' + g.get('rationale_zh','')).lower()
+        if 'goes up' in txt or '上调' in txt or 'not loosened' in txt or '不放宽' in txt:
+            check(f'gate {name} claims a tightened bar and delivers one',
+                  mr >= main_r, f'min_rating {mr} vs main {main_r}')
+
+    snap = json.loads((ROOT/'build'/'venues.json').read_text())['snapshot']
+    check('snapshot display_rows matches the record count', snap['display_rows'] == len(recs))
+    check('snapshot unique_venues matches distinct ids',
+          snap['unique_venues'] == len({r['venue_id'] for r in recs}))
+
+    frag = (ROOT/'build'/'quickpick.html').read_text()
+    import re as _re
+    empties = _re.findall(r'本档暂无编辑精选[^<]*</td>', frag)
+    spans = _re.findall(r'<td colspan="(\d+)" class="small">本档暂无编辑精选', frag)
+    check('empty budget rows span the full table width',
+          all(s == '5' for s in spans), f'found colspans {spans or "none"} ({len(empties)} empty bands)')
+
+    gyz = (ROOT/'data'/'gates.yml').read_text()
+    check('gates.yml describes freshness as one scalar from the oldest observation',
+          'OLDEST observation' in gyz and '最旧' in gyz)
 
     print()
     if FAILED:

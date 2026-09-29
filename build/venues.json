@@ -1,8 +1,8 @@
 {
  "snapshot": {
   "snapshot_date": "2026-09-29",
-  "built_from_commit": "0a79b00",
-  "commit": "0a79b00",
+  "built_from_commit": "73f2573",
+  "commit": "73f2573",
   "gates_version": 1,
   "unique_venues": 25,
   "display_rows": 25,
@@ -41,8 +41,8 @@
    "label_zh": "奶茶饮品",
    "min_rating": 4.5,
    "min_reviews": 200,
-   "rationale_en": "Same inflation problem as coffee; the rating bar goes up, not down.",
-   "rationale_zh": "与咖啡同理，评分门槛上调而非下调。"
+   "rationale_en": "Ratings are inflated as with coffee, but samples are far smaller, so the rating bar drops to 4.5 while the sample bar stays at 200. Looser than coffee (4.7), tighter than the community-cuisine gate (4.3).",
+   "rationale_zh": "与咖啡同样存在评分虚高，但样本量小得多，因此评分门槛降到 4.5、样本门槛保持 200。比咖啡（4.7）宽，比族裔餐饮闸门（4.3）严。"
   },
   "community_cuisine": {
    "label_en": "Community cuisines (Chinese, Vietnamese, East African...)",
@@ -172,7 +172,7 @@
    "two_person_total_min": 510,
    "two_person_total_max": 670,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-longtime-dining",
@@ -184,7 +184,7 @@
    "lon": 153.02609,
    "category_primary": "restaurant",
    "cuisines": [
-    "chinese_food",
+    "chinese",
     "cantonese",
     "yum_cha"
    ],
@@ -270,7 +270,7 @@
    "two_person_total_min": 176,
    "two_person_total_max": 298,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-oh-boy-bok-choy",
@@ -317,7 +317,7 @@
    "two_person_total_min": 125,
    "two_person_total_max": 125,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-little-black-pug",
@@ -411,7 +411,7 @@
    "two_person_total_min": 110,
    "two_person_total_max": 250,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-farm-house-kedron",
@@ -460,7 +460,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-1889-enoteca",
@@ -508,7 +508,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-naim",
@@ -555,7 +555,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-honto",
@@ -604,7 +604,7 @@
    "two_person_total_min": 178,
    "two_person_total_max": 260,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-beccofino",
@@ -652,7 +652,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-rothwells",
@@ -748,7 +748,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-montrachet",
@@ -795,7 +795,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-naldham-house",
@@ -844,7 +844,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "no price recorded",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-unbearable-bagels",
@@ -892,7 +892,7 @@
    "two_person_total_min": null,
    "two_person_total_max": null,
    "two_person_basis": "a la carte - not derivable from a price range",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-joy",
@@ -939,7 +939,7 @@
    "two_person_total_min": 440,
    "two_person_total_max": 440,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-the-fifty-six",
@@ -951,7 +951,7 @@
    "lon": 153.03014,
    "category_primary": "restaurant",
    "cuisines": [
-    "chinese_food",
+    "chinese",
     "cantonese"
    ],
    "google_place_id": "",
@@ -989,7 +989,7 @@
    "two_person_total_min": 164,
    "two_person_total_max": 240,
    "two_person_basis": "per_person_set x2, food only, excludes alcohol and weekend/PH surcharges",
-   "confidence": "medium"
+   "confidence": "low"
   },
   {
    "venue_id": "bne-john-mills-himself",
